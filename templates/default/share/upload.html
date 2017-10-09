@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="GBK">
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<script type="text/javascript" src="static/js/min.js"></script>
+<script type="text/javascript" src="static/js/imgupload.js"></script>
+</head>
+<body style="margin:0">
+<script type="text/javascript">
+		function onComplete(r){
+			if(r.done){				
+				$('#button_hidden').html('<div style="text-align:center;margin-top:40px;color:green;"><b>图片上传成功</b></div>');
+			} else {
+				$('#upmsg').html('<font color="red">'+r.msg+'</font>');
+			}
+		}
+		function submit_loading(){
+			$('#upmsg').html('<img src="images/loading.gif"/>&nbsp;上传中，请稍候……');
+		}		
+</script>
+<div  class="form">
+<iframe name="upload" style="display:none;" width="0" height="0"></iframe>
+<form action="http://weibo2.hzswb.cn/ajax.php?mod=uploadify&type=share_upload&code=image&iitem={$item}&iitemid={$item_id}&auto_topic=1" method="POST" target="upload" enctype="multipart/form-data" onSubmit="submit_loading();">
+<div id="button_hidden" style="padding:20px;">
+<input type="file" name="topic" id="image_upload" />
+<input type="hidden" name="cookie_auth" value="{echo urlencode(jsg_getcookie('auth'))}"/>
+<input type="submit" value="上 传" class="u-btn-img"/>
+<p id="upmsg" style="text-align:center;"></p>
+</div>
+</form>
+</div>
+</body>

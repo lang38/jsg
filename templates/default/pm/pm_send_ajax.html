@@ -1,0 +1,145 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+	 $("#pm_ajax_menu_bqb_c").click(function(){$("#msg_showface").show();}); $(".close_1").click(function(){$("#msg_showface").hide();});
+	 $("#ajax_add_atuser").click(function(){$("#ajax_showout_atuser").show();});$(".menu_hpb_c1").click(function(){$("#ajax_showout_atuser").hide();});
+});
+</script>
+<style>
+.menu_hpb_c1{width: 15px;height: 15px;background: url(static/image/imgdel.gif?$SYS_BUILD$) no-repeat;cursor: pointer;position: absolute;right: 5px;top: 5px;}
+.menu_hpb{top:35px;left:0px;}
+</style>
+<div class="dialog_inner">
+<div class="mWarp">
+  <form action="{$action}" method="post" onsubmit="return Validator.Validate(this,3);" id='sendPM'>
+    <table >
+      <tr>
+        <td width="20%" align="right" valign="top">收信人：</td>
+        <td width="80%" align="left" valign="middle" colspan="2">
+		<div class="pm_user_input" style="z-index:100;">
+		<div class="menu_hpb" id="ajax_showout_atuser"><span class="arrow-up"></span><span class="arrow-up-in"></span>
+		<div class="menu_tb showusr"><div id="showatuser_pm_ajax" class="showatuser"></div><sub class="menu_hpb_c1"></sub></div>
+		</div>
+		<input type="text" id="to_user" name="to_user" value="{$to_user}" class="text-area2" style="width:300px;"/>&nbsp;&nbsp;
+        <input id="ajax_add_atuser" type="button" class="u-btn" value="添加收信人" onclick="showatuserw('to_user','pm','ajax');return false;"/>
+		</div>
+		</td>
+      </tr>
+      <tr>
+        <td align="right" valign="top"><span valign="top">私信内容：</span></td>
+        <td align="left" valign="middle" colspan="2"><textarea  id="message" name="message" datatype="LimitB" min="1" msg="内容不能为空"  class="text-area2" style="width:475px;height:90px;">{$message}</textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" valign="middle">&nbsp;</td>
+        <td align="left" valign="middle">
+		<div class="comment_p_t2">
+		<!--{if $this->Config['face_enable']}-->
+		<div class="menuf_bq">
+		<b id="pm_ajax_menu_bqb_c" class="reply_ajax_menu_bqb_c"><a href="javascript:viod(0);" onclick="topic_face('msg_showface','message','topic_face');return false;">表情</a></b>
+		<div class="forward_f2" style="margin-top: 0px; display: none;" id="msg_showface"></div>
+		</div>
+		<!--{/if}-->
+		<!--{if $this->Config['image_enable']}-->
+		<div id="pm_image_uploadify" class="comment_p_b2 comment_p_b22"><div class="menuf_tq" onclick="imageUploadifyHTML('', 'message', 'pm_image_uploadify', '1');"><b class="menu_tqb_c">图片</b></div></div>
+		<!--{/if}-->
+		<!--{if $this->Config['attach_enable']}-->
+		<div id="pm_attach_uploadify" class="comment_p_b2 comment_p_b22"><div class="menuf_fj menu_fj_reply_style s" onclick="attachUploadifyHTML('', 'message', 'pm_attach_uploadify', '1', '', '0');"><b class="menu_fjb_c">附件</b></div></div>
+		<!--{/if}-->
+		</div>
+		</td><td align="right" valign="middle">
+		<!--{if $this->Config['seccode_sms'] && $this->yxm_title}-->
+		<input id="publishSubmit_{$to_user}" onclick="YXM_float('sms','ajax');" type="button" class="u-btn" value="发送" title="按Ctrl+Enter快捷发布"/>
+		<input type="hidden" id="yxm_ajaxsms" onclick="PmSubmit('{$id}','Pmsend_to_user_area','{$to_user}');return false;">
+		<!--{else}-->
+		<input id="publishSubmit_{$to_user}" onclick="PmSubmit('{$id}','Pmsend_to_user_area','{$to_user}');return false;" type="button" class="u-btn" value="发送" title="按Ctrl+Enter快捷发布"/>
+		<!--{/if}-->
+		<input id="mclose" onclick="closeDialog('{$this->Get[handle_key]}');return false;" type="button" class="u-btn u-btn-c4" value="取消" />
+		<input type="hidden" id="pmid" name="pmid" value="{$pmid}">
+		</td>
+      </tr>
+	  <!--{if $this->Config['seccode_sms'] && $this->yxm_title}-->
+	  <tr><td colspan="2"><span id="yxm_pub_button_ajax_sms" style="margin-left:100px;height:1px;" onclick="YXM_popBox(this,'smsajax','{$this->yxm_title}');">&nbsp;</span></td></tr>
+	  <!--{/if}-->
+    </table>
+  </form>
+  </div>
+  <!--{if $pm_list}-->
+  <ul class="followList" style="overflow:hidden">
+    <!--{loop $pm_list $val}-->
+    <li class="pane">
+      <div class="fBox_R" style="padding-left:65px; width:480px;">
+        <span>
+        <!--{if $val[msgfromid] == MEMBER_ID}-->
+          <!--{eval echo MEMBER_NICKNAME}-->：
+        <!--{else}-->
+          <a href="index.php?mod=$val[username]">{$val[nickname]}</a>：
+        <!--{/IF}-->
+        </span>
+        <span>{$val[message]}</span>
+        
+<!--{if $val[attachids] && $val[attach_list]}-->
+<!--{eval $val[attach_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="attachList" id="attach_area_{$val['attach_key']}">
+	<!--{loop $val[attach_list] $iv}-->
+	<!--{eval $attachaid=$iv[id];}-->
+	<li style="border-bottom:none;"><img src="{$iv[attach_img]}" class="attachList_img" />
+	<div class="attachList_att">
+	<p class="attachList_att_name"><b>{$iv[attach_name]}</b>
+	&nbsp;（{$iv[attach_size]}）</p>
+	<p class="attachList_att_doc">
+	<!--{if $iv[onlineview]}--><a href="{$iv[onlineview]}" target="_blank">在线预览</a> | <!--{/if}-->
+	<a href="javascript:void(0);"
+		onclick="downattach({$iv[id]});">点此下载</a>（需<font id="attach_score_{$iv[id]}">{$iv[attach_score]}</font>积分，已下载<font id="attach_downnum_{$iv[id]}">{$iv[attach_down]}</font>次）<!--{hook/global_item_attach $attachaid}--></p>
+	</div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+<!--{if $val[imageids] && $val[image_list]}-->
+<!--{eval $val[image_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="imgList" id="image_area_{$val['image_key']}" style="width:540px;">
+	<!--{loop $val[image_list] $iv}-->
+	<!--{eval $ivw=min(460, $iv[image_width]);}-->
+	<li style="border-bottom:none;">
+	  <a href="{$iv[image_original]}" class="artZoomAll" rel="{$iv[image_small]}" rev="{$val[image_key]}">
+	    <img src="{$iv[image_small]}" data-original="{$iv[image_small]}" />
+	  </a>
+	<div class="artZoomBox" style="display: none;">
+	<div class="tool"><a title="向左转" href="#" class="imgLeft">向左转</a><a 
+		title="向右转" href="#" class="imgRight">向右转</a><a title="查看原图"
+		href="{$iv[image_original]}" class="viewImg">查看原图</a></div>
+	<a class="maxImgLinkAll" href="{$iv[image_original]}"><img
+		 src="{$iv[image_small]}" data-original="{$iv[image_original]}" maxWidth="460" width="$ivw" class="maxImg"></a></div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+        
+        <div style="margin-top:5px; color:#999;">
+          <span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span>
+        </div>
+      </div>
+    </li>
+    <!--{/loop}-->
+  </ul>
+  <div style="text-align:right;"><a href="index.php?mod=pm&code=history&uid=$touid" target="_blank">查看所有记录</a></div>
+  <!--{/if}-->
+</div>
+<script type="text/javascript">
+function ToPmPage(){
+	
+	var to_user = $('#to_user').val();
+	var message = $('#message').val();
+	
+	var url = 'index.php?mod=pm&code=send&folder=send&to_user=' + to_user + '&message=' + message;
+
+	location.href= url;
+}
+$("#message").bind('keydown',function(event){
+	event = event || window.event;
+    if (event.keyCode == 13 && event.ctrlKey) {
+        $("#publishSubmit_{$to_user}").click();
+    }
+});
+</script>

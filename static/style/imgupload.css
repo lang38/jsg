@@ -1,0 +1,129 @@
+.imgupload {
+	width: 420px;
+}
+.imgupload p.navtab {
+	border-bottom: 1px solid #ddd;
+	padding-left: 10px;
+}
+.imgupload p.navtab b {
+	width: 74px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	height: 28px;
+	line-height: 28px;
+	margin: 2px 1px -1px 1px;
+	cursor: pointer;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 4px 4px 0 0;
+}
+.imgupload p.navtab b.curr {
+	background: #fff;
+	font-weight: bold;
+	cursor: pointer;
+	border-bottom-color: #fff;
+	border-radius: 4px 4px 0 0;
+}
+.upload_frame_area {
+	margin: 10px 0px;
+}
+.upload_area {
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+.upload_area_select {
+	display: none;
+}
+.upload_area_select label {
+	float: left;
+}
+.upload_area_select span {
+	float: right;
+}
+.upimg_img img {
+	width: 49px;
+	height: 49px;
+	padding: 1px;
+	border: 1px solid #ddd;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+.upload_notice {
+	background: #ffd;
+	color: #888;
+	padding: 5px;
+	width: 345px;
+	float: right;
+	margin: -60px 0 10px;
+}
+.submitbottom {
+	padding-top: 10px;
+	margin-top: 10px;
+	text-align: right;
+	border-top: 1px dashed #ddd;
+}
+.imgupload td textarea {
+	font-size: 12px;
+	height: 38px;
+	width: 300px;
+	margin: 0 5px;
+}
+.imgupload .add {
+	margin-bottom: 10px;
+}
+.imgupload p.add input {
+	width: 300px;
+	margin-right: 10px;
+	color: #999;
+}
+.baiduimgdiv ul {
+	float: left;
+	display: block;
+	width: 100%
+}
+.baiduimgdiv li {
+	float: left;
+	width: 123px;
+	height: 100px;
+	overflow: hidden;
+	margin: 5px;
+}
+.baiduimgdiv li img {
+	width: 121px;
+	height: 98px;
+	border: 1px dashed #ffcc00;
+}
+.baiduimgdiv p {
+	background: #ffd;
+	color: #888;
+	padding: 5px 10px;
+	text-align: center;
+	clear: both;
+}
+.baiduimgdiv p span {
+	margin: 5px;
+}
+.creatalbum {
+	display: block;
+}
+.publisher_file {
+	display: block;
+	padding-left: 22px;
+	position: relative;
+}
+.publisher_file .img_uploading {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+a.u-del {
+	color: #fff;
+}
+#creatalbum{
+	float: left;
+	display: block;
+	width: 420px;
+	margin-bottom: 15px;
+}

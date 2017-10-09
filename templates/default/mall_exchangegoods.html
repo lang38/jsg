@@ -1,0 +1,44 @@
+{template "topic_header"}
+<link href="static/style/mall.css" rel="stylesheet" type="text/css" />
+{template "topic_left_nav.inc"}
+<div class="main">  
+<div class="mainWrap">
+	<div class="sub_title">我的兑换记录</div>
+	<table class="dingdan">
+		<tr class="hd_dingdan">
+					<td class="name">商品名称</td>
+					<td class="q">数量</td>
+					<td class="addr">收货地址</td>
+					<td class="phone">联系方式</td>
+					<td>订单状态</td>
+	   </tr>
+		<!--{if $data}-->
+		<!--{loop $data $val}-->
+	  <tr class="sep-row"><td colspan="5"></td></tr>
+		  <tr class="duihuan_tit">
+			<td style="border-right:none;">订单编号:&nbsp;{$val['sn']}</td>
+			<td colspan="2" style="border-left:none;border-right:none;">兑换时间:&nbsp;{$val['pay_time']}</td>
+			<td colspan="2" style="border-left:none;">消耗{$config['credits_name']}:&nbsp;{$val['pay_credit']}</td>
+		  </tr>
+		  <tr class="dingdan_list">
+			<td class="name"><a href="index.php?mod=mall&code=goodsinfo&id={$val[goods_id]}" title="{$val['goods_name']}">{$val['goods_name']}</a></td>
+			<td class="q">{$val['goods_num']}</td>
+			<td class="addr" title="{$val['address']}">{$val['address']}</td>
+			<td class="phone">{$val['mobile']}<br>QQ:{$val['qq']}</td>
+			<td>{if $val['status'] == 0}已下单{elseif $val['status'] == 1}已发货{elseif $val['status'] == 2}已退货{/if}</td>
+		  </tr>
+		<!--{/loop}-->
+		<!--{else}-->
+		<tr><td colspan="5" align="center">暂无任何商品兑换记录</td></tr>
+		<!--{/if}-->
+	</table>
+	<!--{if $page}-->
+    <div style="margin-top:10px;">{$page}</div>
+	<!--{/if}-->
+</div>
+<div class="sideBar">
+{template "mall_inc"}
+</div>
+</div>
+</div>
+{template "topic_footer"}

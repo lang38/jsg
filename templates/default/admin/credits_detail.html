@@ -1,0 +1,33 @@
+{template admin/header}
+
+<div>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tableborder">
+  <tr class="header">
+    <td width="20%">用户呢称</td>
+    <td width="20%">动作名称</td>
+     <!--{loop $credits_field $_k $_v}-->
+    <td width="10%">$_k</td>
+    <!--{/loop}-->
+    <td width="20%">操作时间</td>
+    <td width="20%">备注</td>
+  </tr>
+<!--{loop $log_list $key $val}-->
+  <tr class="altbg2" onmouseover="this.className='altbg1'" onmouseout="this.className='altbg2'">
+    <td style="border-bottom:1px dotted #EDEDED">{$meber[nickname]}</td>
+    <td style="border-bottom:1px dotted #EDEDED"><!--{if $val[rulename] == ''}-->管理员操作<!--{else}-->{$val[rulename]}<!--{/if}--></td>
+    
+    <!--{loop $credits_field $__v}-->
+      <td style="border-bottom:1px dotted #EDEDED">{$val[$__v]}</td>
+    <!--{/loop}-->
+    <td style="border-bottom:1px dotted #EDEDED">{$val[dateline]}</td>
+    <td style="border-bottom:1px dotted #EDEDED">{$val[remark]}</td>
+  </tr>
+<!--{/loop}-->
+    <!--{if $page_arr[html]}-->
+    <tr align="center">
+      <td colspan="3">$page_arr[html]</td>
+    </tr>
+    <!--{/if}-->
+</table>
+
+</div>

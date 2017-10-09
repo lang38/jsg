@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+<head>
+<!--{eval $__my=$GLOBALS[_J][member];}-->
+<base href="{$this->Config[site_url]}/" />
+{eval $conf_charset=$this->Config['charset'];}<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<title>{$this->Config[site_name]}({$this->Config[site_domain]}){conf page_title}</title>
+<meta name="Keywords" content="{$this->Config['index_meta_keywords']},{$this->MetaKeywords},{conf site_name}{conf meta_keywords}" />
+<meta name="Description" content="{$this->Config['index_meta_description']},{$this->MetaDescription},{conf site_notice}{conf meta_description}" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link href="static/style/global.css" rel="stylesheet" type="text/css" />
+<link href="static/style/simple.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<link href="static/style/hack.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<!--{subtemplate "common_header_js"}-->
+<script type="text/javascript" src="static/js/min.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+  <script type="text/javascript">  
+    $(function(){  
+        function resizeBody(){  
+            $("body").height($(window).height() - 2).width($(window).width() - 2);  
+        }  
+        resizeBody();  
+          
+        $(window).resize(function(){  
+            resizeBody();  
+        });  
+    });  
+ </script> 
+
+</head>
+{$additional_str}
+<body>
+
+<div class="simple_layout">
+
+<div class="headWrap">
+<h1 class="logo"><a title="{conf site_name}" href="index.php"><img src="images/logo_guest.png" /></a></h1>
+</div>
+
+<div class="mainWrapper">
+<div class="topbox">
+<div class="tleft">
+<!--{loop $returnchs $c}-->
+<a href="index.php?mod=channel&id={$c[id]}" title="{$c[name]}"><img src="{conf site_url}{$c[picture]}" /> </a>
+<!--{/loop}-->
+
+</div>
+<!--{eval $login_seccode = $this->Config['seccode_enable']==1 && $this->Config['seccode_login'] ? 1 : 0;}-->
+<div class="yxm_box_tips">
+ <!--{if $this->Config['seccode_enable']>1 && $this->Config['seccode_login'] && $this->yxm_title}--><span id="yxm_pub_button" onclick="YXM_popBox(this,'login','{$this->yxm_title}');">&nbsp;</span><!--{/if}-->
+</div>
+ <!--注册登录-->
+    <div class="loginbox"> 
+
+      <div class="login_area">
+	  <!--{eval $login_extract=jsg_member_login_extract();}-->
+	  <!--{if $login_extract && (($login_extract_forms=$login_extract[login_forms]) || ($login_extract_html=$login_extract[login_html]))}-->
+		<!--{if $login_extract_forms}-->
+		<form method="{$login_extract_forms[method]}" action="{$login_extract_forms[action]}" id="guest_login">
+		  <!--{loop $login_extract_forms[hidden_inputs] $v}-->
+		  <input type="hidden" name="{$v[name]}" value="{$v[value]}" />
+		  <!--{/loop}-->
+          <div class="item">
+            <span class="enterInput">
+            <input type="text" name="{$login_extract_forms[username_input][name]}" id="username_input" value="昵称/email/个性域名" onfocus="this.value=''" onblur="if(this.value==''){this.value='昵称/email/个性域名';}">
+            </span> 
+            </div>
+          <div class="item">
+            <span class="enterInput">
+            <input type="password" name="{$login_extract_forms[password_input][name]}" id="password_input" value="请输入登录密码" onfocus="this.value=''" onblur="if(this.value==''){this.value='请输入登录密码';}">
+            </span> 
+            </div>
+          <div class="item pos_rel">
+            <span class="enterInput"></span>
+            <div class="login-tiparea autologin-tiparea" id="autologin_tiparea">
+              <div class="login-tiparea-top"></div>
+            </div>
+          </div>
+          <div class="clearfix">
+            <span class="enterInput"> <input type="submit" class="simple_btn" value="登 录" name="{$login_extract_forms[submit_input][name]}"/></span>  
+		  </div>
+		  <div class="clearfix2">
+		  </div>
+        </form>
+		  <!--{else}-->
+			<!--{if $login_extract_html}-->{$login_extract_html}<!--{/if}-->
+		  <!--{/if}-->
+	  <!--{else}-->
+		<!--{if $this->Config['seccode_enable']>1 && $this->Config['seccode_login'] && $this->yxm_title}-->
+		<form method="POST" action="{conf site_url}/index.php?mod=login&code=dologin" id="guest_login" onKeyDown="if(event.keyCode==13) YXM_float();" autocomplete="off">
+		<!--{else}-->
+		<form method="POST" action="{conf site_url}/index.php?mod=login&code=dologin" id="guest_login" onKeyDown="if(event.keyCode==13) guestLoginSubmit({$login_seccode});" autocomplete="off">
+		<!--{/if}-->
+            <div class="item">
+            <span class="enterInput">
+            <input type="text" name="username" id="username_input" onblur="checkUsername(this.value);if(this.value==''){this.value='$this->Config['changeword']['username']';}" value="{$username}" onfocus="if(this.value=='$this->Config['changeword']['username']'){this.value='';}" >
+            </span> 
+
+            <div id="username_tip"></div>
+            </div>
+
+          <div class="item">
+            <span class="enterInput">
+            <input type="password" name="password"  id="password_input" value="请输入登录密码" onfocus="this.value=''" onblur="if(this.value==''){this.value='请输入登录密码';}">
+            </span> 
+            </div>
+          <div class="pos_rel">
+            <span class="enterInput">
+             <!--{if $this->Config['seccode_enable']>1 && $this->Config['seccode_login'] && $this->yxm_title}-->
+			 <input type="button" class="simple_btn" value="登 录" onclick="YXM_float();"/>
+			 <!--{else}-->
+			 <input type="hidden" id="seccode_input" name="seccode_input">
+			 <input type="button" class="simple_btn" value="登 录" onclick="guestLoginSubmit({$login_seccode});"/>
+			 <!--{/if}-->
+			 <!--{if !$GLOBALS[_J][config][register_link_display] && jsg_member_register_is_closed()}-->
+				<!-- 不显示注册链接 -->
+				&nbsp;
+			<!--{else}-->
+             <a  href="javascript:void(0)"  ><input type="button" class="simple_reg" value="快速注册帐户" title="注册{conf site_name}" onclick="window.location.href='{conf site_url}/index.php?mod=member';return false;"/></a>
+			 <!--{/if}-->
+
+            </span>
+           
+            <div class="login-tiparea autologin-tiparea" id="autologin_tiparea">
+              <div class="login-tiparea-top"></div>
+            </div>
+          </div>
+          
+          <div class="itemother">		 
+            <p>
+            <label for="savelogin">
+            <input type="checkbox" id="savelogin" name="savelogin" value="1" class="inputcheckTag"  title="请不要在公共电脑上使用自动登录功能">
+            下次自动登录 </label>
+             <a onclick="window.location.href='{conf site_url}/index.php?mod=get_password';return false;" href="javascript:void(0)"  title="点此可通过2种方式重设密码" style="margin-left:15px;">忘记密码</a></p>
+
+	
+		  </div>
+          
+		  <div class="loginother"><span>其它方式登录：</span>
+		  	{if $this->Config[sina_enable] && sina_weibo_init()} {eval echo sina_weibo_login('s');} {/if}
+			{if $this->Config[qqwb_enable] && qqwb_init()} {eval echo qqwb_login('s');} {/if}	
+			{if $this->Config[yy_enable] && yy_init()} {eval echo yy_login('s');} {/if}	
+			{if $this->Config[renren_enable] && renren_init()} {eval echo renren_login('s');} {/if}	
+			{if $this->Config[kaixin_enable] && kaixin_init()} {eval echo kaixin_login('s');} {/if}	
+			{if $this->Config[fjau_enable] && fjau_init()} {eval echo fjau_login('s');} {/if}	
+		  </div>
+        </form>
+	  <!--{/if}-->
+      </div>
+    </div>
+    <!--注册登录-->
+</div>
+
+<!--{if $this->Config[ad_enable]}-->
+<!--{eval SetADV('topic_','footer');}-->
+<!--{/if}-->
+
+</div>
+
+
+<div style="text-align:center;margin:20px auto 0;">
+    <!--{if $this->Config['default_module']==$this->Module && $this->Code==$this->Config['default_code']}-->
+    <!--{eval $link_config=jconf::get('link');}-->
+    <!--{if $link_config}-->
+    友情链接：
+    <!--{loop $link_config $link}-->    
+		<!--{if !empty($link[logo])}-->
+			<a href="{$link[url]}" target="_blank"><img src="{$link[logo]}" width="88" height="31" border="0" alt="{$link[name]}"></a>
+		<!--{else}-->
+			<a href="{$link[url]}" target="_blank">{$link[name]}</a>
+		<!--{/if}-->
+		 &nbsp;
+    <!--{/loop}-->
+    <!--{/if}-->
+	<br>
+    <!--{/if}-->
+	{conf copyright}&nbsp;<a href="http://www.miibeian.gov.cn/" rel="nofollow" target="_blank" title="网站备案">{conf icp}</a>
+    <!--{conf tongji}-->
+</div>
+
+
+<!-- JS消息提示层 show_message('发布成功') -->
+<div id="show_message_area"></div>
+{eval echo $this->js_show_msg();}
+{$GLOBALS[schedule_html]}
+<!--{eval if($GLOBALS['jsg_schedule_mark'] || jsg_getcookie('jsg_schedule')) echo jsg_schedule();}-->
+<!-- Ajax端内容返回 -->
+<div id="ajax_output_area"></div>
+
+<script type="text/javascript">
+function checkUsername(username){
+	if(!username || username == ''){
+		$('#username_tip').html('请输入帐号');
+		$('#username_tip').show();
+		$('#username_tip').addClass('username_tip_error');
+		$('#username_tip').css({'width':'60px','right':'5px'});
+		$('.btn_login').attr('disabled',true);
+		return false;
+	}
+	
+	$.post(
+	    'ajax.php?mod=member&code=checkuser',
+	    {username:username},
+	    function(d){
+	    	if(d.done == false){
+	    		$('#username_tip').html(d.msg);
+	    		$('#username_tip').show();
+				$('#username_tip').addClass('username_tip_error');
+				$('#username_tip').css({'width':'auto','margin-top':'4px'});
+	    		$('.btn_login').attr('disabled',true);
+				
+	    	} else {
+	    		$('#username_tip').show();
+				$('#username_input').css({'border-color':'#999'});
+				$('#username_tip').removeClass('username_tip_error');
+				$('#username_tip').css({'width':'25px','right':'5px','text-align':'right'});
+	    		var html = "<img sr" + "c='" + d.msg+  "' onerror='javascript:faceError(this);'/>";
+	    		$('#username_tip').html(html);
+	    		$('.btn_login').attr('disabled',false);
+	    	}
+	    },
+	    'json'
+	)
+}
+
+
+function logincheckUsername(username){
+	if(!username || username == ''){
+		$('#username_tip').html('请输入帐号');
+		$('#username_tip').show();
+		$('#username_tip').addClass('username_tip_error');
+		$('#username_tip').css({'width':'auto','margin-top':'20px'});
+		$('.btn_login').attr('disabled',true);
+		return false;
+	}
+	
+	$.post(
+	    'ajax.php?mod=member&code=checkuser',
+	    {username:username},
+	    function(d){
+	    	if(d.done == false){
+	    		$('#username_tip').html(d.msg);
+	    		$('#username_tip').show();
+				$('#username_tip').addClass('username_tip_error');
+				$('#username_tip').css({'width':'auto'});
+	    		$('.btn_login').attr('disabled',true);
+				
+	    	} else {
+	    		$('#username_tip').show();
+				$('#username_input').css({'border-color':'#d2d2d2'});
+				$('#username_tip').removeClass('username_tip_error');
+				$('#username_tip').css({'width':'25px','right':'5px','margin-top':'4px'});
+	    		var html = "<img sr" + "c='" + d.msg+  "' onerror='javascript:faceError(this);'/>";
+	    		$('#username_tip').html(html);
+	    		$('.btn_login').attr('disabled',false);
+	    	}
+	    },
+	    'json'
+	)
+}
+</script>
+{$this->yxm_html}
+</div>
+</body>
+</html>

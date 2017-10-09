@@ -1,0 +1,97 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#m_avatar2").mouseover(function(){$(".avatar2_tips").show();});
+		$("#m_avatar2").mouseout(function(){$(".avatar2_tips").hide();});
+		
+       	var click_attup = $(".side-att-more-btn");
+	    var show_attlist = $(".side-att-more");
+		//var show_attmoreli = $(".side-att-moreLi");
+	    click_attup.click(function(){
+		if(show_attlist.css('display') == 'none')
+			{
+				show_attlist.show();
+				click_attup.text("收起更多");
+			}
+			else
+			{
+				show_attlist.hide();
+				click_attup.text("更多");
+			}
+		});
+
+	});
+</script>
+
+<!------用户信息------->
+<!--{if ($my_member || $member)&&('mydig' == $this->Get['type'] || !in_array($params['code'],array('myblog','outbox')))}-->
+<!--{eval $_mymember = $my_member ? $my_member : $member}-->
+<div class="memberBox">
+  <div class="person_info">
+    <div class="avatar2" id="m_avatar2"> <a href="index.php?mod={$_mymember[username]}" title="{$_mymember[nickname]}"> <img src="{$_mymember[face_original]}" alt="{$_mymember[nickname]}" onerror="javascript:faceError(this);" /> </a> 
+      <!--{if MEMBER_ID == $_mymember['uid']}-->
+      <p class="avatar2_tips"><a id="avatar_upload" href="index.php?mod=settings&code=face">修改头像</a></p>
+      <!--{/if}--> 
+    </div>
+    <div class="avatar2_info">
+      <p class="name"> <a href="index.php?mod={$member[username]}" title="@{$member[nickname]}"><b>{$member[nickname]}</b></a> </p>
+	  <p>{$member[validate_html]}</p>
+      <!--{if $this->Config[level_radio]}--> 
+      <!--{if $this->Config[topic_level_radio]}-->
+      <p class="ico_bed"> <a href="index.php?mod=settings&code=exp" title="点击查看微博等级"  target="_blank" class="ico_level wbL{$member[level]}">{$member[level]}</a> </p>
+      <!--{/if}--> 
+      <!--{/if}--> 
+      
+      {if $member[credits]}
+      <div class="integral">积分：<a title="点击查看我的积分" href="index.php?mod=settings&code=extcredits">{$member[credits]}</a></div>
+      {/if}
+    
+    </div>
+  </div>
+ <div class="edit_sign"> 
+        <!--{eval $member_signature = cut_str($member[signature],20);}--> 
+        <!--{if $member[uid] == MEMBER_ID }--> 
+        <span> <a href="javascript:viod(0);" onclick="follower_choose({$member[uid]},'{$member[nickname]}','topic_signature'); return false;" title="编辑个人签名" > 
+        <!--{if $member[signature]}-->{$member_signature}<!--{else}-->编辑个人签名<!--{/if}--> 
+		<img src="static/image/qianming.png">
+        </a></span> 
+        <!--{else}--> 
+        <span> 
+        <!--{if $member[signature]}--> 
+        <!--{if $val[uid] == MEMBER_ID ||  'admin' == MEMBER_ROLE_TYPE}-->
+        <a href="javascript:void(0);" onclick="follower_choose({$member[uid]},'{$member[nickname]}','topic_signature');" title="编辑个人签名"> <em ectype="user_signature_ajax_{$member[uid]}">（{$member_signature}）</em> </a> 
+        <!--{/if}--> 
+        <!--{else}-->{$member[gender_ta]}没有填写个人签名<!--{/if}--> 
+        </span> 
+        <!--{/if}--> 
+  </div>
+  
+  
+    <div class="geren_msg" style="display:none;"> 
+        <p><a href="javascript:void(0);">公司 ：杭州神话信息技术有限公司</a></p>
+        <p><a href="javascript:void(0);">部门 ：运营中心设计部</a></p>
+        <p><a href="javascript:void(0);">岗位 ：UI视觉设计</a></p>
+    </div>
+    
+  <div class="user_atten">
+    <div class="person_atten_l">
+      <p><span class="num"><a href="index.php?mod=follow&uid={$member[uid]}" title="{$member[nickname]}关注的">{$member[follow_count]}</a></span></p>
+      <p><a href="index.php?mod=follow&uid={$member[uid]}" title="{$member[nickname]}关注的">关注</a> </p>
+    </div>
+    <div class="person_atten_l">
+      <p><span class="num"><a href="index.php?mod=fans&uid={$member[uid]}" title="关注{$member[nickname]}的">{$member[fans_count]}</a></span></p>
+      <p><a href="index.php?mod=fans&uid={$member[uid]}" title="关注{$member[nickname]}的">粉丝</a> </p>
+    </div>
+    <div class="person_atten_l">
+      <p><span class="num"><a href="index.php?mod={$member[username]}" title="{$member[nickname]}的{$this->Config[changeword][n_weibo]}">{$member[topic_count]}</a></span></p>
+      <p><a href="index.php?mod={$member[username]}" title="{$member[nickname]}的{$this->Config[changeword][n_weibo]}">{$this->Config[changeword][n_weibo]}</a> </p>
+    </div>
+    <div class="person_atten_l">
+      <p><span class="num"><a href="index.php?mod={$member[username]}&type=mydig" title="赞过{$member[nickname]}的">{$member[digcount]}</a></span></p>
+      <p><a href="index.php?mod={$member[username]}&type=mydig" title="赞过{$member[nickname]}的">被{$this->Config['changeword']["dig"]}</a> </p>
+    </div>
+  </div>
+</div>
+<!--{/if}--> 
+
+
+

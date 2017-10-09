@@ -1,0 +1,59 @@
+<!--{template admin/header}-->
+<style>
+.project_info{
+	display:block;
+}
+.project_info i{ font-style:normal; font-size:11px; background:#1eb1f6; color:#fff; border-radius:3px; padding:0 3px; margin-right:5px;}
+</style>
+<form method="post" action="admin.php?mod=contest&code=save_index" enctype="multipart/form-data" autocomplete="off">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2">大赛设置</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="24%" bgcolor="#F8F8F8">是否开启大赛</td>
+		<td class="altbg2" width="76%" align="right" bgcolor="#FFFFFF">
+		{if $data[contest_available]}
+		<input type="radio" name="data[contest_available]" value="1" checked="checked">是
+		<input type="radio" name="data[contest_available]" value="0">否
+		{else}
+		<input type="radio" name="data[contest_available]" value="1">是
+		<input type="radio" name="data[contest_available]" value="0" checked="checked">否
+		{/if}
+		</td>
+	</tr>
+</table>
+<br>
+<center><input type="submit" class="button" name="addsubmit" value="保 存"></center>
+<a href="admin.php?mod=contest&code=create" class="button" >创建大赛</a>
+</form>
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr align="center" class="header"> 
+        <td>大赛名称</td> 
+        <td>大赛专题</td> 
+ 
+        <td>大赛报名数/大赛作品数</td> 
+        <td>开始/结束时间</td> 
+        <td>大赛操作</td> 
+    </tr>
+	<!--{loop $list['list'] $one}-->
+	<tr>
+		<td class="altbg1" >{$one['name']}</td>
+		<td class="altbg2" >
+		<!--{loop $one['project']['list'] $one_project}-->
+		<div class="project_info">
+		<i>名称</i>{$one_project['name']} |<i>数量</i> {$one_project['count']}个参赛作品 | <i>操作</i>
+		<a href="admin.php?mod=contest&code=modify_project&project={$one_project['id']}">编辑专题</a>
+		<a href="admin.php?mod=contest&code=delete_project&project={$one_project['id']}">删除专题</a>
+		</div>
+		<!--{/loop}-->
+		<p><a href="admin.php?mod=contest&code=create_project&contest_id={$one['id']}">添加专题</a></p>
+		</td>
+		<td class="altbg3" width="10%"><a href="admin.php?mod=contest&code=do_list&id={$one[id]}">{$one['entered_count']}个报名/{$one['entries_count']}个作品</a></td>
+		<td class="altbg3" width="10%">{$one['start_time_string']} ~ {$one['end_time_string']}</td>
+		<td class="altbg3" width="10%"><a href="admin.php?mod=contest&code=modify&contest={$one['id']}">编辑大赛</a></td>
+	</tr>
+	<!--{/loop}-->
+</table>
+<a href="admin.php?mod=contest&code=profile" class="button" >设置大赛资料</a>

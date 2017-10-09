@@ -1,0 +1,52 @@
+<style type="text/css">
+.recd_wp td{ height:30px; padding:5px 0;font-size:12px;}
+</style>
+<div class="dialog_inner">
+	<div>
+	<form id="recd_from_{$tid}" method="post">
+		<table class="recd_wp">
+			<tr>
+				<td width="20%">推荐标题</td>
+				<td>
+					<input title="在右侧边栏展示用" id="r_title" name="r_title" class="Ainp" type="text" style="width:230px;" value="{$topic_recd['r_title']}"">
+				</td>
+			</tr>
+			<tr>
+				<td>推荐类型</td>
+				<td>
+					{$recd_html}
+				</td>
+			</tr>
+			<tr>
+				<td>推荐位置</td>
+				<td>
+					<select name="item_id" id="item_id">
+					<option value="0" <!--{if !$topic_recd['item_id']}-->selected="selected"<!--{/if}-->>系统默认</option>
+					<!--{loop $channels $value}-->
+					<option value="{$value['ch_id']}" <!--{if $value['ch_id']==$topic_recd['item_id'] && $topic_recd['item'] == 'channel'}-->selected="selected"<!--{/if}-->>{$value['ch_name']}</option>
+					<!--{/loop}-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>有效期至</td>
+				<td>
+					<input id="expiration" name="expiration" class="Ainp" onclick="WdatePicker({dateFmt:'yyyy-MM-dd  HH:mm'})"  type="text" readonly style="width:120px;" value="{$topic_recd['expiration']}">&nbsp;&nbsp;留空则一直有效
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="tid" value="{$tid}" />
+					<input type="hidden" name="tag_id" value="{$tag_id}" />
+				</td>
+				<td>
+					<input type="button" title="按Ctrl+Enter直接创建" onclick="recdTopic('{$this->Get[handle_key]}','recd_from_{$tid}','{$tid}','{MEMBER_ID}');" value="确定" class="u-btn" id="groupSubmit">
+					&nbsp;&nbsp;
+					<button class="u-btn u-btn-c4" onclick="closeDialog('{$this->Get[handle_key]}');" type="button">取消</button>
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<script src="static/js/date/WdatePicker.js" type="text/javascript"></script>

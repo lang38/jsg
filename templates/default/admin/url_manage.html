@@ -1,0 +1,82 @@
+<!--{template admin/header}-->
+
+<form method="post" action="admin.php?mod=url&code=manage">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2">搜索</td>
+	</tr>
+	<tr class="altbg1">
+		<td width="45%"><b>KEY</b>（即url后面的短地址）<br>
+		  <span class="smalltxt"></span>
+		</td>
+		<td><input type="text" name="key" value="{$key}" size="48" /></td>
+	</tr>
+	<tr class="altbg2">
+		<td width="30%"><b>URL链接目标网址</b><br>
+		  <span class="smalltxt"></span>
+		</td>
+		<td><input type="text" name="url" value="{$url}" size="48" /></td>
+	</tr>
+	<tr class="altbg1">
+		<td width="30%"><b>排序方式</b><br>
+		<span class="smalltxt"></span></td>
+		<td><select name="order">
+			<option value="">默认</option>
+			<option value="open_times"{if 'open_times'==$order} selected="selected" {/if}>访问次数</option>
+			<option value="dateline"{if 'dateline'==$order} selected="selected" {/if}>加入时间</option>
+		</select></td>
+	</tr>
+</table>
+<br><center><input type="submit" class="button" name="searchsubmit" value="搜索"> &nbsp; 
+		<a href="admin.php?mod=url&code=manage">查看全部({$rets[count]})</a> &nbsp; </center><br>
+</form>
+<br>
+
+<form method="post" action="admin.php?mod=url&code=manage">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td width="20"><input type="checkbox" onclick="checkall(this.form,'ids')" name="chkall" class="checkbox"></td>
+		<td width="40">KEY</td>
+		<td width="50%">URL链接目标网址</td>
+		<td>加入时间</td>
+		<td>访问次数</td>
+		<td>当前状态</td>
+		<td>可执行操作</td>
+	</tr>
+	<!--{loop $rets[list] $v}-->
+	<!--{eval $altbgid=(++$__rlk % 2 ? 1 : 2);}-->
+	<tr class="altbg{$altbgid}">
+		<td><input type="checkbox" name="ids[{$v[id]}]" value="{$v[id]}" /></td>
+		<td>{$v[key]}</td>
+		<td><a href="{$v[url]}" target=_blank>{$v[url]}</a></td>
+		<td>{eval echo my_date_format($v[dateline]);}</td>
+		<td>{$v[open_times]}</td>
+		<td>{eval echo($v[status]?(-1==$v[status]?'<font color=red>黑名单（禁止）</font>':'<font color=green>白名单（允许）</font>'):'常规（默认）');}</td>
+		<td><a href="admin.php?mod=url&code=do_manage&action=delete&id={$v[id]}">删除</a> &nbsp; <a href="admin.php?mod=url&code=manage&site_id={$v[site_id]}">查同域名网址</a> <br />
+			<a href="admin.php?mod=url&code=do_manage&action=status&status=1&id={$v[id]}" title="加入白名单（允许访问）队列"><font color=green>白名单</font></a>&nbsp;
+			<a href="admin.php?mod=url&code=do_manage&action=status&status=0&id={$v[id]}" title="加入常规（默认）队列">常规</a>&nbsp;
+			<a href="admin.php?mod=url&code=do_manage&action=status&status=-1&id={$v[id]}" title="加入黑名单（禁止访问）队列"><font color=red>黑名单</font></a></td>
+	</tr>
+	<!--{/loop}-->
+	<tr>
+		<td colspan="2">批量操作</td>
+		<td colspan="5">
+			1、<label><input type="radio" name="action" value="delete" />删除（为防重复加入，不建议）</label><br />
+			2、<label><input type="radio" name="action" value="status" />设定状态</label>
+			<select name="status">
+				<option>请选择</option>
+				<option value="1">加入<font color=green>白名单</font>（允许访问）</option>
+				<option value="0">加入常规（默认）</option>
+				<option value="-1">加入<font color=red>黑名单</font>（禁止访问）</option>
+			</select>
+		</td>
+	</tr>
+	<!--{if $rets[page][html]}-->
+	<tr>
+		<td colspan="7">{$rets[page][html]}</td>
+	</tr>
+	<!--{/if}-->
+</table>
+<br><center><input type="submit" class="button" name="managesubmit" value="提交"></center><br>
+</form>
+<br>

@@ -1,0 +1,48 @@
+<!--我的首页 右侧导航-->
+<div class="sideBar">
+
+
+<!--用户相关信息等-->
+{template "topic_right_ajax.inc"}
+
+    
+<!--右侧顶部广告-->
+<!--{if $this->Config[ad_enable]}-->
+<!--{eval SetADV('event','middle_right_top');}-->
+<!--{/if}-->
+<!--右侧顶部广告-->
+
+  <script type="text/javascript">
+	$(document).ready(function(){
+		<!--{if 'created' == $filter}-->
+		right_show_ajax('{$member[uid]}','buddys_create_event','buddys_create_event');
+		<!--{/if}-->
+		<!--{if 'joined' == $filter}-->
+		right_show_ajax('{$member[uid]}','buddys_joined_event','buddys_joined_event');
+		<!--{/if}-->
+
+		right_show_ajax('{$member[uid]}','recd_event','recd_event');
+	});
+  </script>
+	<!--关注人发起的活动-->
+	<!--{if 'created' == $filter}-->
+	<div class="column">
+		<h3><!--{if $member['uid']==MEMBER_ID}-->我关注人发起的活动<!--{ELSE}-->{$member[gender_ta]}关注人发起的活动<!--{/if}--></h3>
+		<ul id="{$member[uid]}_buddys_create_event" class="sideul"></ul>
+	</div>
+	<!--{/if}-->
+	<!--关注人参与的活动-->
+	<!--{if 'joined' == $filter}-->
+	<div class="column">
+		<h3><!--{if $member['uid']==MEMBER_ID}-->我关注人参与的活动<!--{ELSE}-->{$member[gender_ta]}关注人参与的活动<!--{/if}--></h3>
+		<ul id="{$member[uid]}_buddys_joined_event" class="sideul"></ul>
+	</div>
+	<!--{/if}-->
+	<!--推荐活动-->
+	<div class="column">
+		<h3>热点推荐活动</h3>
+		<ul id="{$member[uid]}_recd_event" class="sideul"></ul>
+	</div>
+  <!--{template 'topic_right_common.ini'}-->
+  
+</div>

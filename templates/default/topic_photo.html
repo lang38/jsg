@@ -1,0 +1,69 @@
+{template "topic_header"}
+<link href="static/style/photo.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.g-content .g-doc {background: none;}
+.channelTop {width: 980px;margin-top: 0;border-bottom: none;}
+.channelnav ,.channelnav .navLeft{width: 980px;}
+.channelsubnav {width: 970px;margin: 10px 0 0;}
+.s-newpic{ width:105%;}
+.topnew_pic_bg{ padding:10px 0;}
+.item_wrap{ margin-right:16px;}
+.main{ width:980px; padding:0;background: none;}
+.item_list li{ width:231px;}
+.item_list li{ margin-bottom:15px;}
+.item_list li .favorite{ padding:0 16px;}
+.exp-wrap .g-content{ overflow:visible}
+.exp-wrap .g-hd2 .g-doc{ width:980px;}
+.g-ft, .m-ft{ width:980px;}
+</style>
+
+<div class="m_nav_home">
+<div class="nav_home">
+<h1 class="logo"><a href="index.php?mod=album">微博相册</a></h1>
+<ul class="nav">
+      
+      <a class="link" href="index.php?mod=plaza&code=new_pic"><span class="valign">图片墙</span></a>
+      <a class="link" href="index.php?mod=album&code=list"><span class="valign">所有相册</span></a>
+      <a class="link" href="index.php?mod=topic&code=photo&type=3d" target="_blank">3D模式观看</a>
+      <!--{eval if($type) $uclass='title_bg'; else $pclass='title_bg';}-->
+      <a class="link current {$uclass}" href="index.php?mod=topic&code=photo&uid={$url_uid}">{$nickname}关注人的图片</a>
+</ul> 
+</div>
+</div>
+
+
+<div class="main exp-main">
+
+<div class="s-newpic">
+        <!--列表 Begin-->
+
+		<!--{loop $topic_list $key $topiclist}-->
+		<div class="item_wrap">
+        <ul class="item_list" id="phototopic_{$key}">
+		<!--{loop $topiclist $val}-->
+		{template "topic_photo_item"}
+		<!--{/loop}-->
+		</ul>
+		</div>
+		<!--{/loop}-->
+        
+		<div style="clear:both;height:0;"></div>
+		
+		<!--列表 End-->
+		<!--正在加载-->
+		<div id="boutique_load"></div>
+		<!--/正在加载-->
+</div>
+</div>
+
+
+<script type="text/javascript">
+<!--{if $isloading}-->var isLoading = true;<!--{else}-->var isLoading = false;<!--{/if}-->
+var onloading = false; var uid = {$uid};
+var photopagenum = 0;var photoloadmsg = '<div class="boutique_load"><a href="javascript:;" onclick="loadphoto(uid);" class="load_link">载入更多</a></div>';
+if(isLoading){$('#boutique_load').html(photoloadmsg);}
+$(window).bind('scroll resize',function(event){if(isLoading && !onloading){var ulheight = $('#phototopic_0').height();for(var i=1;i<4;i++){if(ulheight>$('#phototopic_'+i).height()){ulheight = $('#phototopic_'+i).height();}}var bodyTop = document.documentElement.scrollTop + document.body.scrollTop;if(bodyTop+$(window).height() >= ulheight){loadphoto(uid);}}});
+</script>
+
+{template "topic_footer"}

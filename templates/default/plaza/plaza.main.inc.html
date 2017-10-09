@@ -1,0 +1,65 @@
+<div class="plaze_header_nav">
+{jwidget plaza.header.nav}
+</div>
+
+<div class="mainWrap">
+   <!-- 广场头部导航 -->
+   	<div id="listTopicMsgArea"></div>
+      <div id="listTopicArea">
+        <div class="Listmain">
+        
+		<!--{if $day_list}-->
+        <ul class="boxNav" style="margin:0 20px;">
+            <!--{loop $day_list $key $val}-->
+            <!--{eval $_i = ($d==$key ? boxNavselect :boxNavli );}-->
+            <li class="{$_i}" id="Num{$key}"><a href="index.php?mod=plaza&code={$this->Code}&day={$key}">{$val}</a></li>
+            <!--{/loop}-->
+        </ul>
+        <!--{/if}-->
+        
+        <!--{if $this->Config['only_show_vip_topic']}-->
+        <div style="margin:10px;">
+          <span style="font-size:16px">
+            <a href="index.php?mod=other&code=vip_intro" target="_blank">当前仅显示V认证用户的{$this->Config[changeword][n_weibo]}</a>
+          </span>
+        </div>
+        <!--{/if}-->
+        
+        <!--{eval $parent_list = $rets[parent_list];}-->
+		<!--{loop $rets[list] $val}-->
+		<div class="feedCell" id="topic_list_{$val[tid]}">
+			<!--{if $this->Config[ad_enable]}-->
+				<!--{if ++$counts == 5 && $this->Config[ad][ad_list][group_new][middle_center1]}-->
+				<!--{eval SetADV('group_new','middle_center1');}-->
+				<!--{/if}-->					
+			<!--{/if}-->
+			<!--{subtemplate topic_item_ajax}-->
+		</div>
+		<!--{/loop}-->
+          
+		<div id="ajaxtopic"></div>
+		<div id="pageinfo"></div>
+		<div id="pagehtml">
+	      <!--{if $rets[page][html]}-->
+	      <div class="pageStyle">
+	        <li>{$rets[page][html]}</li>
+	      </div>
+	      <!--{/if}-->
+		</div>
+		
+       </div>
+    </div>
+    
+</div>
+
+<!-- AJAX加载 -->
+<!--{if $ajax_load}-->
+<script type="text/javascript">
+<!--{if $ajax_load[isloading]}-->var isLoading = true;<!--{else}-->var isLoading = false;<!--{/if}-->
+if(isLoading){$('#pageinfo').html('');$("#pagehtml").hide();}var ajaxkeys = new Array();var onloading = false;var ajaxnum = 0;
+<!--{loop $ajax_load[ajaxkey] $key $val}-->
+ajaxkeys[{$key}] = '{$val}';
+<!--{/loop}-->
+$(window).bind('scroll resize',function(event){if(isLoading && !onloading){var bodyTop = document.documentElement.scrollTop + document.body.scrollTop;if(bodyTop+$(window).height() >= ($('#listTopicArea').height()+100)){loadtopic(ajaxkeys[ajaxnum]);}}});
+</script>
+<!--{/if}-->

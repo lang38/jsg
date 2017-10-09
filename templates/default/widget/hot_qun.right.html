@@ -1,0 +1,25 @@
+<!--{if ($limit=jconf::get('show','page_r','recd_qun'))>0&&($hot_qun=jlogic('qun')->get_hot_qun($limit)) && False}--><!--禁用-->
+<div id="recd_qun_div" class="column">
+	<h3>推荐{$GLOBALS[_J][config][changeword][weiqun]}</h3>
+	<ul class="sideul">
+	  <div id="{MEMBER_ID}_hotweiqun">
+	  	<!--热门微群-->
+		<div id="interestUid">
+		  <ul class="followList" style="overflow:hidden">
+			<!--{loop $hot_qun $val}-->
+			<li class="pane" id="follow_user_{$val[uid]}">
+			  <div class="fBox_l"><img onerror="javascript:faceError(this);" src="{$val[icon]}"/> </div>
+			  <div class="fBox_R "> 
+	          <p><span class="name"><a href="index.php?mod=qun&qid={$val[qid]}">{$val[name]}</a></span> </p>
+			  <p>{$val['member_num']}人&nbsp;&nbsp;|&nbsp;&nbsp;{$val['thread_num']}条{$GLOBALS[_J][config][changeword][n_weibo]}</p>
+			  <a class="wq_joinbtn" href="javascript:;" onclick="joinQun({$val[qid]})"></a>
+			  </div>
+			</li>
+			<!--{/loop}-->
+		  </ul>
+		</div>
+		<!--热门微群-->
+	  </div>
+	</ul>
+    </div>
+<!--{/if}-->

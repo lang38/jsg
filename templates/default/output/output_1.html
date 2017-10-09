@@ -1,0 +1,60 @@
+<!--{template "output/output_url_iframe.header"}-->
+<!-- 公用头部 结束 -->
+
+<div class="output">
+	<!-- 微博发布框 开始 -->
+	<div id="post_form_div">
+		<!--{template "output/output_url_iframe.post_form"}-->
+	</div>
+	
+	<!-- 中间导航 开始 -->
+	<style type="text/css">
+    .nav_title{ width:100%;height: 38px;display: block;float: left;background: #eee;border-bottom: 1px solid #ddd;border-top: 1px solid #ddd;border-left: 1px solid #DDD}
+    .nav_title ul{float: left;padding: 0;margin: 0;}
+    .nav_title li{ width: 80px;height:37px;line-height:38px;text-align:center;float: left;display: inline; background: #f6f6f6; border-right: 1px solid #ddd;}
+    .nav_title li.current{ height:39px;background: #fff;}
+	</style>
+	<div class="nav_title">
+		<ul>
+			<li id="nav_li_1" class="current"><a href="#" onclick="output_topic('home', 1); return false;">最新动态</a></li>
+			<li id="nav_li_2"><a href="#" onclick="output_topic('at', 2); return false;">@提到我的</a></li>
+			<li id="nav_li_3"><a href="#" onclick="output_topic('reply', 3); return false;">评论</a></li>
+			<li id="nav_li_4"><a href="#" onclick="output_topic('recommend', 4); return false;">推荐</a></li>
+		</ul>
+	 </div>
+	 <script type="text/javascript">
+	 	function output_topic(t, ci) {
+	 		<!--{if MEMBER_ID < 1 && hzswb_init() && ($login_url=hzswb_login_url($url))}-->
+		 		$('#list_div').html('<h2>请先<a href="{$login_url}">点此进行登录</a></h2>');
+		 		return ;
+	 		<!--{/if}-->
+	 		$.get('{conf site_url}/index.php?mod=output&code=topic&limit=3&type=' + t, function(r) {
+	 			if('' == r) {
+	 				r = '暂时还没有相应的内容！';
+	 			}
+	 			$('#list_div').html(r);
+	 		});
+	 		for(i=1; i<=4; i++) {
+	 			if(ci == i) {
+	 				$('#nav_li_' + i).addClass('current');
+	 			} else {
+	 				$('#nav_li_' + i).removeClass();
+	 			}
+	 		}
+	 	}
+	 	$(document).ready(function(){
+	 		output_topic('home', 1);
+	 	});
+	 </script>
+
+	<!-- 微博列表 开始 -->
+	<div id="list_div">
+		<!--{template "output/output_url_iframe.topic_list"}-->
+
+		<!-- 微博分页 开始 -->
+		<!--{if $page_arr[html]}-->{$page_arr[html]}<!--{/if}-->
+	</div>
+</div>
+
+<!-- 公用底部 开始 -->
+<!--{template "output/output_url_iframe.footer"}-->

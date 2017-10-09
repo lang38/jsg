@@ -1,0 +1,60 @@
+<!--{if !empty($myquns)}-->
+	<!--{if $type==1}-->
+		<!--{eval $__key='';if(!empty($this->Get['key'])) $__key=$this->Get['key'];}-->
+		<dl id="qun_select_{$__key}" class="combobox">
+			<dd>
+				<ul>
+				<!--{loop $myquns $val}-->
+					<li>
+						<a href="javascript:;">
+							<img src="$val['icon']" style="width:16px; height:16px;"/>{$val['name']}<span class="value">{$val['qid']}</span>
+						</a>
+					</li>
+				<!--{/loop}-->
+				</ul>
+			</dd>
+		</dl>
+	<!--{elseif $type==2}-->
+
+		  <!--{loop $myquns $val}-->
+			  <li style=" height:80px;">
+				  <img onerror="javascript:faceError(this);" src="{$val[icon]}" class="manface" title="{$val[name]}"/>
+				  <b><a href="index.php?mod=qun&qid={$val[qid]}" title="{$val[name]}" target="_blank">{$val[name]}</a></b>
+			  </li>
+		  <!--{/loop}-->
+
+	<!--{else}-->
+		<dl id="my_qun_select" class="combobox">
+			<dd>
+				<ul>
+					<li>
+						<a href="javascript:;">不发布到{$this->Config[changeword][weiqun]}<span class="value">0</span></a>
+					</li>
+				<!--{loop $myquns $val}-->
+					<li>
+						<a href="javascript:;">
+							<img src="$val['icon']" style="width:16px; height:16px;"/>{$val['name']}<span class="value">{$val['qid']}</span>
+						</a>
+					</li>
+				<!--{/loop}-->
+				</ul>
+			</dd>
+		</dl>
+		<span style="display:none;" id="toweibo_wp">
+			<span>
+				<input name="" id="checkbox_toweibo" type="checkbox" value="1" />
+				<label for="checkbox_toweibo">分享给粉丝</label>
+			</span>
+			<span style="margin-left:10px;"><a href="javascript:;" target="_blank" id="goto_qun">去该{$this->Config[changeword][weiqun]}看看</a></span>
+		</span>
+	<!--{/if}-->
+<!--{else}-->
+	<!--{if $type==2}-->
+		<ul class="sideul">TA还没有加入任何$this->Config['changeword']["weiqun"]</ul>
+	<!--{else}-->
+		<div id="no_qun_wp_{$__key}">
+			抱歉，你还没有加入任何{$this->Config[changeword][weiqun]}！<BR>
+			<a href="index.php?mod=qun" target="_blank" >点此查看{$this->Config[changeword][weiqun]}列表</a>
+		</div>
+	<!--{/if}-->
+<!--{/if}-->

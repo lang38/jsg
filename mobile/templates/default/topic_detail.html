@@ -1,0 +1,106 @@
+{template "header"}
+<div id="topic_list_wp" data-role="content">
+<style type="text/css">
+body{ 
+    background:#fff;
+}
+.action-wb{ 
+	background: #f2f2f2;
+	border-style: solid;
+	border-width: 1px 0;
+	padding: 6px;
+	border-color: #e1e1e1;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	overflow: hidden;
+}
+
+.action-wb p{
+	border-color:#dfdfdf;
+	margin: 0;
+    padding: 0 10px;
+}
+.detail-foot a {
+    width: auto;
+	border-width: 0 1px 0 0;
+	margin: 5px 5px 5px 0;
+	padding: 0;
+}
+</style>
+
+
+<!--{if !empty($detail)}-->
+<div data-role="content" id="topic_view_wp">
+    <!--微博正文 Begin-->
+    <article id="wb_view">
+    
+        <!--导航 Begin-->
+
+        <header class="tit-wb clearfix">
+            <img class="avatar-wb" src="{$detail['face']}" onclick="goToUserInfo('{$detail[uid]}')"/>
+            <span class="nikename-wb" onclick="goToUserInfo('{$detail[uid]}')">{$detail['nickname']}{$detail[validate_string]}</span>
+            <!--<img src="../images/role/2.gif" width="15" height="15" class="vip">-->
+            <span class="origin-wb">
+            <time class="time-wb">{$detail['detail']}</time>
+            {$detail['from_string']}
+            </span>
+ 
+        </header>
+
+        <!--导航 End-->
+        
+        <!--微博详情 Begin-->
+        <section id="wb_detail_wp" class="content-wb">
+            <p>{$detail['content']} </p>
+            <!--{if $detail['image_list']}-->
+			<div class="img-wb">
+                <!--{loop $detail['image_list'] $image}-->
+                    <a href="{$image['image_big']}"><img class="author" src="{$image['image_small']}" style="width:100px; height:100px;" /></a>
+                <!--{/loop}-->
+			</div>
+			<!--{/if}-->
+            <!--父级模块 Begin-->    
+            <!--{if $detail['roottid'] > 0}-->
+                <!--{eval $parent=$parent_info}-->
+                <div class="tips_ico"></div>
+                <div class="wbf">
+                	<!--{if !empty($parent)}-->
+                        <div><a href="">{$parent['nickname']}</a> : {$parent['content']}</div>
+                        <!--{if $parent['image_list']}-->
+                            <div class="share">
+                                <!--{loop $parent['image_list'] $image}-->
+                                    <img class="author" src="{$image['image_small']}" style="width:100px; height:100px;" />
+                                <!--{/loop}-->
+                            </div>
+                        <!--{/if}-->
+                    <!--{else}-->
+                    	原始微博已删除
+                    <!--{/if}-->
+                </div>
+            <!--{/if}-->
+            <!--父级模块 End-->
+            
+        </section>
+        
+        <footer class="action-wb detail-foot">
+            <a href="javascript:;" class="L-item-tab" onclick="goToForwardEditView('{$detail[tid]}')"><p>转发（{$detail['forwards']}）</p></a>
+            <a href="javascript:;" class="L-item-tab" onclick="goToCommentList('{$detail[tid]}');"><p>评论（{$detail['replys']}）</p></a>
+            <a id="btn_fav_mblog" href="javascript:<!--{if $detail['is_favorite']}-->favMBlog('delete', {$detail['tid']})<!--{else}-->favMBlog('add', {$detail['tid']})<!--{/if}-->;" class="<!--{if $detail['is_favorite']}-->wb_fav_on L-item-tab<!--{else}-->wb_fav L-item-tab<!--{/if}-->"><p>收藏<span data-num="0"></span></p></a>
+
+        </footer>
+        
+
+        <!--微博详情 End-->
+        
+    </article>
+    <!--微博正文 End-->
+</div>
+<!--{/if}-->
+
+<div class="txt-detail-wb" onClick="openPublishBox(PUBLISH_COMMENT, {totid:'{$detail['tid']}'});">我来评论</div>
+<div class="wb_more" style="cursor: default;" ></div>
+</div>
+
+{template "footer"}

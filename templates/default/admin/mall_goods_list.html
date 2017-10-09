@@ -1,0 +1,52 @@
+
+
+<!--{template admin/header}-->
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+	<td width="40%">商品名称</td>
+	<td width="10%">兑换所需{$config['credits_name']}</td>
+	<td width="10%">总积分要求</td>
+	<td width="10%">商品总数（库存数）</td>
+	<td width="10%">订单总数</td>
+	<td width="10%">兑换有效期</td>
+	<td width="10%">管理</td>
+</tr>
+
+<!--{loop $list['list'] $one}-->
+<tr class="altbg1" id="tr_id_{$one['id']}">
+<td width="40%">
+	{$one['name']}<!--{if $one['expire'] < TIMESTAMP}--><font color="red">（已下架）</font><!--{/if}-->
+</td>
+<td width="10%">
+	{$one['price']}
+</td>
+<td width="10%">
+	{$one['credit']}
+</td>
+
+<td width="10%">
+	{$one['total']}
+</td>
+<td width="10%">
+	{$one['order_count']}
+	<a href="admin.php?mod=mall&code=order_list&gid={$one['id']}">查看</a>
+</td>
+<td width="10%">
+	<!--{if $one['expire'] < TIMESTAMP}--><font color="red"><!--{/if}-->
+	{eval echo date("Y-m-d H:i",$one['expire']);}
+	<!--{if $one['expire'] < TIMESTAMP}--></font><!--{/if}-->
+</td>
+<td width="10%">
+	<a href="admin.php?mod=mall&code=modify_goods&id={$one['id']}">编辑</a>&nbsp;&nbsp;
+	<a href="admin.php?mod=mall&code=deltes_goods&id={$one['id']}">删除</a>
+</td>
+</tr>
+<!--{/loop}-->
+</table>
+{$list['page']['html']}
+
+
+
+
+

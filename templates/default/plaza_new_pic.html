@@ -1,0 +1,117 @@
+{template "topic_header"}
+<link href="static/style/photo.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function loadtopic_pic()
+{
+	$('.boutique_load').html('<span>正在加载，请稍后...</span>');
+	onloading = true;
+	var myAjax = $.post(
+	"ajax.php?mod=topic&code=new",
+	{
+		<!--{loop $rets['params'] $k $v}-->
+		{$k}:"{$v}",
+		<!--{/loop}-->
+		page:topicpagenum
+	},
+	function (d){
+		if('' != d){
+			listpic(d,4);
+		}
+		topicpagenum++;
+		$('.boutique_load').html('');
+		onloading = false;
+	});
+}
+function listpic(html,m)
+{
+	var s=html.split('<jishigou>');	var n=s.length;
+	if(n==1){s=html.split('<JISHIGOU>');n=s.length;}//此处为兼容IE内核浏览器
+	for(var i=0;i<n;i++){
+		var h = $('#topic_pic_0').height();var hj = 0;
+		for(var j=1;j<m;j++){
+			if(h > $('#topic_pic_'+j).height()){
+				h = $('#topic_pic_'+j).height();
+				hj = j;
+			}
+		}
+		$('#topic_pic_'+hj).append(s[i]);
+	}
+}
+<!--{if $ajax_num}-->var ajax_num = {$ajax_num};<!--{else}-->var ajax_num = 0;<!--{/if}-->
+var onloading = false;var topicpagenum = 2;
+$(window).bind('scroll resize',function(event){
+	if(!onloading && (ajax_num >= topicpagenum)){
+		var ulheight = $('#topic_pic_0').height();
+		for(var i=1;i<3;i++){
+			if(ulheight > $('#topic_pic_'+i).height()){
+				ulheight = $('#topic_pic_'+i).height();
+			}
+		}
+		var bodyTop = document.documentElement.scrollTop + document.body.scrollTop;
+		if(bodyTop+$(window).height()-200 >= ulheight){
+			loadtopic_pic();
+		}
+	}
+});
+$(document).ready(function() {
+var defhtml = $('#deftopic').html();
+listpic(defhtml,4);
+});
+</script>
+<style type="text/css">
+.g-content .g-doc {background: none;}
+.channelTop {width: 980px;margin-top: 0;border-bottom: none;}
+.channelnav ,.channelnav .navLeft{width: 980px;}
+.channelsubnav {width: 970px;margin: 10px 0 0;}
+.s-newpic{ width:105%;}
+.topnew_pic_bg{ padding:10px 0;}
+.item_wrap{ margin-right:16px;}
+.main{ width:980px; padding:0;background: none;}
+.item_list li{ width:231px;}
+.item_list li{ margin-bottom:15px;}
+.item_list li .favorite{ padding:0 16px;}
+.exp-wrap .g-content{ overflow:visible}
+.exp-wrap .g-hd2 .g-doc{ width:980px;}
+.g-ft, .m-ft{ width:980px;}
+</style>
+
+<div class="m_nav_home">
+<div class="nav_home">
+<h1 class="logo"><a href="index.php?mod=album">微博相册</a></h1>
+<ul class="nav">
+      <a class="link current" href="index.php?mod=plaza&code=new_pic"><span class="valign">图片墙</span></a>
+      <a class="link" href="index.php?mod=album&code=list"><span class="valign">所有相册</span></a>
+      <a class="link" href="index.php?mod=topic&code=photo&type=3d" target="_blank">3D模式观看</a>
+      <!--{eval if($type) $uclass='title_bg'; else $pclass='title_bg';}-->
+      <a class="link {$uclass}" href="index.php?mod=topic&code=photo&uid={$url_uid}">{$nickname}关注人的图片</a>
+</ul> 
+</div>
+</div>
+
+<div class="main exp-main" style="width:980px;padding: 0;">
+<div class="s-newpic">
+  <div class="topic_pic topnew_pic_bg">  
+	<!--{if $this->Config['only_show_vip_topic']}-->
+        <div style="margin:10px;">
+          <span style="font-size:16px">
+            <a href="index.php?mod=other&code=vip_intro" target="_blank">当前仅显示V认证用户的{$this->Config[changeword][n_weibo]}</a>
+          </span>
+        </div>
+        <!--{/if}-->        
+        
+    <!--{eval $parent_list = $rets[parent_list];}-->
+	<!--{loop $topic_pic_keys $key $val}-->
+	<div class="item_wrap"><ul class="item_list" id="topic_pic_{$key}"></ul></div>
+	<!--{/loop}-->
+	<div id="deftopic" style="display:none;">
+	<!--{loop $rets[list] $val}-->
+	{template "topic_new_pic_item"}
+	<jishigou>
+	<!--{/loop}-->
+	</div>
+    <div class="boutique_load"></div>
+        
+  </div>
+</div>
+</div>
+{template "topic_footer"}

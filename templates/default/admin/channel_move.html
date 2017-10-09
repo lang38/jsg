@@ -1,0 +1,32 @@
+{template admin/header}
+<div id="main_wp">
+	<form action="{$action}" method="post" name="catcm_form">
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableborder tl">
+		<tr class="header">
+			<td>频道移动</td>
+		</tr>
+		<tr class="list_h">
+			<td>说明：<br>1、频道移动，只转移微博（被转移的微博具备目标频道预设的属性），原频道属性不转移到目标频道。<br>2、频道移动后，更新下数据和清空下数据缓存</td>
+		</tr>
+		<tr>
+			<td style="text-align:center">移动频道&nbsp;《<font color="red">{$channel_info['ch_name']}</font>》&nbsp;到：</td>
+		</tr>
+		<tr>
+			<td class="td2" style="text-align:center">
+			<select name="item_id" style="margin:0;margin-bottom:6px;">
+			<option value="0">请选择...</option>
+			<!--{loop $channels $value}-->
+			<option value="{$value['ch_id']}" <!--{if $value['ch_id']==$ch_id}-->disabled=true<!--{/if}-->>{$value['ch_name']}</option>
+			<!--{/loop}--></select>
+			<input type="hidden" name="id" value="{$channel_info['ch_id']}">
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align:center">
+			<input name="cutc" id="cutc" type="checkbox" value="1" class="checkbox">
+			<label for="cutc">同时删除&nbsp;《{$channel_info['ch_name']}》&nbsp;频道</label></td>
+		</tr>
+	</table>
+	<center><input class="button" type="submit" name="cmsubmit" value="提 交"></center>
+	</form>
+</div>

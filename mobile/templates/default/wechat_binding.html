@@ -1,0 +1,35 @@
+<!--{template "header"}-->
+<div>
+<!--{if $wasBind}-->
+	你已经绑定到{$member[nickname]}
+<script>
+setTimeout("showTipsExp('正在跳转...', 1);location.href='index.php';", 3000);
+</script>
+
+<!--{else}-->
+	是否绑定微信帐号到{$member[nickname]}
+	<!--{if $old}-->
+	<span color="red">您已经绑定了其他帐号：{$old[nickname]}</span>
+	<!--{/if}-->
+	<input type="button" onclick="dobinding();" value="绑定">
+	<a href="/">不绑定，并返回首页</a>
+	<input type="hidden" id="openid" name="openid" value="{$openid}">
+	
+<script>
+function dobinding(){
+	openid = $("#openid").val();
+	var url = "index.php?mod=wechat&code=dobinding&openid="+openid;
+	$.post(url,function(json){
+		if(json.done){
+			showTipsExp("绑定成功，正在跳转...", 1);
+			setTimeout("location.href='index.php'", 100);
+		}else{
+			showTipsExp("绑定失败", 1);
+		}
+	},"json");
+}
+
+</script>
+
+<!--{/if}-->
+</div>

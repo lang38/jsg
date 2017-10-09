@@ -1,0 +1,75 @@
+{template "guest_header"}
+
+<div class="g-bd">  
+  <div class="m-tit">
+  关注达人
+  </div>
+
+ <div class="m-box">
+  <div class="m-help">关注同趣达人，在我的首页直接查看他们的分享</div>
+   <div class="m-reg">
+
+		   <div class="mn init" style="*width:760px;">
+		   	   {$menuHTML}
+			   <div class="aps recom_best">
+			   <iframe id="user_follow_frame" name="user_follow_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+               <form method="POST" id="follow_form" name="follow_form">
+                  <div id="cbox" class="ap recom_sel">
+                     <!--{loop $regiter_tuijian $k $v}-->
+					 <div class="reg_member_title">
+                     <div class="mleft">$v['name']</div> 
+					 <div class="mright"><input type="checkbox" checked="checked" onclick="allChecked(this)">全选</div>
+					 </div>
+                     <!--{eval $list = $memberList[$v['type']];}-->
+                     <div  id="reg_follow_user_{$v[type]}">
+                           <div class="ulist6"> 
+                              <!--{loop $list $val}-->
+                              <div class="pf2 selected crPer" alt="{$val[vip_info]}" title="{$val[vip_info]}">
+                                <label>
+                                  <p class="status">
+                                      <input checked type="checkbox"  id="checked_{$val[uid]}" name="ids[]" value="{$val[uid]}" checked="checked" />
+                                  </p> 
+                                  <p class="mark"></p>
+                                  <p class="avt"><b><img src="{$val[face]}" onerror="javascript:faceError(this);"/></b></p> 
+                                  <b class="nm">{$val[nickname]}{$val[validate_html]}</b>
+                                </label>
+                              </div> 
+                              <!--{/loop}-->
+                            </div>
+                     </div>
+                     <!--{/loop}-->
+					 <input type="hidden" id="type" name="type" value="add"/>
+					 </form>
+                     <div class="apb"> 
+                        <p class="t1">
+                            <input type="button" class="u-btn u-btn-lg" name="Submit"  value="关注并进入下一步"  onclick="follow_people();return false;" style="margin-left:20px;"/>
+                        </p> 
+                     </div>
+                  </div>
+			   </div> 
+			</div> 
+
+</div>
+<script type="text/javascript">
+function follow_people(){
+	var post_data = $("#follow_form").serialize();
+	$.post(
+		'ajax.php?mod=topic&code=add_user_follow&__to=json',
+		post_data,
+		function(d){
+			show_message(d.msg);location.href='{$redirect_to}';
+		},'json'
+	)
+}
+function allChecked(obj){
+	checked = $(obj).attr('checked');
+	var MB = $(obj).parent().parent().next().find('input[type=checkbox]');
+	if(!checked){
+		MB.attr('checked',false);
+	}else{
+		MB.attr('checked','checked');
+	}	
+}
+</script>
+</div>
+{template "topic_footer"}

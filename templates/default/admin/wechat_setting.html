@@ -1,0 +1,180 @@
+<!--{template admin/header}-->
+
+
+
+<div class="mt10">
+	<form action="admin.php?mod=wechat&code=do_setting" method="POST" enctype="multipart/form-data">
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="4">微信接口设置</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			开启微信:
+			</td>
+			<td class="altbg2">
+			<!--{if $wechat['on']}-->
+			<input type="radio" name="wechat[on]" value="1" checked="1">开启		
+			<input type="radio" name="wechat[on]" value="0">关闭
+			<!--{else}-->
+			<input type="radio" name="wechat[on]" value="1" >开启		
+			<input type="radio" name="wechat[on]" value="0" checked="1">关闭
+			</td>
+			<!--{/if}-->
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			微信Token:
+			
+			</td>
+			<td class="altbg2">
+			<input type="text" name="wechat[token]" value="{$wechat[token]}" size="30">	
+			<span class="smalltxt" style="color:red;">Token必须和微信公共平台保持一致！</span>			
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			你的微信帐号:
+			</td>
+			<td class="altbg2">
+			<input type="text" name="wechat[mywechat]" value="{$wechat[mywechat]}" size="30">	
+			<span class="smalltxt" >用来显示你的微信号</span>			
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			二维码图片:
+			</td>
+			<td class="altbg2">
+			<input type="file" name="qrcode" size="30">	
+			<!--{if $wechat[my_qrcode]}-->
+			<!--加上时间戳，防止缓存-->
+			<span class="smalltxt" ><img src="{eval echo $wechat[my_qrcode]."?".time();}" width="150px" height="150px"></span>
+			<!--{/if}-->
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			发微博命令:
+			</td>
+			<td class="altbg2">
+			<input type="text" name="wechat[add_weibo]" value="{$wechat[add_weibo]}" size="30">	
+			<span class="smalltxt" >发微博前缀关键词,如“[关键词]这是一条微博！”会截取“[关键词]”之后的内容发微博。为空则每一条微信均视为发微博。</span>			
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			发微博成功回复
+			</td>
+			<td class="altbg2">
+			<input type="text" name="wechat[add_weibo_success]" value="{$wechat[add_weibo_success]}" size="30">	
+			<span class="smalltxt" >用来提示微博发送成功</span>			
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			发微博失败回复
+			</td>
+			<td class="altbg2">
+			<input type="text" name="wechat[add_weibo_false]" value="{$wechat[add_weibo_false]}" size="30">	
+			<span class="smalltxt" >用来提示微博发送失败</span>			
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			绑定帐号命令:
+			</td>
+			<td class="altbg2">
+			<input name="wechat[bind_key]" cols="100" rows="8" value="{$wechat['bind_key']}">
+			<span class="smalltxt" >可以填写多个，用“|”区分</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			3G命令:
+			</td>
+			<td class="altbg2">
+			<input name="wechat[3g_key]" cols="100" rows="8" value="{$wechat['3g_key']}">
+			<span class="smalltxt" >可以填写多个，用“|”区分</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			Wap命令:
+			</td>
+			<td class="altbg2">
+			<input name="wechat[wap_key]" cols="100" rows="8" value="{$wechat['wap_key']}">
+			<span class="smalltxt" >可以填写多个，用“|”区分</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			帮助命令:
+			</td>
+			<td class="altbg2">
+			<input name="wechat[help_key]" cols="100" rows="8" value="{$wechat['help_key']}">
+			<span class="smalltxt" >可以填写多个，用“|”区分</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			关注时回复:
+			</td>
+			<td class="altbg2">
+			<textarea name="wechat[subscribe]" cols="100" rows="8">{$wechat['subscribe']}</textarea>
+			<span class="smalltxt" >用户关注时的回复</span>
+			</td>
+		</tr>
+<!---		
+		<tr>
+			<td class="altbg1" width="80">
+			取消关注时回复:
+			</td>
+			<td class="altbg2">
+			<textarea name="wechat[unsubscribe]" cols="100" rows="8">{$wechat['unsubscribe']}</textarea>
+			<span class="smalltxt" >用户取消关注时的回复</span>
+			</td>
+		</tr>-->
+		<tr>
+			<td class="altbg1" width="80">
+			自定义帮助内容:
+			</td>
+			<td class="altbg2">
+			<textarea name="wechat[help]" cols="100" rows="8">{$wechat['help']}</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="80">
+			消息自动回复:
+			</td>
+			<td class="altbg2">
+			<textarea name="wechat[reply]" cols="100" rows="8">{$wechat['reply']}</textarea>
+			<span class="smalltxt" >普通微信的回复，为空时不回复</span>
+			</td>
+		</tr>
+		<!--{loop $wechat['diy_reply']['diy_key'] $diy_key $diy_one}-->
+		<tr>
+			<td class="altbg1" width="80">
+			关键词自动回复：
+			</td>
+			<td class="altbg2">
+			关键词：<input type="text" name="wechat[diy_reply][diy_key][{$diy_key}]" value="{$diy_one}">回复：<input type="text" name="wechat[diy_reply][diy_reply][{$diy_key}]" value="{$wechat['diy_reply']['diy_reply'][$diy_key]}"><input name="delete[]" type="checkbox" value="{$diy_key}">删除
+			</td>
+		</tr>
+		<!--{/loop}-->
+		<tr>
+			<td class="altbg1" width="80">
+			添加关键词自动回复：
+			</td>
+			<td class="altbg2">
+			关键词：<input type="text" name="diy_key">回复：<input type="text" name="diy_reply">
+			</td>
+		</tr>
+		<br/>
+
+	</table>
+	<center><input type="submit" class="button" name="settingsubmit" value="提 交"></center>
+	</form>
+</div>
+		
+		

@@ -1,0 +1,201 @@
+<!--{template admin/header}-->
+
+	<script type="text/JavaScript">
+		var rowtypedata = [
+			[
+				[1,'', 'td2'],
+				[1, '<input type="text" name="newsmtp[host][]" value="0" style="width:200px; height:15px;"/>', 'td2'], 
+				[1, '<input name="newsmtp[port][]" value="25" type="text" style="width:50px; height:15px;"/>', 'td2'],
+				[1, '<input name="newsmtp[mail][]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<input name="newsmtp[username][]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<input name="newsmtp[password][]" value="" type="password" style="width:200px; height:15px;"/>','td2'],
+				[1,'','td2']
+			],
+		];
+		
+		var addrowdirect = 0;
+		function addrow(obj, type) {
+			var table = obj.parentNode.parentNode.parentNode;
+			if(!addrowdirect) {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex);
+			} else {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex + 1);
+			}
+			var typedata = rowtypedata[type];
+			for(var i = 0; i <= typedata.length - 1; i++) {
+				var cell = row.insertCell(i);
+				cell.colSpan = typedata[i][0];
+				var tmp = typedata[i][1];
+				if(typedata[i][2]) {
+					cell.className = typedata[i][2];
+				}
+
+				tmp = tmp.replace(/\{(\d+)\}/g, function($1, $2) {return addrow.arguments[parseInt($2) + 1];});
+				cell.innerHTML = tmp;
+			}
+			addrowdirect = 0;
+		}
+
+		/*测试发送*/
+		function testSendMail(k){
+			$.post(
+				'admin.php?mod=ajax&code=mail_send_test&k='+k,
+				{
+					FORMHASH:$('input[name="FORMHASH"]').val(),
+				in_ajax:1
+				},
+				function(r){
+					if(r){show_message(r);}
+				}
+			);
+		}
+
+		$(document).ready(function(){if(document.getElementById('enable1').checked){$('#stmp_table').show();}else{$('#stmp_table').hide();}});
+	</script>
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+  <tr class="header">
+    <td>技巧提示</td>
+  </tr>
+  <tr class="altbg1">
+    <td><ul>
+        <li>如果您的服务器自身不支持邮件发送功能，请使用smtp方式。</li>
+      </ul></td>
+  </tr>
+</table>
+
+<form method="post" name="smtp" action="{$action}">
+  <a name="邮件设置"></a>
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr class="header">
+      <td colspan="2">邮件设置</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>是否通过SMTP方式发送邮件？</b><br>
+      </td>
+      <td class="altbg2">
+        <label><input type="radio" id="enable1" name="enable" value="1" class="radio" {$enable[1]} onclick="$('#stmp_table').show(); "/>是，需要填写相应的SMTP配置信息（支持添加多个smtp服务器）；</label>
+        <br />
+        <label><input type="radio" id="enable0" name="enable" value="0" class="radio" {$enable[0]} onclick="$('#stmp_table').hide(); "/>否，将通过 PHP 函数的 mail 发送(需要你的服务器支持)</label>
+	  </td>
+    </tr>
+    
+  </table>
+  
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder" id="stmp_table">
+    <tr class="altbg1">
+      <td width="5%"><label><input type="checkbox" id="chkall" class="checkbox" onclick="checkall(this.form, 'ids')" name="chkall">删</label></td>
+      <td width="20%"><b>SMTP服务器:</b><br>
+        <span class="smalltxt">如：smtp.qq.com（某些邮箱需要手动开启SMTP服务才可以使用，QQ邮箱在设置-帐户中开启）</span>
+      </td>
+      
+      <td width="15%"><b>SMTP服务器端口:</b><br>
+        <span class="smalltxt">一般为25</span>
+      </td>
+      
+      <td width="20%"><b>SMTP服务器的用户邮箱:</b><br>
+        <span class="smalltxt">显示使用，如 admin@jishigou.net</span>
+      </td>
+      
+      <td width="20%"><b>登陆SMTP服务器的帐号:</b><br>
+        <span class="smalltxt">如 admin@jishigou.net</span>
+      </td>
+      
+      <td width="15%"><b>SMTP服务器的登陆密码:</b><br>
+        <span class="smalltxt">登陆帐号对应的密码</span>
+      </td>
+      
+      <td></td>
+    </tr>
+    <!--{loop $smtp['smtp'] $k $v}-->
+    <tr>
+      <td><input class="checkbox" type="checkbox" value="{$k}" name="ids[]" size="10">删</td>
+      <td><input type="text" size="30" name="smtp[$k][host]" value="{$v[host]}" style="width:200px; height:15px;"></td>
+      <td><input type="text" size="20" name="smtp[$k][port]" value="{$v[port]}" style="width:50px; height:15px;"></td>
+      <td><input type="text" size="30" name="smtp[$k][mail]" value="{$v[mail]}" style="width:200px; height:15px;"></td>
+      <td><input type="text" size="25" name="smtp[$k][username]" value="{$v[username]}" style="width:200px; height:15px;"></td>
+      <td><input type="password" size="30" name="smtp[$k][password]" value="请输入SMTP服务器的帐户密码" style="width:150px; height:15px;"></td>
+      <td><a href="javascript:void(0);" onclick="testSendMail($k);">测试发送</a></td>
+    </tr>
+    <!--{/loop}-->
+    <tr>
+      <td colspan="7"><a href="javascript:void(0);" onclick="addrow(this,0)" class="addCategory">点此添加SMTP服务器</a></td>
+    </tr>
+  </table>
+  
+  <br>
+  <center>
+    <input class="button" type="submit" name="settingsubmit" value="提 交">
+  </center>
+  
+</form>
+
+<!--
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+  <tr class="header">
+    <td>技巧提示</td>
+  </tr>
+  <tr class="altbg1">
+    <td><ul>
+        <li>如果您的服务器自身不支持邮件发送功能，请使用smtp方式。</li>
+      </ul></td>
+  </tr>
+</table>
+<form method="post" name="smtp" action="{$action}">
+  <a name="邮件设置"></a>
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr class="header">
+      <td colspan="2">邮件设置</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>是否通过SMTP方式发送邮件？</b><br>
+      <span class="smalltxt">
+        选择“是”，需要填写下面的SMTP配置信息（一般来说发送速度较慢）；<br />
+		选择“否”，将通过 PHP 函数的 sendmail 发送(需要你的服务器支持，推荐此方式)
+      </span>
+      </td>
+      <td class="altbg2">{$smtp_enable_radio}</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>SMTP服务器:</b><br>
+        <span class="smalltxt">如：smtp.qq.com（某些邮箱需要手动开启SMTP服务才可以使用，QQ邮箱在设置-帐户中开启）</span></td>
+      <td class="altbg2"><input type="text" size="30" name="smtp[host]" value="{$smtp[host]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>SMTP服务器端口:</b><br>
+        <span class="smalltxt">一般为25</span></td>
+      <td class="altbg2"><input type="text" size="30" name="smtp[port]" value="{$smtp[port]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>SMTP服务器的用户邮箱:</b><br>
+        <span class="smalltxt">发送邮件时使用，如 10000@qq.com</span></td>
+      <td class="altbg2"><input type="text" size="30" name="smtp[mail]" value="{$smtp[mail]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>SMTP服务器的用户帐号:</b><br>
+        <span class="smalltxt">登录SMTP邮箱服务器的帐号，如 10000</span></td>
+      <td class="altbg2"><input type="text" size="30" name="smtp[username]" value="{$smtp[username]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>SMTP服务器的用户密码:</b><br>
+        <span class="smalltxt">帐号对应的密码</span></td>
+      <td class="altbg2"><input type="password" size="30" name="smtp[password]" value="请输入SMTP服务器的用户密码">
+      </td>
+    </tr>
+  </table>
+  <br>
+  <center>
+    <input class="button" type="submit" name="settingsubmit" value="提 交">
+    &nbsp;
+    <input type="submit" class="button" name="settingsubmitandtesting" value="提交并发送测试邮件">
+  </center>
+  <br>
+</form>
+<br>
+-->

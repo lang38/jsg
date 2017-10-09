@@ -1,0 +1,37 @@
+<style type="text/css">
+<!--{if $this->Config[theme_text_color]}-->
+body{ color:{$this->Config[theme_text_color]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_bg_color]}-->
+body{ background-color:{$this->Config[theme_bg_color]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_bg_image]}-->
+body{ background-image:url({$this->Config[theme_bg_image]}); }
+<!--{/if}-->
+<!--{if $this->Config[theme_bg_position]}-->
+body{ background-position:{$this->Config[theme_bg_position]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_bg_repeat]}-->
+body{ background-repeat:{$this->Config[theme_bg_repeat]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_bg_fixed]}-->
+body{ background-attachment:{$this->Config[theme_bg_fixed]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_text_color]}-->
+body{ color:{$this->Config[theme_text_color]}; }
+<!--{/if}-->
+<!--{if $this->Config[theme_link_color]}-->
+a:link{ color:{$this->Config[theme_link_color]}; }
+<!--{/if}-->
+
+ul.imgList li .showcursor,a.artZoom{ cursor:url({conf site_url}/static/image/magnifier_b.cur), pointer; }
+.artZoomBox a.maxImgLink { cursor:url({conf site_url}/static/image/magnifier_s.cur), pointer; }
+
+a.artZoom2{ cursor:url({conf site_url}/static/image/magnifier_b.cur), pointer; }
+
+a.artZoom3{ cursor:url({conf site_url}/static/image/magnifier_b.cur), pointer; }
+.artZoomBox a.maxImgLink3 { cursor:url({conf site_url}/static/image/magnifier_s.cur), pointer; }
+
+a.artZoomAll{ cursor:url({conf site_url}/static/image/magnifier_b.cur), pointer; }
+.artZoomBox a.maxImgLinkAll { cursor:url({conf site_url}/static/image/magnifier_s.cur), pointer; }
+</style>

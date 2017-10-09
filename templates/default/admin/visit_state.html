@@ -1,0 +1,91 @@
+<!--{template admin/header}-->
+<form action="admin.php?mod=setting&code=do_visit_state" method="post">
+
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+  <tr class="header">
+    <td colspan="2">站点状态设置</td>
+  </tr>
+  <tr class="altbg1">
+    <td width="45%">站点状态</td>
+    <td>
+      <label><input type="radio" name="config[visitState]" value=0 class="visitStateRadio" <!--{eval if(!$this->Config['visitState'] || $this->Config['visitState'] == 0) echo checked}-->>完全开放</label><br>
+      <label><input type="radio" name="config[visitState]" value=1 class="visitStateRadio" <!--{eval if($this->Config['visitState'] == 1) echo checked}-->>内部开放</label><br>
+      <label><input type="radio" name="config[visitState]" value=2 class="visitStateRadio" <!--{eval if($this->Config['visitState'] == 2) echo checked}-->>完全关闭</label>
+      <input type="hidden" id="hid_visitState" value="$this->Config['visitState']">
+    </td>
+  </tr>
+</table>
+
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder" id="visitState_1">
+  <tr class="altbg1">
+    <td width="45%">允许访问的用户组<br>
+      <span class="smalltxt">站点内部开放状态下，允许访问站点的特定用户组。<BR>留空表示不使用此功能
+	  </span></td>
+    <td>
+      <span style="font-weight:600">管理员:</span><br>
+      <!--{loop $role_list['admin'] $k $v}-->
+      <label><input type="checkbox" name="allowed_visit_role_list[{$v[value]}]" value="{$v[value]}" $allowed_visit_role_check_list[$v[value]]>$v['name']</label>
+      <!--{/loop}-->
+      <br>
+      <span style="font-weight:600">普通会员:</span><br>
+      <!--{loop $role_list['normal'] $k $v}-->
+      <label><input type="checkbox" name="allowed_visit_role_list[{$v[value]}]" value="{$v[value]}" $allowed_visit_role_check_list[$v[value]]>$v['name']</label>
+      <!--{/loop}-->
+    </td>
+  </tr>
+  <tr class="altbg2">
+    <td>允许访问的IP段<br>
+      <span class="smalltxt">站点内部开放状态下，允许访问站点的特定IP段用户。
+        <BR>既可输入完整地址，也可只输入 IP 开头，例如 "192.168."(不含引号) 可匹配 192.168.0.0～192.168.255.255 范围内的所有地址。
+        <br>多个IP段之间用“|”隔开。留空则表示不使用此功能。
+        <br>您当前登录IP：{$GLOBALS[J][client_ip]}
+	  </span></td>
+	<td><textarea cols="48" rows="4"  name="config[visitIp]">{conf visitIp}</textarea></td>
+  </tr>
+  <tr class="altbg1">
+    <td>允许访问的会员<br>
+      <span class="smalltxt">站点内部开放状态下，允许访问站点的特定会员。
+        <BR>多个会员用户名请用英文半角逗号“,”分隔。
+        <br>留空则表示不使用此功能。
+	  </span></td>
+	<td><textarea cols="48" rows="4"  name="config[visitMember]">{conf visitMember}</textarea></td>
+  </tr>
+</table>
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder" id="visitState_2">
+  <tr class="altbg1">
+    <td width="45%"><b>临时关闭前台访问时的提示:</b><br>
+	<span class="smalltxt">当您在此处填写了内容时，系统自动关闭网站前台的访问，并提示此内容（支持html代码）<br>留空则表示不使用此功能。</span></td>
+	<td><textarea cols="48" rows="4" name="site_enable">{$site_enable}</textarea>
+	</td>
+  </tr>
+</table>
+<center><input type="submit" class="button"name="statussubmit" value="提 交"></center>
+<script type="text/javascript">
+  $(document).ready(function(){
+	  var hid_visitState = $('#hid_visitState').val();
+	  chooseVisitState(hid_visitState);
+  });
+
+  $('.visitStateRadio').bind('click',function(){chooseVisitState(this.value)});
+
+  function chooseVisitState(v){
+	if('undefined' == typeof(v)){ var v=0;}
+	if(v == 1){
+		$('#visitState').hide();
+		$('#visitState_1').show();
+		$('#visitState_2').hide();
+	} else if (v == 2) {
+		$('#visitState').hide();
+		$('#visitState_1').hide();
+		$('#visitState_2').show();
+	} else {
+		$('#visitState').show();
+		$('#visitState_1').hide();
+		$('#visitState_2').hide();
+	}
+  }
+</script>
+</form>

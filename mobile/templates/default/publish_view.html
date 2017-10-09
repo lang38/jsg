@@ -1,0 +1,20 @@
+<dvi id="g_publishbox">
+<form method="post" action="ajax.php?mod=topic&code=add">
+  <div id="g_maininput" class="mainiput">
+    <textarea name="content" class="mblog_content" id="g_content" >{$mblog_content}</textarea>
+  </div>
+  <div id="g_publishbar"></div>
+  <input type="hidden" id="g_type" name="type" value="{$topic_type}"/>
+  <input type="hidden" id="g_totid" name="totid" value="{$totid}"/>
+  <div class="g_pubbtn"> 
+    <!--{if in_array($_GET['pt'], array('reply', 'forward'))}-->
+    <div class="left_block">
+      <input name="" type="checkbox" value="both" id="p_both"/> <label for="p_both"><!--{if $_GET['pt'] == "reply"}-->同时转发<!--{elseif $_GET['pt'] == "forward"}-->同时评论<!--{/if}--></label>
+    </div>
+    <!--{/if}-->
+    <div class="right_block">
+      <button class="btn publish_btn" onclick="publishMBlog();return false;" id="publish_btn">发 送</button>
+    </div>
+  </div>
+</form>
+</div>

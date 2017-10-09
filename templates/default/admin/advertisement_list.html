@@ -1,0 +1,49 @@
+<!--{template admin/header}-->
+
+<form method="post" action="admin.php?mod=income&code=dodeladv"  enctype="multipart/form-data">
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr class="header">
+      <td colspan="8"><a href="admin.php?mod=income">广告管理</a>&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;广告列表{if $ad_location_name}-&nbsp;&nbsp;{$ad_location_name}{/if}</td>
+    </tr>
+    
+    <tr>
+      <td width="5%"><label><input type="checkbox" name="chkall" id="chkall" onclick="checkall(this.form, 'ids');">删</label></td>
+      <td width="10%">广告位置</td>
+      <td width="20%">标题</td>
+      <td width="5%">样式</td>
+      <td width="15%">起始时间</td>
+      <td width="15%">终止时间</td>
+      <td>投放范围</td>
+      <td width="5%">编辑</td>
+    </tr>
+    
+    {if $ad_list}
+    <!--{loop $ad_list $k $v}-->
+    <tr>
+      <td><input type="checkbox" name="ids[]" value="{$k}"></td>
+      <td>{$v['location_name']}</td>
+      <td>{$v['title']}</td>
+      <td>{$v['type_name']}</td>
+      <td>{$v['ftime']}</td>
+      <td>{$v['ttime']}</td>
+      <td>{$v['page']}</td>
+      <td><a href="admin.php?mod=income&code=ad&adid={$k}">编辑</a></td>
+    </tr>
+    {/loop}
+    <!--{/if}-->
+  </table>
+  {if $page_arr['html']}
+  <div>
+    <ul>
+      <li>{$page_arr['html']}</li>
+    </ul>
+  </div>
+  {/if}
+  <center>
+    <input class="button" type="submit" name="FSubmit" value="提交">
+    {if $location}
+    <input class="button" type="button" name="FButton" value="添加" onclick="window.location.href='admin.php?mod=income&code=ad&location={$location}'">
+    <input type="hidden" name="location" value="{$location}">
+    {/if}
+  </center>
+</form>

@@ -1,0 +1,81 @@
+<!--右边栏目 Begin-->
+<div class="sideBar">
+<!--用户相关信息等-->
+{template "topic_right_ajax.inc"}
+
+	<!--{if MEMBER_ID}-->
+	<div class="column">
+        <ul class="sideul">
+		  <div class="create_qun_b">
+				<a class="create_vote" href="index.php?mod=vote&code=create">发起投票</a>
+		  </div>
+        </ul>
+    </div>
+    <!--{/if}-->
+        
+	<!--投票菜单 Begin-->
+	<!--{if $this->Code=='view'}-->
+	<div class="column">
+		<ul class="vote_r_nav">
+			<li class="vote_home_ico"><a href="index.php?mod=vote">投票首页</a></li>
+			<!--{if MEMBER_ID>0}-->
+			<li class="vote_my_ico"><a href="index.php?mod=vote&view=me">我的投票</a></li>
+			<li class="vote_her_ico"><a href="index.php?mod=vote&view=fllow">我关注的人的投票</a></li>
+			<!--{/if}-->
+		</ul>
+	</div>
+	<!--{/if}--> 
+
+	<!--热点推荐 Begin-->
+	<!--{if $recd_list}-->
+	<div class="column">
+	  <h3>热点推荐</h3>
+	  <ul class="sideul">
+	  <!--{loop $recd_list $val}-->
+		<li>
+		  <span class="boxRl listyle"><a href="index.php?mod=vote&code=view&vid={$val[vid]}">{$val[subject]}</a></span>
+		  <span class="mright">(共{$val[voter_num]}票)</span>
+		</li>
+		<!--{/loop}-->
+	  </ul>
+	</div>
+	<!--{/if}-->
+	
+	<script language="javascript">
+		getVoteRight('daren');
+		getVoteRight('voteWeekHot');
+		getVoteRight('voteMonthHot');
+	</script>
+	<!--投票达人 Begin-->
+	<div class="column">
+		<h3>投票达人</h3>
+        <ul id="daren" class="sideul">
+
+        </ul>
+	</div>
+
+	<!--一周热门 Begin-->
+	<div class="column">
+		<h3>一周热门</h3>
+         <ul id="voteWeekHot" class="sideul">
+
+        </ul>
+	</div>
+
+	<!--一月热门 Begin-->
+	<div class="column">
+		<h3>一月热门</h3>
+         <ul id="voteMonthHot" class="sideul">
+
+        </ul>
+	</div>
+
+
+		<!--{if $this->Config[ad_enable]}-->
+		<!--{eval SetADV('vote','middle_right');}-->
+		<!--{/if}-->
+
+
+</div>
+</div>
+</div>

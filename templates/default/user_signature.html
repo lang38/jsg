@@ -1,0 +1,31 @@
+<span class="un">
+<!--{if $val[anonymous]}-->
+	<a title="{$val[nickname]}" href="javascript:void(0)" class="photo_vip_t_name">{$val[nickname]}</a>
+<!--{else}-->
+	<a title="查看{$val[nickname]}的{$this->Config[changeword][n_weibo]}" href="index.php?mod={$val[username]}" class="photo_vip_t_name"  onmouseover="get_at_user_choose('{$val[nickname]}',this)">{$val[nickname]}</a>
+	<!--{if $val[validate_html]}-->
+	{$val[validate_html]}
+	<!--{else}-->
+		<!--{if $this->Config[topic_level_radio]}-->
+		<span class="wb_l_level">
+		<a class="ico_level wbL{$val[level]}" title="等级：{$val[level]}级" href="index.php?mod=settings&code=exp" target="_blank">{$val[level]}</a>
+		</span>
+		<!--{/if}-->
+	<!--{/if}-->
+	<!--{if $this->Config[is_signature]}-->
+		<!--{if !$_GET[mod_original] && 'photo'!=$this->Code}-->
+			<!--{if $val[signature]}-->
+			<span class="signature">
+				<!--{if $val[uid] == MEMBER_ID ||  'admin' == MEMBER_ROLE_TYPE}-->
+				<a href="javascript:void(0);" onclick="follower_choose({$val[uid]},'{$val[nickname]}','topic_signature');" title="点击修改个人签名">
+				<em ectype="user_signature_ajax_{$val[uid]}">（{$val[signature]}）</em>
+				</a>
+				<!--{else}-->
+				<em> ({$val[signature]})</em>
+				<!--{/if}-->
+			</span>
+			<!--{/if}-->
+		<!--{/if}-->
+	<!--{/if}-->	
+<!--{/if}-->
+</span>

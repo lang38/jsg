@@ -1,0 +1,16 @@
+<!--{template admin/header}-->
+
+<form method="post" action="admin.php?mod=tools&code=share_to_weibo">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2">分享到微博设置</td>
+	</tr>
+	<tr class="altbg1">
+		<td width="45%"><b>不在前台显示链接地址？</b><br>
+			<span class="smalltxt">默认为“否”表示显示链接地址，选择“是”表示不显示链接地址</span></td>
+		<td>{$link_display_none_radio}</td>
+	</tr>
+</table>
+<br><center><input type="submit" class="button" name="settingsubmit" value="提 交"></center><br>
+</form>
+<br>

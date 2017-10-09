@@ -1,0 +1,28 @@
+<style type="text/css">
+li.m_ata{margin:0px;padding:20px;height:50px;}
+li.m_ata img{float:left;margin-right:20px;display:inline;border:none;width:32px;height:32px;}
+li.m_ata span{display:inline;text-align:left;float:left;overflow:hidden;}
+li.m_ata span p.title{margin:5px 0px;}
+li.upm{margin:2px 20px 15px;display:none;}
+li.upm input{ padding:1px;}
+#closema{display:none;margin-left:10px;}
+.msg{padding-left:80px;}
+</style>
+<script type="text/javascript">
+var isshow = false;
+function mat(){if(isshow){$('#AttachUploadDiv').hide();isshow = false;}else{$('#AttachUploadDiv').show();isshow = true;}}
+function dmat(){$('#AttachMsg').html('');$('#AttachMsg').hide();$('#mafile').val('');$('#AttachUploadDiv').hide();isshow = false;$('#closema').show();}
+function AUFormSubmit(){var fileVal = $('#mafile').val();if(($.trim(fileVal)).length < 1){MessageBox('warning', '请选择一个要上传的文件！');return false;}else{if(!(/\.($this->Config[attach_file_type])$/i.test(fileVal))){MessageBox('warning', '请选择一个正确格式的附件文件');return false;}else{ySelectOnce();return true;}}}
+function ySelectOnce(){$('#AttachUploadDiv').hide();$('#AttachMsg').html("<img src='images/loading.gif'/>&nbsp;上传中，请稍候……&nbsp;&nbsp;<a href='javascript:void(0);' onclick='dmat();'>取消</a>");$('#AttachMsg').show();isshow = false;}
+function aupcomplete(id,src,name,size){$('#AttachMsg').html("");$('#AttachMsg').hide();$('.attach_img_'+id).html("<img src='"+src+"'>");$('#atta_'+id).attr("src",src);$('.attach_name_'+id).html(name);$('.attach_size_'+id).html(size);$('#mafile').val('');$('#closema').show();}
+function clma(){closeDialog("mod_attach_win");}
+</script>
+<li class="m_ata"><i class="attach_img_{$attach_info[id]}"><img src="{$attach_info[type]}"></i><span><p class="title"><b class="attach_name_{$attach_info[id]}">{$attach_info[name]}</b></p><p>下载所需积分：<input size="1" value="{$attach_info[score]}" onblur="set_attach_score(this.value,{$attach_info[id]},this);return false;">分&nbsp;&nbsp;<a href="javascript:void(0);" onclick="mat();">更新附件</a><i id="closema"><a href="javascript:void(0);" onclick="clma();">退出</a></i></p></span></li>
+<iframe id="attachUploadifyIframes" name="attachUploadifyIframes" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank" style="display:none;"></iframe>
+<li id="AttachUploadDiv" class="upm">
+<form id="AttachUploadForm" method="post" action="ajax.php?mod=uploadattach&code=modify_attach" enctype="multipart/form-data" target="attachUploadifyIframes" onsubmit="return AUFormSubmit()">
+<input type="hidden" name="id" value="{$attach_info[id]}" />
+<input type="file" id="mafile" name="mafile" /><input type="submit" value="上传" class="u-btn"/>
+</form>
+</li>
+<li id="AttachMsg" class="upm msg"></li>

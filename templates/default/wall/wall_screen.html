@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--{eval $__my=$GLOBALS[_J][member];}-->
+<base href="{$this->Config[site_url]}/" />
+{eval $conf_charset=$this->Config['charset'];}<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<title>{conf site_name}{if defined('NEDU_MOYO')}课堂讲评{else}上墙{/if}</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link href="static/style/style_w2.css"  type="text/css" rel="stylesheet" />
+
+{subtemplate "common_header_js"}
+
+<script type="text/javascript" src="static/js/min.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+<script type="text/javascript" src="static/js/wall.js"></script>
+</head>
+<body>
+
+<div class="wrapperSize1280">
+
+{if $wall_info[screen_ad_left]}
+<!--左侧展示位-->
+<div class="leftDD">{$wall_info[screen_ad_left]}</div>
+{/if}
+{if $wall_info[screen_ad_right]}
+<!--右侧展示位-->
+<div class="rightDD">{$wall_info[screen_ad_right]}</div>
+{/if}
+
+<div class="microblog">
+    <div id="topbox" class="topbox">
+        <div class="jishigouLogo">记事狗微博</div>
+                <div class="custom" id="picText"><p>{$wall_info[screen_ad_top]}</p></div>
+            </div>
+    <div class="talkBg">
+        <div class="talkList">
+
+            <ul id="talkList" class="LC">
+            	           	    			    
+            </ul>
+            
+        </div>
+    </div>
+<!--        <div class="control_area undis" id="control_area">
+        <a href="javascript:void(0);" class="next" id="toNext" >下一条</a>
+        <a href="javascript:void(0);" class="pre" id="toPrev" >上一条</a>
+        <a href="javascript:void(0);" class="start" id="pause" >暂停</a>
+
+        <div class="bg"></div>
+    </div>-->
+    </div>
+    </div>
+
+<div class="imgPopup" id="imgPopup" style="display:none;">
+<div class="blockLayer"></div>
+<div class="bigPicBox" id="bigPic"></div>
+</div>
+
+<script type="text/javascript">
+
+{if $wall_info[wall_reload_time] > 0}
+	WallReloadTime = {$wall_info[wall_reload_time]} * 1000;
+{/if}
+
+jQuery(document).ready(function() {
+    wall_newly("{$wall_id}");
+});
+
+</script>
+
+</body>
+</html>

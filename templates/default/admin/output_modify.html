@@ -1,0 +1,104 @@
+<!--{template admin/header}-->
+
+
+<form method="post" action="admin.php?mod=output&code=do_modify">
+<input type="hidden" name="id" value="{$info[id]}" />
+<table width="100%" border="0" cellpadding="0" cellspacing="0"
+	class="tableborder">
+	<tr class="header">
+		<td colspan="2"><a
+			href="admin.php?mod=output&code=modify&id={$info[id]}">编辑微博评论站外调用项目 - ID
+		{$info[id]}</a></td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>模块创建时间</b><br />
+		</td>
+		<td>{eval echo my_date_format($info[dateline]);}</td>
+	</tr>
+	<tr class="altbg1">
+		<td width="30%"><b>JS代码已经被调用次数</b><br />
+		</td>
+		<td>{$info[open_times]}</td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>评论模块名称</b><br />
+		（用于后台列表管理时的识别）</td>
+		<td><input type="text" name="data[name]" value="{$info[name]}"
+			size="40" /></td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>调用域名限定</b> <br />
+		（如要限定域名则一行一个，默认为空允许所有的网站调用）</td>
+		<td><textarea name="data[lock_host]"
+			style="width: 228px; height: 50px;">{$info[lock_host]}</textarea></td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>每页评论显示数量</b><br />
+		（在被调用页面每页显示的微博条数，默认为20条，0条表示不显示评论。）</td>
+		<td><input type="text" name="data[per_page_num]"
+			value="{$info[per_page_num]}" size="40" /></td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>默认话题</b><br />
+		（是否在微博发布框中默认显示的内容？默认为空）</td>
+		<td><input type="text" name="data[content_default]"
+			value="{$info[content_default]}" size="40" /></td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>默认勾选转发微博</b><br />
+		（是否默认沟选发布到我的微博选项？默认为是）</td>
+		<td>{$type_first_radio}</td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>指定调用框架的宽度？</b><br />
+		（可以指定调用框架的显示宽度，如460px或90%，默认为空时宽度为100%）</td>
+		<td><input type="text" name="data[width]" value="{$info[width]}" size="8" /></td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>指定调用框架的高度？</b><br />
+		（可以指定调用框架的显示宽度，如600px或800px，默认为空时高度为1000px）</td>
+		<td><input type="text" name="data[height]" value="{$info[height]}" size="8" /></td>
+	</tr>
+	<tr class="altbg2" valign="top">
+		<td><b>是否启用自定义模板</b><br />
+		（是否启用自定义的站外评论调用模板？默认为否，使用系统自带的默认模板）</td>
+		<td><div><input name='data[tpl_enable]' id='data_tpl_enable_1' type='radio' value='1' class=radio {if $info[tpl_enable]}checked="checked"{/if} onclick="tpl_enable_click();" ><label for='data_tpl_enable_1'>是</label>
+			<input name='data[tpl_enable]' id='data_tpl_enable_0' type='radio' value='0' class=radio {if !$info[tpl_enable]}checked="checked"{/if} onclick="tpl_enable_click();" ><label for='data_tpl_enable_0'>否</label></div>
+			<!--{if true===JISHIGOU_FOUNDER}-->
+				<!--{eval $__style_display=$info[tpl_enable]?'block':'none';}-->
+				<div id="output_tpl_setting" style="display: {$__style_display}; ">
+					<div><input type="hidden" name="data[tpl_file]" value="{$info[tpl_file]}" size="40" /></div>
+					<div>自定义模板HTML代码：<br />
+						<textarea name="data[tpl_data]" rows="9" style="width: 90%;">{$tpl_data}</textarea></div>
+				</div>
+				<script type="text/javascript">
+					function tpl_enable_click() {
+						if($('#data_tpl_enable_1').attr('checked')) {
+							$('#output_tpl_setting').show();
+						} else {
+							$('#output_tpl_setting').hide();
+						}
+					}
+				</script>
+			<!--{else}-->
+				<div>特别说明：鉴于安全考虑，站外评论调用中的自定义模板功能仅允许“网站创始人”进行操作。</div>
+			<!--{/if}-->
+		</td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>调用代码</b><br />
+		（请完整复制并放置在您想要的页面位置中即可）</td>
+		<td><textarea name="textarea" rows="3" style="width: 90%">{$info[output_code]}</textarea></td>
+	</tr>
+	<tr class="altbg2">
+		<td>&nbsp;</td>
+		<td><br />
+		<button class="button" type="submit">提交修改</button>
+		&nbsp;
+		<button class="button" type="button"
+			onclick="window.location.href='admin.php?mod=output&code=output_setting';return false;">点此返回</button>
+		<br />
+		</td>
+	</tr>
+</table>
+</form>

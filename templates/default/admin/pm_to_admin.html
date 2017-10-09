@@ -1,0 +1,36 @@
+{template admin/header}
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td>给管理员的信</td>
+	</tr>
+	<tr>
+		<td>设置后会在前台私信页面的导航条上出现相应的内容和链接地址。</td>
+	</tr>
+	
+</table>
+	
+<form method="post" action="admin.php?mod=pm&code=to_admin&act=add">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tableborder">
+		<tr class="header">
+			<td>名称</td>	
+			<td>接收者昵称</td>
+			<td>创建时间</td>
+			<td>操作</td>
+		</tr>
+		<!--{loop $pm_to_admin[list] $k $v}-->		
+		<tr class="altbg1">
+			<td>{$v[name]}</td>	
+			<td>{$v[to_admin]}</td>
+			<td>{eval echo my_date_format($v[dateline]);}</td>
+			<td><a href="admin.php?mod=pm&code=to_admin_info&id={$k}">编辑</a> <a href="admin.php?mod=pm&code=to_admin&act=delete&id={$k}" onclick="return confirm('删除后不可恢复，确认删除？');">删除</a></td>
+		</tr>
+		<!--{/loop}-->		
+		<tr class="altbg1">
+			<td><input type="text" name="name" value="" /></td>	
+			<td><input type="text" name="to_admin" value="" /></td>
+			<td><center><input class="button" type="submit" name="cronssubmit" value="新增加一个"></center></td>
+			<td> &nbsp; </td>
+		</tr>		
+	</table>
+</form>

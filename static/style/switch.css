@@ -1,0 +1,7 @@
+/*切换两栏后样式调整*/
+.main{ background:none}
+
+.sideBar ul.classroom li,ul.classnotic li{ width:268px;}
+.column .followList{ width:268px;}
+.memberList li{ margin:3px 8px 5px 0;}
+

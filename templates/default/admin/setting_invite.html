@@ -1,0 +1,52 @@
+{template admin/header}
+
+<div id="main_wp" class="mt10">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<!--{if $this->Config['ldap_enable']}-->
+		<tr class="header">
+			<td><font color="red">网站开启了windows AD域登录，此部分设置不生效</font></td>
+		</tr>
+		<!--{/if}-->
+	<tr class="header">
+		<td>技巧提示</td>
+	</tr>
+	<tr class="altbg1">
+		<td>
+		<ul>
+			<li>可使用如下标签代替实际的内容，前台展示时会自动解析为实际的内容：
+				<br />
+				#nickname#&nbsp;代表&nbsp;用户昵称
+				<br />
+				#inviteurl#&nbsp;代表&nbsp;邀请链接
+				<br />
+				#invite_num#&nbsp;代表&nbsp;可邀请人数
+				<br />
+				#site_name#&nbsp;代表&nbsp;站点名称
+				<br />
+			</li>
+		</ul>
+		</td>
+	</tr>
+</table>
+<br />
+<form method="post" action="admin.php?mod=setting&code=do_invite">
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder t1">
+		<tr class="header">
+			<td colspan="2">邀请注册相关设置</td>
+		</tr>		
+		<tr>
+			<td width="30%">关闭前台“邀请好友”导航的显示？<br>默认为“否”，表示显示</td>
+			<td class="td2">{$link_display_none_radio}</td>
+		</tr>		
+		<tr>
+			<td width="30%">邀请语设置</td>
+			<td class="td2">
+			<textarea name="invite_msg" cols="100" rows="8">{$invite_msg}</textarea>
+			</td>
+		</tr>
+	</table>
+	<br>
+		<center><input type="submit" class="button" name="invitesubmit" value="提 交"></center>
+	<br>
+</form>
+</div>

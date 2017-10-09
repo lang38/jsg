@@ -1,0 +1,44 @@
+{template "topic_header"}
+<link href="static/style/event.css" rel="stylesheet" type="text/css" />
+<!--{if $this->Config[ad_enable] && $this->Config[ad][ad_list][event][header]}-->
+<div class="a-h"><!--{eval SetADV('event','header');}--></div>
+<!--{/if}-->
+{template "topic_left_nav.inc"}
+<div class="main">  
+ <div class="mainWrap ">
+    <div class="contentWrap">
+	  <div class="Menulink">
+		  <a href="index.php?mod=event">活动主页</a>
+		  <a href="index.php?mod=event&code=myevent" class="selected">我的活动</a>
+		  <a href="index.php?mod=event&code=followevent" >我关注的人的活动</a>
+		  <!--{if MEMBER_ID>0}-->
+		  <a href="index.php?mod=event&code=createEvent">发起活动</a>
+		  <!--{/if}-->
+	  </div>
+	  <div id="vote_filter_wp" style=" margin:10px 10px 10px 0">
+	  <!--{eval if($type == 'app') $appcol = 'style="color:#FF0000"'}-->
+      <!--{eval if($type == 'part') $partcol = 'style="color:#FF0000"'}-->
+      <!--{eval if($type == 'store') $storecol = 'style="color:#FF0000"'}-->
+      <!--{eval if($type == 'new') $newcol = 'style="color:#FF0000"'}-->
+      <!--{eval if($type == '') $col = 'style="color:#FF0000"'}-->
+	    <a href="index.php?mod=event&code=myevent&uid=$uid"><span $col>{$user}管理的活动</span></a>
+		<span style="color:#ccc; margin-right:5px; margin-left:5px;">|</span>
+		<a href="index.php?mod=event&code=myevent&type=app&uid=$uid"><span $appcol>{$user}报名的活动</span></a>
+		<span style="color:#ccc; margin-right:5px; margin-left:5px;">|</span>
+		<a href="index.php?mod=event&code=myevent&type=part&uid=$uid"><span $partcol>{$user}参与的活动</span></a>
+		<span style="color:#ccc; margin-right:5px; margin-left:5px;">|</span>
+		<a href="index.php?mod=event&code=myevent&type=store&uid=$uid"><span $storecol>{$user}收藏的活动</span></a>
+		<!--{if $uid == MEMBER_ID}-->
+		<span style="color:#ccc; margin-right:5px; margin-left:5px;">|</span>
+        <a href="index.php?mod=event&code=myevent&type=new"><span $newcol>最近更新的活动</span></a>
+        <!--{/if}-->
+	  </div>
+	{subtemplate 'event/event_common_list'}
+  </div>
+  </div>
+  {subtemplate 'event/event_right'}
+</div>
+<!--{if $this->Config[ad_enable]}-->
+<!--{eval SetADV('event','footer');}-->
+<!--{/if}-->
+{template "topic_footer"}

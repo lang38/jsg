@@ -1,0 +1,165 @@
+{template "topic_header"}
+<!--新广场 begin-->
+{template "topic_left_nav.inc"}
+
+    <script type="text/javascript" src="static/js/imgAuto.js"></script> 
+      <script type="text/javascript">
+		$(document).ready(function() {
+		$(".f_out").imgAuto();
+		$(".plaza_vplay").imgAuto();
+		});
+    </script> 
+
+<div class="appframe">  
+<!-- 广场头部导航 -->
+<div class="plaze_header_nav">
+{jwidget plaza.header.nav}
+</div>
+
+<div class="appframeWrap">
+<div class="plaza_w">
+<!--{if $recommend_pic}-->
+<div class="plaza_vplay plaza_vplay_id">
+  <div class="flashlist">
+    <!--{loop $recommend_pic $val}-->
+	<div class="f_out">
+      <a href="index.php?mod=topic&code={$val[tid]}" target="_blank"><img src="{$val[img]}" onerror="javascript:faceError(this);" title="{$val[r_title]}"  /></a>
+      <div class="picintro">
+         <h2><a href="index.php?mod=topic&code={$val[tid]}" title="{$val[r_title]}" target="_blank">{$val[r_title]}</a></h2>
+      </div>
+    </div>
+	<!--{/loop}-->
+  </div>
+  <div class="flash_tab">
+  <div class="tabs f_tabs">
+  <ul>
+		<!--{loop $recommend_pic $val}-->
+        <li class="f_tab opdiv"><a href="javascript:void(0);" title="{$val[r_title]}"></a></li>
+		<!--{/loop}-->
+  </ul>
+  </div>
+  </div>
+</div>
+<script type="text/javascript" src="static/js/plaza_vplay.js"></script>
+<script type="text/javascript">FeatureList(".plaza_vplay_id",{"onclass": "noopdiv","offclass": "opdiv","pause_on_act": "mouseover","interval": 5000,"speed": 5});</script>
+<!--{else}-->
+<div class="plaza_vword">
+<h2>有图微博</h2>
+暂无任何推荐
+</div>
+<!--{/if}-->
+
+<div class="plaza_im">
+<!--{if $recommend_topic}-->
+<!--{loop $recommend_topic $val}-->
+<dl>
+    <dt><a target="_blank" href="index.php?mod=topic&code={$val[tid]}" title="{$val[content]}">{$val[r_title]}</a></dt>
+    <dd>{$val[content]}</dd>
+</dl>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+
+</div>
+
+<div class="plaza_w2">
+<h5><span class="mleft">热门赞</span><span class="mright"><a href="index.php?mod=plaza&code=hot_dig">更多</a></span></h5>
+<!--{if $dig_pic}-->
+<!--{loop $dig_pic $val}-->
+<div class="plaza_vplay"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank"><img src="{$val[img]}" onerror="javascript:faceError(this);" title="{$val[content]}"/></a><span><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="{$val[content]}">{$val[content]}</a></span></div>
+<!--{/loop}-->
+<!--{else}-->
+<div class="plaza_vword"><h2>有图微博</h2>暂无任何热门赞</div>
+<!--{/if}-->
+<div class="plaza_ul">
+<!--{if $dig_topic}-->
+<!--{loop $dig_topic $val}-->
+<li><span class="black-squareIcon"></span><a target="_blank" href="index.php?mod=topic&code={$val[tid]}" title="{$val[content]}">{$val[content]}</a></li>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+</div>
+
+<div class="plaza_w2">
+<h5><span class="mleft">热门评</span><span class="mright"><a href="index.php?mod=plaza&code=hot_reply">更多</a></span></h5>
+<!--{if $reply_pic}-->
+<!--{loop $reply_pic $val}-->
+<div class="plaza_vplay"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank"><img src="{$val[img]}" onerror="javascript:faceError(this);" title="{$val[content]}"/></a><span><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="{$val[content]}">{$val[content]}</a></span></div>
+<!--{/loop}-->
+<!--{else}-->
+<div class="plaza_vword"><h2>有图微博</h2>暂无任何热门评论</div>
+<!--{/if}-->
+<div class="plaza_ul">
+<!--{if $reply_topic}-->
+<!--{loop $reply_topic $val}-->
+<li><span class="black-squareIcon"></span><a target="_blank" href="index.php?mod=topic&code={$val[tid]}" title="{$val[content]}">{$val[content]}</a></li>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+</div>
+
+<div class="plaza_w2">
+<h5><span class="mleft">最新赞</span><span class="mright"><a href="index.php?mod=plaza&code=new_dig">更多</a></span></h5>
+<!--{if $newdig_pic}-->
+<!--{loop $newdig_pic $val}-->
+<div class="plaza_vplay"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank"><img src="{$val[img]}" onerror="javascript:faceError(this);" title="{$val[content]}"/></a><span><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="{$val[content]}">{$val[content]}</a></span></div>
+<!--{/loop}-->
+<!--{else}-->
+<div class="plaza_vword"><h2>有图微博</h2>暂无任何最新赞</div>
+<!--{/if}-->
+<div class="plaza_ul">
+<!--{if $newdig_topic}-->
+<!--{loop $newdig_topic $val}-->
+<li><span class="black-squareIcon"></span><a target="_blank" href="index.php?mod=topic&code={$val[tid]}" title="{$val[content]}">{$val[content]}</a></li>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+</div>
+
+<div class="plaza_w2">
+<h5><span class="mleft">最新评</span><span class="mright"><a href="index.php?mod=plaza&code=new_reply">更多</a></span></h5>
+<!--{if $newreply_pic}-->
+<!--{loop $newreply_pic $val}-->
+<div class="plaza_vplay"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank"><img src="{$val[img]}" onerror="javascript:faceError(this);" title="{$val[content]}"/></a><span><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="{$val[content]}">{$val[content]}</a></span></div>
+<!--{/loop}-->
+<!--{else}-->
+<div class="plaza_vword"><h2>有图微博</h2>暂无任何最新评论</div>
+<!--{/if}-->
+<div class="plaza_ul">
+<!--{if $newreply_topic}-->
+<!--{loop $newreply_topic $val}-->
+<li><span class="black-squareIcon"></span><a target="_blank" href="index.php?mod=topic&code={$val[tid]}" title="{$val[content]}">{$val[content]}</a></li>
+<!--{/loop}-->
+<!--{/if}-->
+</div>
+</div>
+
+<div class="plaza_w2">
+<h5><span class="mleft">人气用户</span><span class="mright"><a href="index.php?mod=top&code=member" target="_blank">更多</a></span></h5>
+<ul class="plaza_user">
+<!--{if $top_fans_member}-->
+<!--{loop $top_fans_member $val}-->
+<li>
+<img src="{$val[face]}" onerror="javascript:faceError(this);" class="plaza_user_face"/>
+<div class="plaza_user_info"><span class="name"><a href="index.php?mod={$val[username]}" target="_blank">{$val[nickname]}</a></span><span class="inr">{$val[aboutme]}</span></div>
+<div class="plaza_relation">{$val[follow_html]}</div>
+</li>
+<!--{/loop}-->
+<!--{/if}-->
+</ul>
+</div>
+
+
+<style type="text/css">
+.appframeTitle .new_nav{ padding:0;}
+.appframeTitle .list_title{ right:0;}
+.exp-wrap .appframeTitle{padding: 20px 20px 0;}
+</style>
+
+</div>
+</div>
+
+<!--{if $this->Config[ad_enable]}-->
+	<!--{eval SetADV('group_new','header');}-->
+<!--{/if}-->
+{template "topic_footer"}

@@ -1,0 +1,84 @@
+<!--{template admin/header}-->
+<script type="text/javascript">
+function show_release(type){
+	
+	if(type){
+		$('.show_release').show();
+	}else{
+		$('.show_release').hide();
+	}
+}
+</script>
+<form method="post" action="admin.php?mod=cms&code=do_add">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2"> 添加分类
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">分类名字(批量添加时每行添加一个)</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<!--{if $category}-->上级分类：{$category[catname]}<br><!--{/if}-->
+			<textarea name="data[name]" rows="2" cols="30"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">描述</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<textarea name="data[description]" rows="2" cols="80"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">显示顺序</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<input type="text" name="data[displayorder]">
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">是否审核</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<input type="radio" name="data[verify]" value="1" checked="checked" onchange="show_release(1);">是
+			<input type="radio" name="data[verify]" value="0" onchange="show_release();">否
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">拥有发布权限<br>(全选或全不选便是全部都具有发布权限)</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<!--{loop $role['list'] $one}-->
+			<!--{if in_array($one['id'], $purview)}-->
+			<input type="checkbox" name="data[purview][]" value="{$one['id']}" checked="checked">{$one['name']}
+			<!--{else}-->
+			<input type="checkbox" name="data[purview][]" value="{$one['id']}">{$one['name']}
+			<!--{/if}-->
+			<!--{/loop}-->
+		</td>
+	</tr>
+	<tr class="show_release">
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">免审核用户组</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<!--{loop $role['list'] $one}-->
+			<!--{if in_array($one['id'], $filter)}-->
+			<input type="checkbox" name="data[filter][]" value="{$one['id']}" checked="checked">{$one['name']}
+			<!--{else}-->
+			<input type="checkbox" name="data[filter][]" value="{$one['id']}">{$one['name']}
+			<!--{/if}-->
+			<!--{/loop}-->
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">分类管理员昵称</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<input type="text" name="data[managename]" >多个用|分开
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="20%" bgcolor="#F8F8F8">模板文件<br>（保存在模板目录的cms目录下）</td>
+		<td class="altbg2" width="80%" align="right" bgcolor="#FFFFFF">
+			<input type="text" name="data[template]" value="">不带文件扩展名，名称字符必须是字母、数字、下划线，且首字符必须是字母，末字符不得是下划线。（例如：使用模板channel.html文件，此处应该填写：channel）
+		</td>
+	</tr>
+</table>
+<br>
+<input type="hidden"  name="data[parentid]" value="{$parent_id}">
+<center><input type="submit" class="button" id="submit" name="addsubmit" value="保 存"></center>
+</form>

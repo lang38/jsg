@@ -1,0 +1,49 @@
+<!--{template admin/header}-->
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tableborder">
+  <tr class="header">
+    <td>技巧提示<div style="float:right;"> <a href="#" onclick="collapse_change('tip')">收缩/展开</a></div>
+     </td>
+  </tr>
+  <tbody id="menu_tip" style="display:">
+    <tr>
+      <td>
+        <ul>
+          <li><B>强烈建议</B>：在搜索引擎未收录网站前，不要添加广告，否则影响收录；</li>
+          <li>系统在几乎每个页面都内置了常用的广告位，你可以在下面开启或者关闭全部广告，如果将广告位留空则自动隐藏广告位。</li>
+          <li>记事狗团队免费提供更丰富的广告形式，让您赚取更丰厚的广告收益，快来看看吧。</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+<br />
+<form method="post" action="admin.php?mod=income&code=domodify"  enctype="multipart/form-data">
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr class="header">
+      <td colspan="2">参数设置</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="20%"><b>是否启用广告：</b><br>
+        <span class="smalltxt">启用后下面设置的广告才能显示。</span> </td>
+      <td class="altbg2"> {$enable_radio} </td>
+    </tr>
+  </table>
+  <center><input class="button" type="submit" name="cronssubmit" value="提 交">  </center>
+</form>
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr >
+      <td class="altbg1" width="20%"><b>广告位置</b></td>
+      <td class="altbg2">
+	    <div>
+	      <div style="padding-top:20px; padding-left:30px; padding-right:30px;">
+	      {loop $ad_location $k $v}
+	        <div style="float:left;width:150px;margin-top:10px">
+	          <div><a href="admin.php?mod=income&code=ad_list&op={$k}"><img src="./images/ad_location_{$k}.jpg" width="100" height="100"></a></div>
+	          <div><span>$v['name']</span></div>
+	        </div>
+	      {/loop}
+	      </div>
+	    </div>
+      </td>
+    </tr>
+  </table>

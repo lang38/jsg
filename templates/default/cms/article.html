@@ -1,0 +1,93 @@
+{template "topic_header"}
+<script type="text/javascript" src="static/js/cms.js"></script>
+<style type="text/css">
+.u-tip{ width:650px;background:none;padding:0;}
+.m-box-m{ width:670px;}
+</style>
+
+<div class="g-bd">  
+<div class="m-tit" style="font-size:14px; line-height:35px; font-family:arial">{$article[navhtml]}</div>
+<script type="text/javascript">
+$(function(){
+$("#cmsreplypublishSubmit").click(function(){cmsreplypublishSubmit('cmsaid','cmsreplycontent');return false;});
+$("#totopic").click(function(){if($(this).attr("checked")){$(this).val('1');}else{$(this).val('0');}});
+});
+</script>
+<div class="m-box">
+<div class="m-box-m">
+<h3 class="t-h3">{$article[title]}</h3>
+<h4 class="t-h4">发布时间：{$article[time]}发布人：{$article[username]}</h4>
+<p class="c-p">{$article[content]}<p>
+<!--{if $article[images]}-->
+<script type="text/javascript" src="static/js/imgAuto.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$(".u-tip").imgAuto()
+});
+</script>
+
+<h3>相关图片</h3>
+<!--{loop $article[images] $k $v}-->
+<p class="c-p u-tip"><img src="{$v[img]}"></p>
+<!--{/loop}-->
+<!--{/if}-->
+<!--{if $article[attachs]}-->
+<h3>相关附件</h3>
+<!--{loop $article[attachs] $k $v}-->
+<p class="c-p u-tip">
+<img src="{$v[img]}">{$v[name]}(下载所需积分：{$v[score]}分) 
+<!--{if $v[onlineview]}--><a href="{$v[onlineview]}" target="_blank">在线预览</a> | <!--{/if}-->
+<a href="javascript:void(0);" onclick="downattach({$k});">点此下载</a></p>
+<!--{/loop}-->
+<!--{/if}-->
+<h3>相关评论<em class="t-em"> (<span id="cmsreplynum">{$article[replys]}</span>条)</em></h3>
+<div class="borderHd"><div class="borderHdN"></div></div>
+<div id="cmsreplynew"></div>
+<!--{if $article[replycontent]}-->
+<ul class="cmsreplylist">
+<!--{loop $article[replycontent] $k $v}-->
+<li>{$v[content]}<span class="vars">（by {$v[username]}：{$v[time]}）</span></li>
+<!--{/loop}-->
+</ul>
+<!--{else}-->
+<p id="cmsreplyno">暂无任何评论，欢迎您点评！</p>
+<!--{/if}-->
+<h3>我要评论</h3>
+<textarea name="replycontent" id="cmsreplycontent" style="width:655px;height:50px;"></textarea>
+<input type="hidden" name="cmsaid" id="cmsaid" value="{$article[aid]}">
+<div class="m-btn-r">
+<input type="checkbox" value="0" id="totopic">同时转发到微博
+<input type="button" id="cmsreplypublishSubmit" class="u-btn" value="发 布"/>
+</div>
+</div>
+
+
+<div class="m-box-s">
+<ul class="m-box-w">
+<h5 class="t-h5">热门文章</h5>
+<!--{if $hotarticles}-->
+<!--{loop $hotarticles $v}-->
+<li><a href="index.php?mod=cms&code=article&id={$v[aid]}">{$v[title]}</a></li>
+<!--{/loop}-->
+<!--{else}-->
+<li>没有找到热门文章</li>
+<!--{/if}-->
+</ul>
+
+<ul class="m-box-w">
+<h5 class="t-h5">相关文章</h5>
+<!--{if $byarticles}-->
+<!--{loop $byarticles $v}-->
+<li><a href="index.php?mod=cms&code=article&id={$v[aid]}">{$v[title]}</a></li>
+<!--{/loop}-->
+<!--{else}-->
+<li>没有找到相关文章</li>
+<!--{/if}-->
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+{template "topic_footer"}

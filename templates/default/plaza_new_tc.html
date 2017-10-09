@@ -1,0 +1,195 @@
+{template "topic_header"} 
+
+<!--{if $this->Config[ad_enable]}-->
+<div class="a-h"><!--{eval SetADV('group_new','header');}--></div>
+<!--{/if}--> 
+
+{template "topic_left_nav.inc"}
+<div class="main"> 
+  
+  <!-- 广场头部导航 -->
+  <div class="plaze_header_nav"> {jwidget plaza.header.nav} </div>
+  
+  <!-- 广场中间内容块 -->
+  <div class="mainWrap">
+    <div id="listTopicMsgArea"></div>
+    <div id="listTopicArea">
+      <div class="Listmain"> 
+        
+        <!--{if $this->Config['only_show_vip_topic']}-->
+        <div style="margin:10px;"> <span style="font-size:16px"> <a href="index.php?mod=other&code=vip_intro" target="_blank">当前仅显示V认证用户的{$this->Config[changeword][n_weibo]}</a> </span> </div>
+        <!--{/if}-->
+        
+        <div class="tcTitle">
+          <div class="c_area"> <a href="javascript:void(0);" onclick="choose();" class="c_area_a" >切换地域</a>
+            <input type="hidden" id="hid_tc_city" name="hid_tc_city" value="{$city_id}">
+            <input type="hidden" id="hid_tc_area" name="hid_tc_area" value="{$area_id}">
+            <div id='choosecity' style="display:none" class="citysel">
+              <div class="citysel_b"> {$province_list_select}
+                <select id='tc_city' name="tc_city" onchange="changeCity();">
+                  <option value=''>请选择</option>
+                </select>
+                <select id='tc_area' name="tc_area" style="display:none width:150px">
+                  <option value=''>请选择</option>
+                </select>
+                <div class="c_area_b"> <a href="javascript:choosecity();" class="u-btn" style="color:#fff;">确 定</a> </div>
+              </div>
+            </div>
+          </div>
+          <div class="c_area_name"> 
+            <!--{if $area}--> 
+            <a href="index.php?mod=plaza&code=new_tc&province=$province_id">{$province}</a>， <a href="index.php?mod=plaza&code=new_tc&province=$province_id&city=$city_id">{$city}</a>，
+            {$area} 
+            <!--{elseif $city}--> 
+            <a href="index.php?mod=plaza&code=new_tc&province=$province_id">{$province}</a>，{$city} 
+            <!--{elseif $province}--> 
+            {$province} 
+            <!--{else}--> 
+            <a href="index.php?mod=settings">编辑地址</a> 
+            <!--{/if}--> 
+          </div>
+        </div>
+        <script type="text/javascript">
+	    function choose(){
+		    var display = document.getElementById('choosecity').style.display == 'block' ? 'none' : 'block';
+		  	if(display == 'block'){
+		  		changeProvince();
+			}
+		  	document.getElementById('choosecity').style.display = display;
+			$(".c_area_a").toggleClass("c_area_a_on");
+		}
+	    function changeProvince(){
+	        var province = document.getElementById('tc_province').value;
+	        var city = document.getElementById('hid_tc_city').value;
+	        var url = "ajax.php?mod=member&code=sel&province="+province+"&hid_city="+city;
+	        $.post(
+	  		url,
+	  		function(r){
+		  		if(r){
+	  		  		$('#tc_city').html(r);
+	  		  		changeCity();
+		  		}else{
+					document.getElementById('tc_area').lenght = 1;
+					document.getElementById('tc_area').style.display = 'none';
+			    }
+	  		}
+	        );
+	      }
+
+	    function changeCity(){
+	        var city = document.getElementById('tc_city').value;
+	        var area = document.getElementById('hid_tc_area').value;
+	        var url = "ajax.php?mod=member&code=sel&city="+city+"&hid_area="+area;
+	        $.post(
+	  		url,
+	  		function(r){
+		  		if(r){
+		  			document.getElementById('tc_area').style.display = 'block';
+	  		  		$('#tc_area').html(r);
+		  		}else{
+					document.getElementById('tc_area').style.display = 'none';
+			    }
+	  		}
+	        );
+		}
+	    
+	    function choosecity(){
+	    	var url = thisSiteURL + "index.php?mod=plaza&code=new_tc";
+	    	
+	    	var province = document.getElementById('tc_province').value;
+	    	if(province){
+				url = url + "&province="+province;
+		    }
+	    	var city = document.getElementById('tc_city').value;
+	    	if(city){
+				url = url + "&city="+city;
+		    }
+	    	var area = document.getElementById('tc_area').value;
+	    	if(area){
+				url = url + "&area="+area;
+		    }
+		    
+	        location.href=url;
+		}
+		</script> 
+        
+        <!--{eval $parent_list = $rets[parent_list];}--> 
+        <!--{loop $rets[list] $val}-->
+        <div class="feedCell" id="topic_list_{$val[tid]}"> 
+          <!--{if $this->Config[ad_enable]}--> 
+          <!--{if ++$counts == 5 && $this->Config[ad][ad_list][group_new][middle_center1]}--> 
+          <!--{eval SetADV('group_new','middle_center1');}--> 
+          <!--{/if}--> 
+          <!--{/if}--> 
+          <!--{subtemplate topic_item_ajax}--> 
+        </div>
+        <!--{/loop}-->
+        
+        <div id="ajaxtopic"></div>
+        <div id="pageinfo"></div>
+        <div id="pagehtml"> 
+          <!--{if $rets[page][html]}-->
+          <div class="pageStyle">
+            <li>{$rets[page][html]}</li>
+          </div>
+          <!--{/if}--> 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- AJAX加载 --> 
+  <!--{if $ajax_load}--> 
+  <script type="text/javascript">
+	<!--{if $ajax_load[isloading]}-->var isLoading = true;<!--{else}-->var isLoading = false;<!--{/if}-->
+	if(isLoading){$('#pageinfo').html('');$("#pagehtml").hide();}var ajaxkeys = new Array();var onloading = false;var ajaxnum = 0;
+	<!--{loop $ajax_load[ajaxkey] $key $val}-->
+	ajaxkeys[{$key}] = '{$val}';
+	<!--{/loop}-->
+	$(window).bind('scroll resize',function(event){if(isLoading && !onloading){var bodyTop = document.documentElement.scrollTop + document.body.scrollTop;if(bodyTop+$(window).height() >= ($('#listTopicArea').height()+100)){loadtopic(ajaxkeys[ajaxnum]);}}});
+	</script> 
+  <!--{/if}-->
+  
+  <div class="sideBar">
+    <div> 
+      <!--{eval SetADV('group_new','middle_right_top');}--> 
+    </div>
+    
+    <!-- 热门微群 --> 
+    <!--{jwidget hot_qun.right}--> 
+    
+    <!-- 后台推荐话题 --> 
+    <!--{if $this->Config[hot_tag_recommend_enable]}--> 
+    <!--{jwidget hot_tag_recommend.right}--> 
+    <!--{/if}--> 
+    
+    <!-- 最新VIP认证用户 --> 
+    <!--{if $this->Config[only_show_vip_topic]}--> 
+    <!--{jwidget new_vip_user.right}--> 
+    <!--{/if}-->
+    
+    <div> 
+      <!--{$this->Config['ad']['ad_list']['group_new']['middle_right_center']}--> 
+    </div>
+    
+    <!-- 人气话题TOP --> 
+    <!--{jwidget tag_by_top_topic_count.right}--> 
+    
+    <!-- 人气关注用户TOP --> 
+    <!--{jwidget member_by_top_fans.right}--> 
+    
+    <!-- 意见反馈 --> 
+    <!--{jwidget feedback.right}--> 
+    
+    <!--{if $this->Config[ad_enable]}--> 
+    <!--{eval SetADV('group_new','middle_right');}--> 
+    <!--{/if}--> 
+    
+  </div>
+</div>
+
+<!--{if $this->Config[ad_enable]}--> 
+<!--{eval SetADV('group_new','footer');}--> 
+<!--{/if}--> 
+
+{template "topic_footer"}

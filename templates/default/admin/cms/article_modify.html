@@ -1,0 +1,82 @@
+<!--{template admin/header}-->
+<script type="text/javascript" src="static/js/cms.js"></script>
+<form method="post" action="admin.php?mod=cms&code=do_article_modify">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2">编辑资讯-{$article['title']}</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">标题</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<input type="text" name="data[title]" value="{$article['title']}">
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">修改分类</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<input type="hidden" name="data[catid]" id="catid" value="{$article['catid']}">
+			{$categoryselect}
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">内容</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<textarea type="text" name="data[content]" rows="10" cols="100">{$article['content']}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">图片</td>
+		<td id="image_select" class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<form method="post" target="upload_iframe" ></form>
+			<!--{loop $article['imageid'] $one}-->
+			<span id="article_attach_{$one['id']}"><img src="{$article['images'][$one['id']]['img']}">&nbsp;&nbsp;<a href="javascript::" onclick="delete_this(this);return false;">删除</a>
+			<input type="hidden" name="data[imageid][]" value="{$one['id']}">
+			</span>			
+			<!--{/loop}-->
+			<form method="post" target="upload_iframe" id="upload_image_form" action="admin.php?mod=cms&code=upload_image" enctype="multipart/form-data">
+			
+			<input type="file" name="image" onchange="article_upload('image');">
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">附件</td>
+		<td id="attach_select" class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<!--{loop $article['attachid'] $one}-->
+			<span id="article_attach_{$one['id']}"><img src="{$article['attachs'][$one['id']]['img']}">{$one['name']}&nbsp;&nbsp;<a href="javascript::" onclick="delete_this(this);return false;">删除</a>
+			<input type="hidden" name="data[attachid][]" value="{$one['id']}">
+			</span>			
+			<!--{/loop}-->
+			<form method="post" target="upload_iframe" id="upload_attach_form" action="admin.php?mod=cms&code=upload_attach" enctype="multipart/form-data">
+			<input type="file" name="attach" onchange="article_upload('attach');">
+			</form>
+		</td>
+	</tr>
+
+</table>
+<br>
+<input type="hidden"  name="article" value="{$article_id}">
+<center><input type="submit" class="button" id="submit" name="addsubmit" value="保 存"></center>
+</form>
+<script >
+function article_upload(type){
+	if(type == 'image'){
+		$('form#upload_image_form').submit();
+	}else if(type=='attach'){
+		$('form#upload_attach_form').submit();
+	}
+}
+
+function add_new_up_load(type,r){
+	if(type == 'image'){
+		$('#image_select').prepend('<span id="article_attach_'+r.id+'"><img src="'+r.src+'">&nbsp;&nbsp;<a href="javascript::" onclick="delete_this(this);return false;">删除</a><input type="hidden" name="data[imageid][]" value="'+r.id+'"></span>');
+	}else if(type=='attach'){
+		$('#attach_select').prepend('<span id="article_attach_'+r.id+'"><img src="'+r.img+'">'+r.name+'&nbsp;&nbsp;<a href="javascript::" onclick="delete_this(this);return false;">删除</a><input type="hidden" name="data[attachid][]" value="'+r.id+'"></span>');
+	}
+}
+
+function delete_this(obj){
+	$(obj).parent().remove();
+}
+</script>
+<iframe height="0" width="0" id="upload" name="upload_iframe"></iframe>

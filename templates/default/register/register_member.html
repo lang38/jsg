@@ -1,0 +1,326 @@
+{template "guest_header"}
+
+<div class="g-bd">  
+  <div class="m-tit">
+    欢迎注册会员
+  </div>
+
+ <div class="m-box">
+    <div class="m-box-reg">
+      <form method="post" action="{$action}" name='reg' id="member_register" onSubmit="return check_submit(this, 3);">
+        <input type="hidden" id="referer_input" name="referer" value="{$referer}">
+        <table width="100%" border="0">
+          <!--{if $inviter_member[nickname]}-->
+          <tr>
+            <td align="center"><img onerror="javascript:faceError(this);" src="{$inviter_member[face]}" width="54px" height="54px;"/></td>
+            <td align="left" valign="middle"><span class="fontGreen">{$inviter_member[nickname]}</span> 正邀请您加入{conf site_name}，<br />
+              注册成功后，你们将自动相互关注，并在个人首页中看到对方分享的信息</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+		  <!--{elseif $this->Config[register_invite_input]}-->
+          <tr>
+            <td align="right" valign="middle" width="90">邀请人：</td>
+            <td><input type="text" name="inviter_nickname" id="inviter_nickname_input" value="" class="u-ipt" />
+              <div class="u-tips">选填，注册成功后互相关注</div></td>
+          </tr>
+          <!--{/if}-->
+		  {if $this->_sms_register()}
+		  <tr>
+            <td align="right" valign="middle" width="90">手机验证：</td>
+            <td>
+				<div id="sms_bind_area">
+					第一步：请输入您的手机号，并点击“获取验证码”按钮<br>
+					验证码将通过免费短信发到您手机上(节假日期间短信稍有延迟，请耐心等待)<br>
+					<input type="text" value="" name="sms_bind_num" id="sms_bind_num" class="u-ipt" onBlur="Validator.Validate(this.form,3,this.name)" />&nbsp;<input type="button" value="获取验证码" class="u-btn" onclick="Validator.Validate(this.form,3,'sms_bind_num')&&sms_bind()" id="sms_bind_button" />
+				</div>
+			</td>
+          </tr>
+		  <tr>
+			<td></td>
+			<td>				
+				<div style="display:none;" id="sms_bind_verify_area">
+					第二步：请输入发到您手机的验证码<br>
+					<input type="text" value="" name="sms_bind_key" id="sms_bind_key" class="u-ipt" onBlur="Validator.Validate(this.form,3,this.name)" />
+				</div>
+				<div id="sms_bind_msg"></div>
+				<script language="javascript">        
+					function sms_bind()
+					{
+						var sms_num = $('#sms_bind_num').val();
+
+						if(11!=sms_num.length)
+						{
+							MessageBox('notice', '请输入11位的手机号码');
+							$('#sms_bind_num').focus();
+
+							return false;
+						}
+						
+						var myAjax = $.post
+						(
+							'ajax.php?mod=sms&code=register_verify',
+							{
+								sms_num:sms_num                        
+							},
+							function (d) 
+							{
+								if(d)
+								{
+									$('#sms_bind_msg').html(d);
+									$('#sms_bind_num').focus();
+								}
+								else
+								{
+									$('#sms_bind_button').attr('disabled','true');
+									$('#sms_bind_verify_area').css('display','block');
+								}
+							}
+						);
+					}
+					function check_sms_bind_key()
+					{
+						var sms_num = $('#sms_bind_num').val();
+						var bind_key = $('#sms_bind_key').val();
+                
+						if(11!=sms_num.length)
+						{
+							MessageBox('notice', '请输入11位的手机号码');
+							$('#sms_bind_num').focus();
+
+							return false;
+						}
+						if(6!=bind_key.length)
+						{
+							MessageBox('notice', '请输入6位的验证码');
+							$('#sms_bind_key').focus();
+
+							return false;
+						}
+
+						var myAjax = $.post(
+							'ajax.php?mod=sms&code=check_register_verify',
+							{
+								sms_num:sms_num,
+								bind_key:bind_key
+							},
+							function (d)
+							{
+								if(d)
+								{
+									$('#sms_bind_msg').html(d);
+									$('#sms_bind_key').focus();
+								}
+							}
+						);
+					}
+				</script>
+			</td>
+		  </tr>
+		  {/if}
+		  {if !$noemail}
+          <tr>
+            <td align="right" valign="middle" width="90">常用Email：</td>
+            <td><input type="text" name="email" id="email_input" value="{$email}" class="u-ipt" tabindex="1" />
+              <div class="u-tips">需要验证Email，用于登录和取回密码等</div>
+              <div id="check_email_result" class="u-warn check_email_result2"></div>
+              </td>
+          </tr>
+		  {/if}
+          <tr>
+            <td align="right" valign="middle">{$this->Config['changeword']['account']}：</td>
+            <td><input name="nickname" type="text" id="nickname_input" maxlength="50"  class="u-ipt" tabindex="2"/>
+              <div class="u-tips">中英文均可，用于显示、@通知和发私信等</div>
+              <div id="check_nickname_result" class="u-warn" style="display:none;"></div>
+              </td>
+          </tr>
+          <tr>
+            <td align="right" valign="middle">登录密码：</td>
+            <td><input type="password" name="password" id="password" maxlength="32" class="u-ipt" onBlur="Validator.Validate(this.form,3,this.name)" tabindex="3"/>
+              <div class="u-tips">密码至少5位</div></td>
+          </tr>
+          <tr>
+            <td align="right" valign="middle">确认密码：</td>
+            <td><input type="password" name="password2" id="password2" maxlength="32" class="u-ipt" onBlur="Validator.Validate(this.form,3,this.name)" tabindex="4"/></td>
+          </tr>
+		  <!--{if $this->Config['seccode_enable']==1 && $this->Config['seccode_register']}-->
+			  <tr>
+				<td align="right" valign="top" style="vertical-align:top; padding-top:13px;">验证码：</td>
+				<td>
+				  <p>
+					<input type="text" name="seccode" id="seccode_input" class="u-ipt u-ipt-1" tabindex="10"/>
+					<div id="check_seccode_result" style="display:none; font-size:12px; float:left; margin:5px 0 0 10px;"></div>
+				  </p>				  
+				  <p class="u-verify">
+					<script type="text/javascript">seccode({"id":"seccode_input"});</script>
+					<a href="javascript:updateSeccode('seccode_input');">换一换</a>
+				  </p>				  
+				  </td>
+			  </tr>
+		  <!--{/if}-->
+          <tr>
+            <td align="right" valign="middle">&nbsp;</td>
+            <td>
+              <input name="copyrightInput" type="checkbox" id="copyrightInput" onclick="regCopyrightSubmit();" value="1" checked="checked" />
+              <a href="index.php?mod=other&code=regagreement" target="_blank" style="font-size:12px; color:#999;">我已看过并同意《使用协议》</a>
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="middle">&nbsp;</td>
+            <td>
+              <!--{if $this->Config['seccode_enable']>1 && $this->Config['seccode_register'] && $this->yxm_title}-->
+			  <input type="hidden" name="add_YXM_input_result" id="add_YXM_input_result">
+			  <input type="hidden" name="add_YXM_level" id="add_YXM_level">
+			  <input type="hidden" name="add_YinXiangMa_challenge" id="add_YinXiangMa_challenge">
+			  <input id="regSubmit" class="u-btn u-btn-lg" type="button" disabled value="注 册" onclick="YXM_submit(this,'member_register','reg','{$this->yxm_title}');"/>
+			  <!--{else}-->
+			  <input id="regSubmit" class="u-btn u-btn-lg" type="submit" disabled value="注 册"/>
+			  <!--{/if}-->
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    
+    
+    <div class="m-box-side">
+      <p class="u-tips">已有本站帐号？<a href="{conf site_url}/index.php?mod=login" rel="nofollow">请点此登录</a></p>
+      
+      
+      <p class="u-tips">或使用其他帐户登录：</p>
+      <div class="others"> 
+		{if $this->Config[sina_enable] && sina_weibo_init()} &nbsp; {eval echo sina_weibo_login('b');} {/if}
+		{if $this->Config[qqwb_enable] && qqwb_init()} &nbsp; {eval echo qqwb_login('b');} {/if}
+		{if $this->Config[yy_enable] && yy_init()} &nbsp; {eval echo yy_login('b');} {/if}
+		{if $this->Config[renren_enable] && renren_init()} &nbsp; {eval echo renren_login('b');} {/if}
+		{if $this->Config[kaixin_enable] && kaixin_init()} &nbsp; {eval echo kaixin_login('b');} {/if}
+		{if $this->Config[fjau_enable] && fjau_init()} &nbsp; {eval echo fjau_login('b');} {/if}
+	  </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function regCopyrightSubmit() {
+	document.getElementById('regSubmit').disabled = !document.getElementById('copyrightInput').checked;
+}
+regCopyrightSubmit();
+</script>
+<script language="JavaScript" type="text/javascript">
+var validateRegularList={
+	nickname:{dataType:"LimitB",min:'3',max:100,msg:"帐户/昵称不符合要求"},
+	password:{dataType:"LimitB",min:"5",msg:"密码过短，请设成5位以上"},
+	password2:{dataType:"Repeat",to:"password",msg:"两次输入的密码不一致"},
+	{if $this->_sms_register()}
+	sms_bind_num:{require:true,dataType:"Mobile",min:"10",max:'12',msg:"请输入11位的手机号码"},
+	sms_bind_key:{require:true,dataType:"Number",min:"5",max:'7',msg:"请输入6位的验证码"},
+	{/if}
+	{if !$noemail}
+	email:{require:true,dataType:"Email",msg:"Email邮箱格式不正确"},
+	{/if}
+	truename:{require:false,dataType:"Truename",msg:"请填写真实姓名"},
+	{if $this->Config['seccode_enable']==1 && $this->Config['seccode_register']}
+	seccode:{dataType:"LimitB",min:"4",msg:"验证码不正确，重新输入"}
+	{/if}
+}
+Validator.SetRegular("member_register",validateRegularList);
+</script>
+<script type="text/javascript">
+
+function addEvent(eventHandler)
+    {
+        var tags = document.getElementsByTagName('input');
+        for(var i=0;i<tags.length;i++)
+        {
+            if(tags[i].getAttribute('url') == 'true')
+            {
+                if(tags[i].addEventListener)
+                {
+                    tags[i].addEventListener('keyup',eventHandler,true);
+                }
+                else
+                {
+                    tags[i].attachEvent('onkeyup',eventHandler);
+                }
+            }
+        }
+    }
+function addInput(e)
+    {
+        var obj = e.target ? e.target : e.srcElement;
+        var tags = document.getElementsByTagName('input');
+        for(var i=0;i<tags.length;i++)
+        {
+            if(tags[i].getAttribute('url') == 'true'&&tags[i]!=obj)
+            {
+                tags[i].value = obj.value;
+            }
+        }
+    }
+    window.onload = function()
+    {
+        addEvent(addInput);
+    }
+</script>
+
+<script type="text/javascript">
+{if $this->_sms_register()}
+$("#sms_bind_key").bind("blur", function(){check_sms_bind_key()});
+{/if}
+{if !$noemail}
+$("#email_input").bind("blur",function (){check('email')});
+{/if}
+$("#nickname_input").bind("blur",function (){check('nickname')});
+<!--{if $this->Config['seccode_enable']==1 && $this->Config['seccode_register']}-->
+$("#seccode_input").bind("blur",function (){check('seccode')});
+<!--{/if}-->
+function check(obj)
+{
+	var _objList={email:'E-MAIL地址',nickname:'帐户/昵称'};
+	var _objValue=$('#'+obj+'_input').val();
+	if(_objValue.length==0 || Validator.Validate(document.getElementById('member_register'),3,obj)!=true) {
+		$("#check_"+obj+"_result").hide();
+		return false;
+	}
+
+	if('email' == obj || 'nickname' == obj) {
+		$("#check_"+obj+"_result").html('正在检查'+_objList[obj]+'是否可注册...');
+	}
+	var myAjax = $.post(
+		'ajax.php?mod=member',
+		{
+			code: 'check_'+obj,
+			check_value: _objValue,
+			from: 'register'
+		},
+		function (r) {
+			if(r.done == false){
+				$("#check_"+obj+"_result").html('<img src="static/image/regwrong.png">'+r.msg);
+				$("#check_"+obj+"_result").show();
+				$("#check_"+obj+"_result").addClass('u-warn');
+				$("#check_"+obj+"_result").attr('checkresult','false');
+			} else {
+				if(r.msg){
+					$("#check_"+obj+"_result").html(r.msg);
+					$("#check_"+obj+"_result").css({background:'#fff url("static/image/accept.png") no-repeat 0 0'});
+					$("#check_"+obj+"_result").show();
+					$("#check_"+obj+"_result").removeAttr('checkresult');
+					$("#check_"+obj+"_result").addClass("u-tips-2");
+				}else {
+					$("#check_"+obj+"_result").hide();
+				}
+			}
+		},'json'
+	);
+}
+
+function check_submit(vobj, vtype)
+{	if($('[checkresult=false]').length>0){
+		return false;
+	}
+	return (Validator.Validate(vobj, vtype){if $this->Config['seccode_enable']==1 && $this->Config['seccode_register']} && check('seccode'){/if}{if $this->_sms_register()} && check_sms_bind_key(){/if});
+}
+</SCRIPT>
+
+{template "topic_footer"}

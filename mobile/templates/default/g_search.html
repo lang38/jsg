@@ -1,0 +1,20 @@
+{template "header"}
+<div data-role="content">
+  <div class="search_block">
+    <form action="index.php" method="get">
+      <input type="hidden" name="mod" value="search" />
+      <div class="search_toolbar">
+        <div class="search_input">
+          <input type="text" name="q" class="g_q" placeholder="搜索微博 找人">
+<!--          <button class="g_search_btn" type="submit"></button>
+-->        </div>
+        <div class="search_radio">
+          <button name="code" type="submit" value="topic" id="r_topic">搜索微博</button>
+          <button name="code" type="submit" value="user" id="r_topic">搜索用户</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div> {template "square_view"} </div>
+</div>
+{template "footer"}

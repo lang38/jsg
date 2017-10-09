@@ -1,0 +1,237 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<script type="text/javascript">
+	
+		function show_divv(spanid){
+		
+			var spanObjs =document.getElementsByTagName('span');
+			for(var i=0; i<spanObjs.length; i++){
+				 if(spanObjs[i].getAttribute('name') == spanid){ 
+					spanObjs[i].style.display="";
+					document.getElementById(spanid).style.display='block';
+				}
+			}
+		}
+		
+		function hidden_divv(spanid){
+			var spanObjs =document.getElementsByTagName('span');
+			for(var i=0; i<spanObjs.length; i++){
+				 if(spanObjs[i].getAttribute('name') == spanid){ 
+					spanObjs[i].style.display="none";
+					document.getElementById(spanid).style.display='none';
+				}
+			}
+		}
+        
+        function formcheckalll(form, prefix, checkall) {
+        	var checkall = checkall ? checkall : 'chkall';
+        	for(var i = 0; i < form.elements.length; i++) {
+        		var e = form.elements[i];
+        		if(e.name != checkall && (!prefix || (prefix && e.name.match(prefix)))) {
+        			e.checked = form.elements[checkall].checked;
+        		}
+        	}
+        }
+
+	</script>
+
+<div class="appframe">  
+<div class="appframeTitle"><span class="mleft">话题榜</span></div>
+
+<div class="appframeWrap">	
+<div class="tagg2">
+进入感兴趣的话题页面，你可在页面右侧，对话题进行关注。<br />
+关注话题后，可在<a href="index.php?mod=topic_tag" target="_blank" rel="nofollow">我关注的话题</a>中查看相关{$this->Config[changeword][n_weibo]}，还能在<a href="index.php?mod=profile&code=maybe_friend" target="_blank" rel="nofollow">可能感兴趣的人</a>中找到有共同话题的人。 
+</div>	    
+
+
+<div class="mediaBox">
+<iframe id="hot_tag_frame" name="hot_tag_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<form method="post" action="ajax.php?mod=topic&code=add_favor_tag" enctype="multipart/form-data" name="HotTagForm" target="hot_tag_frame" id="HotTagForm"> 
+<div class="famTablecen">
+<div class="titleBar">
+<div class="lf">最热门话题</div>
+<div class="rt">
+	<div id="hot_tag" style="display:none;">
+		<input type="checkbox" name="hot_tag_ids_all" onclick="formcheckalll(this.form, 'tag','hot_tag_ids_all');" />全选&nbsp;
+		<input type="submit" name="Submit" value="提 交" class="u-btn"/>
+		<input type="button" name="Submit" value="取 消" onclick="hidden_divv('hot_tag');return false;" class="u-btn u-btn-c4"/>
+	</div>
+	<!--{if MEMBER_ID > 0}-->
+	<div class="thread_add">
+		<a href="javascript:void(0);" onclick="show_divv('hot_tag');return false;">加关注话题</a>
+	</div>
+	<!--{/if}-->
+
+</div>
+</div>
+
+	<ul class="tagv1lu">
+	<!--{if $tag_list && is_array($tag_list) && count($tag_list)}-->        
+	<!--{eval $tag_list = array_chunk($tag_list,4);}-->
+	<!--{loop $tag_list $tags}-->
+	<!--{loop $tags $v}-->
+	<!--{eval $tags_num++;}-->    
+	<li>
+	<span name="hot_tag" style="display:none;"><input type="checkbox" name="tag[]" value="{$v[id]}" /></span>
+		<span class="mleft">
+		  {$tags_num}.<a href="index.php?mod=tag&code={$v[name]}" target="_blank">#{$v[name]}#</a></span>
+		  <span class="mright"><em>{$v[topic_count]}</em>讨论</span>
+	</li>
+	<!--{/loop}-->
+	<!--{/loop}-->
+	<!--{/if}-->
+	</ul>
+
+</div>
+</form>
+</div>
+
+<div class="mediaBox">
+<iframe id="guanzu_tag_frame" name="guanzu_tag_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<form method="post" action="ajax.php?mod=topic&code=add_favor_tag" enctype="multipart/form-data" name="guanzuForm" target="guanzu_tag_frame" id="guanzuForm">
+<div class="famTablecen">
+<div class="titleBar">
+<div class="lf">最受关注话题</div>
+<div class="rt">
+	<div id="guanzu_tag" style="display:none;">
+		<input type="checkbox" name='guanzu_tag_ids_all' onclick="formcheckalll(this.form, 'tag', 'guanzu_tag_ids_all');" >全选&nbsp;
+		<input type="submit" name="Submit" value="提 交" class="u-btn"/>
+		<input type="button" name="Submit" value="取 消" onclick="hidden_divv('guanzu_tag');return false;" class="u-btn u-btn-c4"/>
+	</div>
+	<!--{if MEMBER_ID > 0}-->
+	<div class="thread_add">
+		<a href="javascript:void(0);" onclick="show_divv('guanzu_tag');return false;">加关注话题</a>
+	</div>
+	<!--{/if}-->
+
+</div>
+</div>
+	<ul class="tagv1lu">
+		<!--{loop $tag_guanzu $guanzu}-->
+		<!--{eval $guanzu_num++;}-->
+		<li>
+		<span name="guanzu_tag" style="display:none;"><input type="checkbox" name="tag[]" value="{$guanzu[id]}" /></span>
+			<span class="mleft">{$guanzu_num}.  <a href="index.php?mod=tag&code={$guanzu[name]}" target="_blank">#{$guanzu[name]}#</a></span>
+			<span class="mright"><em>{$guanzu[tag_count]}</em>讨论</span>
+		</li>
+		<!--{/loop}-->
+	</ul>
+
+</div>
+</form>
+</div>
+
+<div class="mediaBox">
+<iframe id="tuijian_tag_frame" name="tuijian_tag_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<form method="post" action="ajax.php?mod=topic&code=add_favor_tag" enctype="multipart/form-data" name="tuijianForm" target="tuijian_tag_frame" id="tuijianForm">
+<div class="famTablecen">
+<div class="titleBar">
+<div class="lf">推荐话题</div>
+<div class="rt">
+	<div id="tuijian_tag" style="display:none;">
+		<input type="checkbox" name="tuijian_tag_ids_all" onclick="formcheckalll(this.form, 'tag', 'tuijian_tag_ids_all');" >全选&nbsp;
+		<input type="submit" name="Submit" value="提 交" class="u-btn"/>
+		<input type="hidden" name="tuijian_tag_name" value="1" />
+		<input type="button" name="Submit" value="取 消" onclick="hidden_divv('tuijian_tag');return false;" class="u-btn u-btn-c4"/>
+	</div>
+	<!--{if MEMBER_ID > 0}-->
+	<div class="thread_add">
+		<a href="javascript:void(0);" onclick="show_divv('tuijian_tag');return false;">加关注话题</a>
+	</div>
+	<!--{/if}-->
+
+</div>
+</div>
+
+	<ul class="tagv1lu tagv3lu">
+		<!--{loop $tag_tuijian $tuijian}-->
+		<!--{eval $tuijian_num++;}-->
+			<li class="tagv3li">
+			<span name="tuijian_tag" style="display:none;"><input type="checkbox" name="tag[]" value="{$tuijian[id]}" /></span>
+				<span class="mleft">{$tuijian_num}.  <a href="index.php?mod=tag&code={$tuijian[name]}" target="_blank">#{$tuijian[name]}#</a></span>
+				<!--{if $tuijian[topic_count]}--><span class="mright"><em>{$tuijian[topic_count]}</em>讨论</span><!--{/if}-->
+			</li>
+		<!--{/loop}-->
+	</ul>
+
+</div>
+</form>
+</div>
+
+<div class="mediaBox">
+<iframe id="tag7_tag_frame" name="tag7_tag_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<form method="post" action="ajax.php?mod=topic&code=add_favor_tag" enctype="multipart/form-data" name="tag7Form" target="tag7_tag_frame" id="tag7Form">
+<div class="famTablecen">
+<div class="titleBar">
+<div class="lf">一周热门话题</div>
+<div class="rt">
+	<div id="tag7_tag" style="display:none;">
+		<input type="checkbox" name='tag7_tag_ids_all' onclick="formcheckalll(this.form, 'tag', 'tag7_tag_ids_all');" >全选&nbsp;
+		<input type="submit" name="Submit" value="提 交" class="u-btn"/>
+		<input type="button" name="Submit" value="取 消" onclick="hidden_divv('tag7_tag');return false;" class="u-btn u-btn-c4"/>
+	</div>
+	<!--{if MEMBER_ID > 0}-->
+	<div class="thread_add">
+		<a href="javascript:void(0);" onclick="show_divv('tag7_tag');return false;">加关注话题</a>
+	</div>
+	<!--{/if}-->
+
+</div>
+</div>
+	<ul class="tagv1lu tagv3lu">
+	<!--{loop $tag_r_day7 $tag7}-->
+	<!--{eval $tag7_num++;}-->
+		<li class="tagv3li">
+		<span name="tag7_tag" style="display:none;"><input type="checkbox" name="tag[]" value="{$tag7[id]}" /></span>
+			<span class="mleft">{$tag7_num}.  <a href="index.php?mod=tag&code={$tag7[name]}" target="_blank">#{$tag7[name]}#</a></span>
+			<!--{if $tag7[topic_count]}--><span class="mright"><em>{$tag7[topic_count]}</em>讨论</span><!--{/if}-->
+			
+		</li>
+	<!--{/loop}-->
+	</ul>
+
+</div>
+</form>
+</div>
+
+<div class="mediaBox">
+<iframe id="tag7_gz_tag_frame" name="tag7_gz_tag_frame" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+<form method="post" action="ajax.php?mod=topic&code=add_favor_tag" enctype="multipart/form-data" name="tag7_gzForm" target="tag7_gz_tag_frame" id="tag7_gzForm">
+<div class="famTablecen">
+<div class="titleBar">
+<div class="lf">一周关注话题</div>
+<div class="rt">
+	<div id="tag7_gz_tag" style="display:none;">
+		<input type="checkbox" name='tag7_gz_tag_ids_all' onclick="formcheckalll(this.form, 'tag', 'tag7_gz_tag_ids_all');" >全选&nbsp;
+		<input type="submit" name="Submit" value="提 交" class="u-btn"/>
+		<input type="button" name="Submit" value="取 消" onclick="hidden_divv('tag7_gz_tag');return false;" class="u-btn u-btn-c4"/>
+	</div>
+	<!--{if MEMBER_ID > 0}-->
+	<div class="thread_add">
+		<a href="javascript:void(0);" onclick="show_divv('tag7_gz_tag');return false;">加关注话题</a>
+	</div>
+	<!--{/if}-->
+
+</div>
+</div>
+
+	<ul class="tagv1lu tagv3lu">
+		<!--{loop $day7_guanzhu $tag7_gz}-->
+		<!--{eval $tag7_gz_num++;}-->
+			<li class="tagv3li">
+			<span name="tag7_gz_tag" style="display:none;"><input type="checkbox" name="tag[]" value="{$tag7_gz[id]}" /></span>
+				<span class="mleft">{$tag7_gz_num}.  <a href="index.php?mod=tag&code={$tag7_gz[name]}" target="_blank">#{$tag7_gz[name]}#</a></span>
+				<!--{if $tag7_gz[tag_count]}--><span class="mright"><em>{$tag7_gz[tag_count]}</em>讨论</span><!--{/if}-->
+			</li>
+		<!--{/loop}-->
+	</ul>
+
+</div>
+</form>
+</div>
+
+</div>
+</div>
+
+{template "topic_footer"}

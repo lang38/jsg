@@ -1,0 +1,26 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<link href="static/style/qun.css" rel="stylesheet" type="text/css" />
+
+<div class="main" id="mainWrapper" style="background-image:none;">
+ <div class="mainWrap ">
+      <div class="u-title">
+      <span class="mleft">{$GLOBALS[_J][config][changeword][weiqun]}公告</span>
+      <span class="mright"><a href="index.php?mod=qun&qid={$qid}">返回{$GLOBALS[_J][config][changeword][weiqun]}</a></span>
+      </div>
+      
+	  
+      {eval echo nl2br($qun_announcement_info[message]);}
+      
+	  <p style="text-align:right">发布者： {$author_member[nickname]}</p>
+	  <p style="text-align:right">发布于：{eval echo my_date_format($qun_announcement_info[dateline]);}</p>
+
+ </div>
+ 
+ <div class="sideBar">
+	 <!--{jwidget qun_announcement_index right}-->
+  </div>
+  
+</div>
+</div>
+{template "topic_footer"}

@@ -1,0 +1,51 @@
+{template "topic_header"}
+<script type="text/javascript" src="static/js/cms.js"></script>
+<style>.g-content .g-doc{background-image:none;}.exp-wrap .g-bd{ width:940px;}</style>
+<div class="g-bd">  
+<div class="g-doc">
+<div class="m-tit">{$navtitle}
+<span class="f-right">
+<!--{if MEMBER_ID>0}-->
+<a href="index.php?mod=cms&code=channel&id={$catid}&my=yes" class="u-btn" style="color:#fff;">我的文章</a>
+<input type="button" value="发布文章" class="u-btn" onclick="publishcms(0,{$catid});">
+<!--{/if}-->
+<!--{if $ismanageman}--><input type="button" value="审核文章" class="u-btn" onclick="checkhtml({$catid});"><!--{/if}-->
+</span>
+</div>
+
+<div class="m-box m-box-cms">
+<p>当前位置：{$navhtml}</p>
+<!--{if $articles}-->
+<!--{loop $articles $cmslist}-->
+<div class="m-list m-list-cms">
+<h3 class="t-h3">{$cmslist[catname]}<span class="f-right"><a href="index.php?mod=cms&code=channel&id={$cmslist[catid]}">更多</a></span></h3>
+<ul class="cmslist_{$cmslist[catid]}">
+<!--{if $cmslist[article]}-->
+<!--{loop $cmslist[article] $val}-->
+<li>
+<a href="index.php?mod=cms&code=article&id={$val[aid]}">{$val[title]}</a>
+<span class="f-right">
+<!--{if $val['cancheck']}-->
+<a href="javascript:;" onclick="checkcms({$val[aid]});" class="check_{$val[aid]}">审核</a>
+<!--{/if}-->
+<!--{if $val['edit']}-->
+<a href="javascript:;" onclick="publishcms({$val[aid]});">编辑</a>
+<!--{/if}-->
+{$val[time]}
+</span>
+</li>
+<!--{/loop}-->
+<!--{else}-->
+<li class="noarticle">暂时没有可显示的文章</li>
+<!--{/if}-->
+</ul>
+</div>
+<!--{/loop}-->
+<!--{/if}-->
+
+</div>
+</div>
+</div>
+</div>
+</div>
+{template "topic_footer"}

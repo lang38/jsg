@@ -1,0 +1,56 @@
+
+<div class="setframeNav"> 
+	<!--{if $this->Config[ad_enable]}-->
+	<div class="left_nav">
+    <!--{eval SetADV('group_new','middle_left_top');}-->
+    </div>
+    <!--{/if}-->
+  <!--{if $this->All_company}-->
+  <div class="left_nav">
+    <h4>{$d_c_name}{$this->Config[changeword][n_weibo]}</h4>
+    <ul class="topic_New">
+      <!--{loop $this->All_company  $val}-->
+      <li class="tagnone {$val[css]}"><a href="index.php?mod=company&id={$val[id]}" title="{$val[name]}">{$val[shortname]}</a></li>
+      <!--{/loop}-->
+    </ul>
+  </div>
+  <!--{/if}-->
+  <div class="left_nav"> 
+    <!--{eval $new_class=('new'==$this->Code && $this->Get[type]!='pic')?"tagcurrent":"tagn";}--> 
+    <!--{eval $pic_class=('new'==$this->Code && 'pic'==$this->Get[type])?"tagcurrent":"tagn";}--> 
+    <!--{eval $tc_class=('tc'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $newreply_class=('newreply'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $hotforward_class=('hotforward'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $hotreply_class=('hotreply'==$this->Code)?"tagcurrent":"tagn";}-->
+	<!--{eval $attach_class=('attach'==$_GET['mod'])?"tagcurrent":"tagn";}-->    
+    <!--{eval $top_class=('top'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $tag_class=('tag'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $media_class=('media'==$this->Code || 'media_more'==$this->Code)?"tagcurrent":"tagn";}--> 
+    <!--{eval $people_class=(in_array($this->Code,array('people','view','province','city')))?"tagcurrent":"tagn";}-->
+    <ul class="topic_New">
+      <!--{if $this->Config['same_city']}-->
+      <li class="{$tc_class} new_tc"><a href="index.php?mod=plaza&code=new_tc">同城{$this->Config[changeword][n_weibo]}</a></li>
+      <!--{/if}-->
+      <li class="{$new_class} new_new"><a href="index.php?mod=plaza"><!--{if $this->Config['only_show_vip_topic']}-->最新V{$this->Config[changeword][n_weibo]}<!--{else}-->最新{$this->Config[changeword][n_weibo]}<!--{/if}--></a></li>      
+      <li class="{$newreply_class} new_newreply"><a href="index.php?mod=plaza&code=new_reply">最新评论</a></li>
+      <li class="{$hotforward_class} new_forword"><a href="index.php?mod=plaza&code=hot_forward">热门转发</a></li>
+      <li class="{$hotreply_class} new_hotreply"><a href="index.php?mod=plaza&code=hot_reply">热门评论</a></li>
+	  <li class="{$attach_class} new_attach"><a href="index.php?mod=attach">最新附件</a></li>
+      <li class="{$pic_class} new_photo"><a href="index.php?mod=topic&code=photo">图片墙</a></li>
+      <li class="{$tag_class} new_keyword"><a href="index.php?mod=tag" title="寻找和关注话题">话题榜</a></li>      
+    </ul>
+	</div>
+    <div class="blackBox"></div>
+	<div class="left_nav">
+	<ul class="topic_New">
+	<li class="{$top_class} new_top"><a href="index.php?mod=top&code=member" title="查看和关注达人">达人榜</a></li>
+	<!--{if $this->Config['media_open']}-->
+      <li class="{$media_class} new_media"><a href="index.php?mod=other&code=media" title="查看名人或媒体">推荐用户</a></li>
+      <!--{/if}-->
+	<li class="{$people_class} new_Masters"><a href="index.php?mod=people" title="查看名人堂">名人堂</a></li>
+	</ul>
+  </div>
+  	<!--{if $this->Config[ad_enable]}-->
+    <!--{eval SetADV('group_new','middle_left');}-->
+    <!--{/if}-->
+</div>

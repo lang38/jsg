@@ -1,0 +1,13 @@
+/*###########################
+   @Name:微群样式 T1 
+#############################*/
+
+/* CSS Document begin */
+body{ 
+	background-color: #E3DABA;
+	background-image: url(../../../static/image/quntheme/t1/themebg.jpg);
+	background-attachment: fixed;
+	background-position: 50% 0%;
+	background-repeat: no-repeat no-repeat;
+}
+

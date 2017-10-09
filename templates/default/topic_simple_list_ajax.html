@@ -1,0 +1,26 @@
+<div class="Listmain">
+  <!--{if $topic_list}-->
+  <!--微博列表 Begin-->
+    <!--{loop $topic_list $val}-->
+      <!--{eval $counts++;}-->
+	  <div class="feedCell" id="topic_list_{$val[tid]}">
+			<!--{if $this->Config[ad_enable]}-->
+				<!--{if $counts == 5 && $this->Config[ad][ad_list][group_myhome][middle_center1]}-->
+				    <!--{eval SetADV('group_myhome','middle_center1');}-->
+				<!--{/if}-->		
+			<!--{/if}-->
+			<!--{subtemplate topic_item_ajax}-->
+	  </div>
+	<!--{/loop}-->
+  <!--微博列表 End-->
+			  
+    <!--{if $page_arr['html']}-->
+    <div class="pageStyle">
+      <li>{$page_arr['html']}</li>
+    </div>
+    <!--{/if}-->
+  {else}
+  <div style="margin:10px 30px;">暂时没有可显示的内容</div>
+  <!--{/if}-->
+</div>
+{eval echo $this->js_show_msg();}

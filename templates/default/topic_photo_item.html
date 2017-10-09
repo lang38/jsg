@@ -1,0 +1,45 @@
+<!--{eval if($this->Config['attach_enable']) $allow_attach = 1; else $allow_attach = 0 }-->
+<!--{eval $allow_pic = $this->Config['image_enable'] ? $this->Config['image_enable'] : 0}-->
+<!--{eval $allow_face = $this->Config['face_enable'] ? $this->Config['face_enable'] : 0}-->
+<li class="vg_line">
+
+<div class="item_photo">
+<a target="_blank" href="index.php?mod=topic&code={$val[tid]}"><img src="{$val[photo]}" width="231"></a>
+</div>
+
+<div class="favorite" id="topic_list_{$val[tid]}">	
+{$val[content]} 		  
+<span id="topic_lists_{$val[tid]}_time" class="ut"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="查看">{$val[dateline]} </a></span>
+<span id="topic_lists_{$val[tid]}_view" class="ut" style="display:none;"><a href="index.php?mod=topic&code={$val[tid]}" target="_blank" title="发布时间：{$val[dateline]}">查看详情</a></span>
+<div class="creply">
+<dt>
+<span {if MEMBER_ID <1 } onclick="ShowLoginDialog();"{else} onclick="topicdig({$val[tid]},{$val[uid]},{$val[digcounts]},'{$this->Config[changeword][dig]}');return false;"{/if}><a class="topicdig_{$val[tid]}" id="topicdig_{$val[tid]}" href="javascript:;" value="{$val[tid]}" rel="{$val[digcounts]}" title="{$this->Config[changeword][dig]}">赞<!--{if $val[digcounts]}-->{$val[digcounts]}<!--{/if}--></a></span> 
+</dt>
+<dt>|</dt>
+<dt>
+<a href="javascript:void(0)" title="已有{$val[replys]}人评论" onclick="DreplyTopic({$val[tid]},{$val[replys]},{$allow_attach},{$allow_pic},{$allow_face},1);return false;">评论</a>{$val[replys]}
+</dt>
+<dt>|</dt>
+<dt>
+<a href="javascript:void(0)" title="已有{$val[forwards]}人转发" onclick="get_forward_choose({$val[tid]},{$allow_attach},{$allow_pic},{$allow_face});return false;">转发</a>{$val[forwards]} 
+</dt>
+
+
+</div>
+</div>
+
+<div class="ws_bd">
+{template "user_face_photo_menu"}
+<span class="photo_vip">{template "user_signature"}</span>
+<div class="photofllow">{$val[follow_html]}</div> 
+</div>
+
+
+</li>
+
+<script type="text/javascript">
+	$(document).ready(function(){	
+		$("#topic_list_{$val[tid]}").mouseover(function(){$("#topic_lists_{$val[tid]}_time").hide();$("#topic_lists_{$val[tid]}_view").show();});
+		$("#topic_list_{$val[tid]}").mouseout(function(){$("#topic_lists_{$val[tid]}_time").show();$("#topic_lists_{$val[tid]}_view").hide();});
+	});
+</script>

@@ -1,0 +1,53 @@
+<!--列表区块开始-->
+      <div>
+        <div style="padding:2px;">
+          <div class="t_list_b">
+            <!--微博主体-->
+            <div> <a title="{$val[nickname]}" href="index.php?mod={$val[username]}">{$val[nickname]}</a>
+              <!--{if $val[validate_html]}-->
+              <img class='vipImg' title='{$val[vip_info]}' src='{$val[vip_pic]}' />
+              <!--{/if}-->
+              :<span>{$val[content]}</span> <!--{if $val[longtextid]}--> <a href="index.php?mod=topic&amp;code={$val[tid]}">[查看全文]</a><!--{/if}--><br />
+            </div>
+            <!--{if $val[imageid] && $val[image_list]}-->
+            <div class="t_list_b"> 
+				{loop $val[image_list] $iv}
+				<a href="index.php?mod=topic&code={$val[tid]}"><img src="{$iv[image_small]}" /></a> 
+				{/loop}
+			</div>
+            <!--{/if}-->
+            <!--{if ($tpid=$val[top_parent_id])>0}-->
+            <div class="t_list_b">
+              <div class="transpond">
+                <!--{if ($pt=(isset($parent_list[$tpid]) ? $parent_list[$tpid] : $rets[parent_list][$tpid]))}-->
+					<p>
+						<span>
+						<a href="index.php?mod={$pt[username]}">{$pt[nickname]}</a>
+						<!--{if $pt[validate_html]}--><img class='vipImg' title='{$pt[vip_info]}' src='{$pt[vip_pic]}' /><!--{/if}-->: 
+						{$pt[content]} 
+						</span>
+					</p>
+					<!--{if $pt[imageid] && $pt[image_list]}-->
+					<div class="Im">
+						{loop $pt[image_list] $iv}
+						<img src="{$iv[image_small]}" />
+						{/loop}
+					</div>
+					<!--{/if}-->
+					<a href="index.php?mod=topic&amp;code={$tpid}">原文评论({$pt[replys]})</a> <a href="index.php?mod=topic&amp;code={$tpid}">原文转发({$pt[forwards]})</a>
+                <!--{else}-->
+					<!--{eval $val[reply_disable]=0;}-->
+					<span>原始微博已删除</span>
+                <!--{/if}-->
+              </div>
+            </div>
+            <!--{/if}-->
+            <!--微博管理-->
+            {template "topic_list_manage"}
+            <!--微博管理-->
+          </div>
+          <!--右边主体结束-->
+        </div>
+      </div>
+      <div class="lineDot"></div>
+      <!--列表区块结束-->

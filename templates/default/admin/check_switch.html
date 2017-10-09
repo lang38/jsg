@@ -1,0 +1,56 @@
+<!--{template admin/header}-->
+<form action="admin.php?mod=setting&code=do_check_switch" method="post">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+  <tr class="header">
+    <td colspan="2">审核开关设置</td>
+  </tr>
+	<tr class="altbg2">
+		<td width="45%"><b>非V认证用户发言限制：</b><br>
+		  <span class="smalltxt">选择“禁止发言”，只有已通过V认证的用户才能发微博；</span><br>
+		  <span class="smalltxt">选择“进入待审核”，非V认证的用户发微博自动进入待审核状态。</span>
+		</td>
+		<td>
+			<input id="config[topic_vip])_1" class="radio" type="radio" value="1" name="config[topic_vip])" {$topic_only_vip_checked['1']}>
+			<label for="config[topic_vip])_1">禁止发言</label>
+			<input id="config[topic_vip])_2" class="radio" type="radio" value="2" name="config[topic_vip])" {$topic_only_vip_checked['2']}>
+			<label for="config[topic_vip])_2">进入待审核</label>
+			<input id="config[topic_vip])_0" class="radio" type="radio" value="0" name="config[topic_vip])" {$topic_only_vip_checked['0']}>
+			<label for="config[topic_vip])_0">不限制</label>
+		</td>
+	</tr>
+	<tr class="altbg1">
+		<td width="45%"><b>开启微博内容先审后发：</b><br>
+		<span class="smalltxt">选择“是”，前台所有用户发微博必须经过管理员审核通过后才可以对外显示；<br />
+		用户在“我的微博”可以看到自己发布的待审核的微博信息。</span></td>
+		<td>$verify_radio</td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>有待审核通知管理员：</b><br>
+		<span class="smalltxt">当您在此处填写了内容时，系统自动以初始帐号给管理员发私信，告知有审核内容；
+			<br/>填写管理员昵称，多个管理员用"|"隔开；
+			<br>为方便管理，请尽量不要以初始帐号作为审核管理员。</span></td>
+		<td><input type="text" name="config[notice_to_admin]" value="{conf notice_to_admin}" size="50" ></td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>进入待审核提示：</b><br>
+		<span class="smalltxt">选择“是”开启，用户发微博内容进入审核状态时，显示提示信息；<br />
+		选择“否”，跳过信息提示。</span></td>
+		<td>$alert_radio</td>
+	</tr>
+	<tr class="altbg2">
+		<td><b>开启签名审核：</b><br>
+		<span class="smalltxt">选择“是”开启，前台所有用户编辑签名必须经过管理员审核通过后才可以对外显示；<br />
+		未经审核以及审核未通过时，显示用户原有签名。</span></td>
+		<td>$sign_verify_radio</td>
+	</tr>
+	<tr class="altbg1">
+		<td><b>开启头像审核：</b><br>
+		<span class="smalltxt">选择“是”开启，前台所有用户改变头像必须经过管理员审核通过后才可以对外显示；<br />
+		未经审核以及审核未通过时，显示用户原有头像或默认头像。<br>
+		注：开启UC整合将不进行审核操作。</span></td>
+		<td>$face_verify_radio</td>
+	</tr>
+</table>
+  <center><input type="submit" class="button" name="settingsubmit" value="提 交"></center>
+<br>
+</form>

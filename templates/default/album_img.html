@@ -1,0 +1,64 @@
+{template "topic_header"}
+<link href="static/style/img.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.exp-wrap .exp-main{ width:920px;}
+.topic_new_add{margin:10px 0px;}
+.topic_new_add .sendBox,.feedCell{box-shadow: none;}
+.exp-wrap .g-content{ overflow:visible}
+.exp-wrap .g-hd2 .g-doc{ width:980px;}
+.g-ft, .m-ft{ width:980px;}
+</style>
+<div class="m_nav_home">
+<div class="nav_home">
+<h1 class="logo"><a href="index.php?mod=album">微博相册</a></h1>
+<ul class="nav">
+      <a class="link" href="index.php?mod=plaza&code=new_pic"><span class="valign">图片墙</span></a>
+      <!--{eval if($type) $uclass='title_bg'; else $pclass='title_bg';}-->
+      <a class="link {$uclass}" href="index.php?mod=topic&code=photo&uid={$url_uid}">{$nickname}关注人的图片</a>
+</ul> 
+</div>
+</div>
+
+<div class="m-box exp-main">
+<p class="album-nav">
+<a class="{$allclass}" href="index.php?mod=album&code=list">全部相册</a><a class="{$myclass}" href="index.php?mod=album">我的相册</a>
+</p>
+<!--{if $myclass == 'curr'}-->
+<script type="text/javascript" src="static/js/img.js"></script>
+<div class="u-tip">您在微博里发布的图片，默认都保存在“默认相册”里
+<input type="button" value="上传图片" class="u-btn" style="margin-left:30px;" onclick="uploadphoto('photo','handkey',this);" data-id="{$albumid}">
+</div>
+<!--{/if}-->
+<h3 class="t-h3">{$navtitle}</h3>
+<p style="margin:10px 0px"><a href="{$imginfo['photo']}"><img src="{$imginfo['photo']}" onerror="javascript:faceError(this);" width="{$imgwidth}" height="{$imgheight}"></a></p>
+<p style="margin:10px 0px">图片大小：{$imgsize}</p>
+<p style="margin:10px 0px">图片像素：{$imginfo[width]}px(宽) × {$imginfo[height]}px(高)</p>
+<p style="margin:10px 0px">图片描述：{$imginfo[description]}</p>
+<p style="margin:10px 0px">图片来源：{$imgfrom}</p>
+<p style="margin:10px 0px">上传时间：{$imgtime}</p>
+<div class="topic_new_add">
+<!--{template "topic_publish"}--> 
+</div>
+<script language="Javascript">
+	function listTopic( s,lh ) {	
+		var s = 'undefined' == typeof(s) ? 0 : s;var lh = 'undefined' == typeof(lh) ? 1 : lh;
+		if(lh){window.location.hash="#listTopicArea";}
+		var myAjax = $.post("ajax.php?mod=app&code=list_topic",{
+			<!--{loop $params $k $v}-->
+			{$k}:"{$v}",
+			<!--{/loop}-->
+			start:s
+		},function (d){$("#listTopicArea").html(d);}); 
+	}
+</script>
+<div class="Listmain" style="margin-top:15px;">
+	<div id="listTopicMsgArea"></div>
+	<div id="listTopicArea">
+	{template "topic_list_ajax"}
+	</div>
+</div>
+
+</div>
+
+<div id="viebigphoto"></div>
+{template "topic_footer"}

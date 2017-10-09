@@ -1,0 +1,13 @@
+<!--未登录时页面顶部邀请注册部分-->
+
+<div class="regInvite"> 
+  <div class="atxt">
+	<p class="p_1"><span>{$member[nickname]}</span>在这里，想收到TA的最新消息吗？</p> 
+	<p class="p_2">{$this->Config[changeword][p_weibo]}是现在最酷、最火的沟通交流工具，可以随时随地分享新鲜事，与朋友保持联络。</p> 
+	<p class="p_3">10秒注册{$this->Config[changeword][p_weibo]}就可通过网页、手机、客户端随时随地分享新鲜事、关注所需的最新消息！</p>
+  </div>
+  <div class="abtn">
+	<a href="index.php?mod=member&code&uid={$member[uid]}"><img src="static/image/regbtn.gif"></a>
+	<p>已有帐号，<a href="javascript:void(0);" onclick="ShowLoginDialog(); return false;">请点此登录</a></p>
+  </div> 
+</div>

@@ -1,0 +1,95 @@
+<ul class="followList" style="overflow: hidden">
+  <!--{loop $pm_list $val}--> 
+  <!--{if $touid == 0}-->
+  <li class="pane" id="msg_0">
+    <div class="fBox_l">
+    <img onerror="javascript:faceError(this);" src="{$val[face]}" onmouseover="get_user_choose({$val[uid]},'_user','{$key}');" onmouseout="clear_user_choose();" />
+    </div>
+    <!--<div id="user_{$key}_user" class="layS"></div>-->
+    <div class="fBox_R3">
+      <p><span><a href="index.php?mod=$val[username]">{$val[nickname]}</a> <a target="_blank" href="index.php?mod=other&code=vip_intro"> <img
+		class="vipImg" src="images/vip.gif" title="管理员"> </a> </span></p>
+      <span>{$val[message]}</span>
+      <div class="time"><span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span> </div>
+    </div>
+  </li>
+  <!--{else}-->
+  <li class="pane" id="msg_{$val[pmid]}">
+    <div class="fBox_l">
+    <img onerror="javascript:faceError(this);" src="{$val[face]}" onmouseover="get_user_choose({$val[msgfromid]},'_user',{$val[pmid]});"
+		onmouseout="clear_user_choose();" /></div>
+    <div id="user_{$val[pmid]}_user" class="layS"></div>
+    <div class="fBox_R3">
+      <p><!--{if $val[msgfromid] == MEMBER_ID}--> <span><strong>我</strong></span> 
+        <!--{ELSE}--> <span><strong><a
+		href="index.php?mod=$val[username]">{$val[nickname]}</a></strong></span> <!--{/IF}--> 
+		
+      <p id="msg_{$val[pmid]}_text" class="pm-text">{$val[message]}</p>
+      
+      <!--{if $val[attachids] && $val[attach_list]}--> 
+      <!--{eval $val[attach_key]=$val[tid].'_'.mt_rand();}-->
+      <ul class="attachList" id="attach_area_{$val['attach_key']}">
+        <!--{loop $val[attach_list] $iv}--> 
+        <!--{eval $attachaid=$iv[id];}-->
+        <li style="border-bottom:none;"><img src="{$iv[attach_img]}" class="attachList_img" />
+          <div class="attachList_att">
+            <p class="attachList_att_name"><b>{$iv[attach_name]}</b> &nbsp;（{$iv[attach_size]}）</p>
+            <p class="attachList_att_doc"> 
+              <!--{if $iv[onlineview]}--><a href="{$iv[onlineview]}" target="_blank">在线预览</a> | <!--{/if}--> 
+              <a href="javascript:void(0);"
+		onclick="downattach({$iv[id]});">点此下载</a>（需<font id="attach_score_{$iv[id]}">{$iv[attach_score]}</font>积分，已下载<font id="attach_downnum_{$iv[id]}">{$iv[attach_down]}</font>次）<!--{hook/global_item_attach $attachaid}--></p>
+          </div>
+        </li>
+        <!--{/loop}-->
+      </ul>
+      <!--{/if}--> 
+      <!--{if $val[imageids] && $val[image_list]}--> 
+      <!--{eval $val[image_key]=$val[tid].'_'.mt_rand();}-->
+      <ul class="imgList" id="image_area_{$val['image_key']}"  style="width:540px;">
+        <!--{loop $val[image_list] $iv}--> 
+        <!--{eval $ivw=min(460, $iv[image_width]);}-->
+        <li style="border-bottom:none;"> <a href="{$iv[image_original]}" class="artZoomAll" rel="{$iv[image_small]}" rev="{$val[image_key]}"> <img src="{$iv[image_small]}" data-original="{$iv[image_small]}" /> </a>
+          <div class="artZoomBox" style="display: none;">
+            <div class="tool"><a title="向左转" href="#" class="imgLeft">向左转</a><a 
+		title="向右转" href="#" class="imgRight">向右转</a><a title="查看原图"
+		href="{$iv[image_original]}" class="viewImg">查看原图</a></div>
+            <a class="maxImgLinkAll" href="{$iv[image_original]}"><img
+		 src="{$iv[image_small]}" data-original="{$iv[image_original]}" maxWidth="460" width="$ivw" class="maxImg"></a></div>
+        </li>
+        <!--{/loop}-->
+      </ul>
+      <!--{/if}-->
+      
+      <div style="margin-top:5px; color:#999;">
+      <span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span> 
+      <span style="float: right"><a href="javascript:void(0);" onclick="delmsg($val[pmid]);" title="删除">删除</a></span>
+      </div>
+    </div>
+  </li>
+  <!--{/if}--> 
+  <!--{/loop}-->
+</ul>
+<ul>
+  <!--{if $page_arr[html]}-->
+  <li>{$page_arr[html]}</li>
+  <!--{/if}-->
+</ul>
+<script type="text/javascript">	
+      function delmsg(pmid){
+  		var del = confirm("确定要删除这条私信吗？");
+		if(del == true){
+			$.post(
+				'ajax.php?mod=pm&code=delmsg&pmid='+pmid,
+				function(d){
+					if('' != d){
+						show_message(d);
+					}else{
+						$('#msg_'+pmid).remove();
+					}
+				}
+			);
+		}else{
+			return false;
+		}
+      }
+      </script>

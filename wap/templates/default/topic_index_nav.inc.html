@@ -1,0 +1,23 @@
+<!--{if $params[code] == myblog }-->
+		<!--{eval if(MEMBER_ID == $member[uid]) $_my = '我'; else $_my = $member[nickname];}-->
+		<!--{/if}-->
+
+		<!--{if $this->Code == 'myhome'}-->
+		<span>我的首页</span>
+		<!--{elseif $this->Module == 'at'}-->
+		<span>@提到我的</span>
+		<!--{/if}-->
+	
+		<!--{if 'comment' == jget('mod')}-->
+		<!--{eval if($this->Code == 'inbox') $mycomment = 'hb';}--> 
+		<!--{eval if($this->Code == 'outbox') $tocomment = 'hb';}--> 
+		<span class="{$mycomment}"><a href="index.php?mod=comment&code=inbox">评论我的</a></span>
+		<span class="{$tocomment}" style="margin-left:10px;"><a href="index.php?mod=comment&code=outbox">我的评论</a></span>
+		<!--{/if}-->
+		
+		<!--{if 'topic_favorite' == jget('mod')}-->
+		<!--{eval if($this->Code != 'me') $my_favorite = 'hb';}--> 
+		<!--{eval if($this->Code == 'me') $favoritemy = 'hb';}--> 
+		<span class="{$my_favorite}"><a href="index.php?mod=topic_favorite">我的收藏</a></span>
+		<span class="{$favoritemy}"><a href="index.php?mod=topic_favorite&amp;code=me">收藏我的</a></span>
+		<!--{/if}-->

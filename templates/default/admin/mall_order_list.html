@@ -1,0 +1,101 @@
+
+<!--{template admin/header}-->
+<form action="admin.php?mod=mall&code=search_order" method="POST" name="search">
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="9">搜索订单</td>
+		</tr>
+		<tr>
+			<td class="altbg1">商品名称:</td>
+			<td class="altbg2"><input type="text" name="goods_name" value="{$goods_info['name']}" size="60"></td>
+			<td class="altbg1">订单SN:</td>
+			<td class="altbg2"><input type="text" name="order_sn" value="{$order_sn}" size="20"></td>
+			<td class="altbg1">用户呢称:</td>
+			<td class="altbg2"><input type="text" name="user_nickname" value="{$user_nickname}" size="20"></td>
+			<td class="altbg1">订单状态:</td>
+			<td class="altbg2">
+				<select name="order_state">
+					<option value="-1">请选择</option>
+					<option value="0" {if $order_status == 0}selected="selected"{/if}>已下单</option>
+					<option value="1" {if $order_status == 1}selected="selected"{/if}>已发货</option>
+					<option value="2" {if $order_status == 2}selected="selected"{/if}>已退还</option>
+				</select>
+			</td>
+			<td class="altbg1"><button name="do" value='' type="submit" class="button">搜索一下</button></td>
+		</tr>
+	</table>
+</form>
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+	<td width="10%">订单SN</td>
+	<td width="15%">商品名称</td>
+	<td width="10%">用户呢称</td>
+	<td width="5%">数量</td>
+	<td width="10%">用户地址</td>
+	<td width="15%">用户手机</td>
+	<td width="10%">订单时间</td>
+	<td>订单状态</td>
+</tr>
+
+<!--{loop $list['list'] $one}-->
+<tr class="altbg1" id="tr_id_{$one['id']}">
+
+	<td>{$one[sn]}</td>
+	<td>{$one['goods_name']}</td>
+	<td>{$one['username']}</td>
+	<td>{$one['goods_num']}</td>
+	<td>{$one['address']}</td>
+	<td>{$one['mobile']} {$one['tel']}</td>
+	<td>{$one['add_time']}</td>
+	<td>
+		<!--"data[{$one['id']}]-->
+		{if $one['status'] == 0}
+		<button value="" data-id="{$one['id']}" name="fahuo" onclick="fahuo(this)">发货</button>
+		<button value="" data-id="{$one['id']}" name="tuihuan" onclick="tuihuan(this)">退还</button>
+		{elseif $one['status'] == 1}
+		<button value="" data-id="{$one['id']}" name="tuihuan" onclick="tuihuan(this)">退还</button>
+		{else}
+		订单已取消
+		{/if}
+	</td>
+
+</tr>
+<!--{/loop}-->
+
+</table>
+
+{$list['page']['html']}
+<script type="text/javascript">
+	
+	function fahuo(obj){
+		var oid = $(obj).attr("data-id");
+
+		$.get("ajax.php?mod=mall&code=ordership",{'oid':oid},function(json){
+			if(json.done){
+				alert(json.msg);
+				window.location.reload();
+			}else{
+				alert(json.msg);
+			}
+		},'json');
+	}
+
+	function tuihuan(obj){
+		var oid = $(obj).attr("data-id");
+
+		$.get("ajax.php?mod=mall&code=ordercancle",{'oid':oid},function(json){
+			if(json.done){
+				alert(json.msg);
+				window.location.reload(); 
+			}else{
+				alert(json.msg);
+			}
+		},'json');
+	}
+
+</script>
+
+
+
+

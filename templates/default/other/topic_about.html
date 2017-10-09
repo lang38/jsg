@@ -1,0 +1,41 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+
+<div class="main">
+ <div class="mainWrap ">
+      <div class="u-title">
+      <span class="mleft">{$this->Title}</span>
+      </div>
+      
+      <!--{if 'about'==$this->
+            Code}--> 
+      {$this->InfoConfig['about']} 
+      <!--{elseif 'contact'==$this->
+            Code}--> 
+      {$this->InfoConfig['contact']} 
+      <!--{else}--> 
+      {$this->InfoConfig['joins']} 
+      <!--{/if}--> 
+      <!--{if 'admin'==MEMBER_ROLE_TYPE}-->
+     <p class="vars" style="text-align:right"> 本行信息仅管理员可见：
+        上述内容可在<a href="admin.php?mod=web_info" target=_blank>后台：全局设置：关于我们等</a>中修改 </p>
+      <!--{/if}--> 
+    </div>
+
+  <div class="sideBar">
+    <style type="text/css">
+	.about li{ padding:5px 0; font-size:14px;}
+	</style>
+      <div class="column about">
+        <li><a href="index.php?mod=other&code=about">关于我们</a></li>
+        <li><a href="index.php?mod=other&code=contact">联系我们</a></li>
+        <li><a href="index.php?mod=other&code=joins">加入我们</a></li>
+        <li><a href="index.php?mod=tag&code=意见反馈">意见反馈</a></li>
+      </div>
+ </div>
+</div>
+</div>
+
+
+{template "topic_footer"}
+

@@ -1,0 +1,368 @@
+{template "topic_header"} 
+<!--{if $this->Config[ad_enable]}-->
+<div class="a-h"><!--{eval SetADV('group_new','header');}--></div>
+<!--{/if}--> 
+
+{template "topic_left_nav.inc"}
+<div class="main">
+  <div class="mainWrap"> 
+    <!-- 广场头部导航 -->
+    <div class="plaze_header_nav"> {jwidget plaza.header.nav} </div>
+    <script type="text/javascript">
+	function listTopic( s,lh ) {	
+		var s = 'undefined' == typeof(s) ? 0 : s;
+		var lh = 'undefined' == typeof(lh) ? 1 : lh;
+		if(lh) {
+			window.location.hash="#listTopicArea";
+		}
+		$("#listTopicMsgArea").html("<div><center><span class='loading'>内容正在加载中，请稍候……</span></center></div>");
+		var myAjax = $.post(
+			"ajax.php?mod=topic&code=list",
+			{
+				<!--{loop $params $k $v}-->
+				{$k}:"{$v}",
+				<!--{/loop}-->
+				start:s
+			},
+			function (d) {
+				$("#listTopicMsgArea").html('');
+				$("#listTopicArea").html(d);			
+			}
+		); 
+	}
+	</script>
+    <div id="listTopicMsgArea"></div>
+    <div id="listTopicArea">
+      <div class="Listmain"> 
+        
+        <!--{if $d_list}-->
+        <ul class="boxNav">
+          <!--{loop $d_list $key $val}--> 
+          <!--{eval $_i = ($d==$key ? boxNavselect :boxNavli );}-->
+          <li class="{$_i}" id="Num{$key}"><a href="index.php?mod=topic&code={$this->Code}&d={$key}">{$val}</a></li>
+          <!--{/loop}-->
+        </ul>
+        <!--{/if}--> 
+        
+        <!--{if $this->Config['only_show_vip_topic'] && $this->Code == 'new'}-->
+        <div style="margin:10px;"> <span style="font-size:16px"> <a href="index.php?mod=other&code=vip_intro" target="_blank">当前仅显示V认证用户的最新{$this->Config[changeword][n_weibo]}</a> </span> </div>
+        <!--{/if}--> 
+        
+        <!--{if $this->Code == 'tc'}-->
+        <div class="tcTitle">
+          <div class="c_area"> <a href="javascript:void(0);" onclick="choose();" class="c_area_a" >切换地域</a>
+            <input type="hidden" id="hid_tc_city" name="hid_tc_city" value="{$city_id}">
+            <input type="hidden" id="hid_tc_area" name="hid_tc_area" value="{$area_id}">
+            <div id='choosecity' style="display:none" class="citysel">
+              <div class="citysel_b"> {$province_list}
+                <select id='tc_city' name="tc_city" onchange="changeCity();">
+                  <option value=''>请选择</option>
+                </select>
+                <select id='tc_area' name="tc_area" style="display:none width:150px">
+                  <option value=''>请选择</option>
+                </select>
+                <div class="c_area_b"> <a href="javascript:choosecity();" class="btnText c_area_d">确 定</a> </div>
+              </div>
+            </div>
+          </div>
+          <div class="c_area_name"> 
+            <!--{if $area_name}--> 
+            <a href="index.php?mod=topic&code=tc&province=$province_id">{$province_name}</a>， <a href="index.php?mod=topic&code=tc&province=$province_id&city=$city_id">{$city_name}</a>，
+            {$area_name} 
+            <!--{elseif $city_name}--> 
+            <a href="index.php?mod=topic&code=tc&province=$province_id">{$province_name}</a>，{$city_name} 
+            <!--{elseif $province_name}--> 
+            {$province_name} 
+            <!--{else}--> 
+            <a href="index.php?mod=settings">编辑地址</a><!--{/if}--> 
+          </div>
+        </div>
+        <script type="text/javascript">
+	    function choose(){
+		    var display = document.getElementById('choosecity').style.display == 'block' ? 'none' : 'block';
+		  	if(display == 'block'){
+		  		changeProvince();
+			}
+		  	document.getElementById('choosecity').style.display = display;
+			$(".c_area_a").toggleClass("c_area_a_on");
+		}
+	    function changeProvince(){
+	        var province = document.getElementById('tc_province').value;
+	        var city = document.getElementById('hid_tc_city').value;
+	        var url = "ajax.php?mod=member&code=sel&province="+province+"&hid_city="+city;
+	        $.post(
+	  		url,
+	  		function(r){
+		  		if(r){
+	  		  		$('#tc_city').html(r);
+	  		  		changeCity();
+		  		}else{
+					document.getElementById('tc_area').lenght = 1;
+					document.getElementById('tc_area').style.display = 'none';
+			    }
+	  		}
+	        );
+	      }
+
+	    function changeCity(){
+	        var city = document.getElementById('tc_city').value;
+	        var area = document.getElementById('hid_tc_area').value;
+	        var url = "ajax.php?mod=member&code=sel&city="+city+"&hid_area="+area;
+	        $.post(
+	  		url,
+	  		function(r){
+		  		if(r){
+		  			document.getElementById('tc_area').style.display = 'block';
+	  		  		$('#tc_area').html(r);
+		  		}else{
+					document.getElementById('tc_area').style.display = 'none';
+			    }
+	  		}
+	        );
+		}
+	    
+	    function choosecity(){
+	    	var url = thisSiteURL + "index.php?mod=topic&code=tc";
+	    	
+	    	var province = document.getElementById('tc_province').value;
+	    	if(province){
+				url = url + "&province="+province;
+		    }
+	    	var city = document.getElementById('tc_city').value;
+	    	if(city){
+				url = url + "&city="+city;
+		    }
+	    	var area = document.getElementById('tc_area').value;
+	    	if(area){
+				url = url + "&area="+area;
+		    }
+		    
+	        location.href=url;
+		}
+		</script> 
+        
+        <!--{/if}--> 
+        
+        <!--{if $topics}--> 
+        <!--{if 'favoritemy'==$this->Code}--> 
+        <!--{loop $topics $val}--> 
+        <!--{eval $counts++;}-->
+        <div class="feedCell" id="topic_list_{$val[tid]}"> 
+          <!--{subtemplate topic_favoritemy_item}--> 
+        </div>
+        <!--{/loop}--> 
+        <!--{else}--> 
+        <!--{loop $topics $val}--> 
+        <!--{eval $counts++;}-->
+        <div class="feedCell" id="topic_list_{$val[tid]}"> 
+          <!--{if $this->Config[ad_enable]}--> 
+          <!--{if $counts == 5 && $this->Config[ad][ad_list][group_new][middle_center1]}--> 
+          <!--{eval SetADV('group_new','middle_center1');}--> 
+          <!--{/if}--> 
+          <!--{/if}--> 
+          <!--{subtemplate topic_item_ajax}--> 
+        </div>
+        <!--{/loop}--> 
+        <!--{/if}-->
+        <div id="ajaxtopic"></div>
+        <div id="pageinfo"></div>
+        <div id="pagehtml"> 
+          <!--{if $page_arr[html]}-->
+          <div class="pageStyle">
+            <li>{$page_arr[html]}</li>
+          </div>
+          <!--{/if}--> 
+        </div>
+        <!--{/if}--> 
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+	  <!--{if $isloading}-->var isLoading = true;<!--{else}-->var isLoading = false;<!--{/if}-->
+	  if(isLoading){$('#pageinfo').html('');$("#pagehtml").hide();}var ajaxkeys = new Array();var onloading = false;var ajaxnum = 0;
+	  <!--{loop $ajaxkey $key $val}-->
+	  ajaxkeys[{$key}] = '{$val}';
+	  <!--{/loop}-->
+	  $(window).bind('scroll resize',function(event){if(isLoading && !onloading){var bodyTop = document.documentElement.scrollTop + document.body.scrollTop;if(bodyTop+$(window).height() >= ($('#listTopicArea').height()+100)){loadtopic(ajaxkeys[ajaxnum]);}}});
+  </script>
+  <div class="sideBar"> 
+    
+    <!--{eval SetADV('group_new','middle_right_top');}--> 
+    
+    <!--{hook/global_topicnew_extra2}--> 
+    
+    <!--{jwidget topic_new right}--> 
+    
+    <!--{if $this->Config[company_enable]}--> 
+    <script language="javascript">
+      $(document).ready(function(){get_sinopec_company();});
+      function get_sinopec_company(){sinopec_right_show_ajax('company');}
+      </script>
+    <style>
+      .company_hide{display:none;}
+      #sinopec_company li{ padding:0;}
+      </style>
+    <div class="column">
+      <h3>{$d_c_name}微博
+        <div class="com_more" onclick="$('#sinopec_company').toggle();">&nbsp;</div>
+      </h3>
+      <ul class="channelul" id="sinopec_company" style=" display:none;">
+      </ul>
+    </div>
+    <!--{/if}--> 
+    
+    <script type="text/javascript">
+      $(document).ready(function(){
+      //微群列表
+      <!--{if !$this->Config['acceleration_mode']}-->			
+      get_qun_select();
+      <!--{/if}-->		
+      });
+      function get_qun_select(){
+      $(".widget_qun_select").load("ajax.php?mod=sinopec&code=qun");
+      }
+      </script>
+    <div class="column widget_qun_select"></div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+      //推荐微群
+      get_hotweiqun();
+      });
+      //热门微群
+      function get_hotweiqun(){			
+      right_show_ajax('{$member[uid]}','hotweiqun','hotweiqun');
+      }
+      </script> 
+    <script language="javascript">
+      $(document).ready(function(){
+      <!--{if !$this->Config['acceleration_mode']}-->			
+      get_hot_pic();
+      <!--{/if}-->
+      <!--{if !$this->Config['acceleration_mode']}-->			
+      get_hot_reply();
+      <!--{/if}-->
+      <!--{if !$this->Config['acceleration_mode']}-->			
+      get_hot_forward();
+      <!--{/if}-->
+      });
+      
+      function get_hot_pic(){
+      $(".widget_hot_pic_select").load("ajax.php?mod=sinopec&code=get_hot&type=pic");
+      }
+      function get_hot_reply(){
+      $(".widget_hot_reply_select").load("ajax.php?mod=sinopec&code=get_hot&type=reply");
+      }
+      function get_hot_forward(){
+      $(".widget_hot_forward_select").load("ajax.php?mod=sinopec&code=get_hot&type=forward");
+      }
+      </script> 
+    
+    <!--热门图片-->
+    <div class="column widget_hot_pic_select"></div>
+    <!--热门回复-->
+    <div class="column widget_hot_reply_select"></div>
+    <!--热门评论-->
+    <div class="column widget_hot_forward_select"></div>
+    <div id="recd_qun_div" class="column">
+      <h3>推荐{$this->Config[changeword][weiqun]}</h3>
+      <ul class="sideul">
+        <div id="{$member['uid']}_hotweiqun"></div>
+      </ul>
+    </div>
+    <!--{if FALSE}--><!--禁用--> 
+    <script language="javascript">
+		$(document).ready(function(){get_sinopec_channel();});
+		function get_sinopec_channel(){sinopec_right_show_ajax('channel','18,17','2');}
+		</script>
+    <div id="sinopec_channel"></div>
+    <!--{/if}--> 
+    
+    <!--{if $this->Config[hot_tag_recommend_enable] && ($hot_tag_recommend = ConfigHandler::get('hot_tag_recommend')) && $hot_tag_recommend[list]}--> 
+    <script language="javascript">
+		$(document).ready(function() {
+			//热门话题
+			right_show_ajax('{MEMBER_ID}','hot_tag','hot_tag');	
+		});
+	</script> 
+    <!-- 热门话题推荐 -->
+    <div id="hot_tag_div" class="column">
+      <h3>{$hot_tag_recommend[name]}</h3>
+      <ul class="sideul">
+        <div id="{MEMBER_ID}_hot_tag"></div>
+      </ul>
+    </div>
+    <!-- 热门话题推荐 --> 
+    <!--{/if}--> 
+    
+    <!--{if $this->Code == 'tc'}--> 
+    {if $events}
+    <div class="column">
+      <h3>最新同城活动 <em>TOP {$event_limit}</em> </h3>
+      <ul class="sideul">
+        <!--{loop $events $val}--> 
+        <!--{eval $EventNo++;}-->
+        <li style="width:100%; float:left;"> <span class="boxRl listyle">{$EventNo}. <a href="index.php?mod=event&code=detail&id={$val[id]}" target="_blank">{$val[title]}</a></span> <span style="float:right;">({$val[app_num]})</span> </li>
+        <!--{/loop}-->
+        <li style="width:100%; float:left;"><a class="mores" href="index.php?mod=event" title="更多"></a></li>
+      </ul>
+    </div>
+    {/if} 
+    <!--{/if}--> 
+    
+    <!--{if $new_vip_user_list}-->
+    <div class="column">
+      <h3>最近认证用户</h3>
+      <div class="sideul memberList"> {template 'topic_right_user_ajax'} </div>
+      <a class="mores" href="index.php?mod=people" target="_blank" title="更多"></a> </div>
+    <!--{/if}-->
+    
+    <div> {$this->Config['ad']['ad_list']['group_new']['middle_right_center']} </div>
+    <script language="javascript">
+		$(document).ready(function(){get_sinopec_channelone();});
+		function get_sinopec_channelone(){sinopec_right_show_ajax('channelone','22');}
+		</script>
+    <div id="sinopec_channelone"></div>
+    <!--{if $tags}-->
+    <div class="column">
+      <h3>最近话题榜 <em>TOP {$Tg_limit}</em> </h3>
+      <ul class="sideul">
+        <!--{loop $tags $val}--> 
+        <!--{eval $TagNo++;}-->
+        <li style="width:100%; float:left;"> <span class="boxRl listyle"><var>{$TagNo}</var><a href="index.php?mod=tag&code={$val[name]}">{$val[name]}</a></span> <em class="mright">{$val[topic_count]}</em> </li>
+        <!--{/loop}-->
+      </ul>
+    </div>
+    <!--{/if}--> 
+    
+    <!--{if $concern_users}-->
+    <div class="column">
+      <h3>人气关注榜 <em>TOP {$Gz_limit}</em> </h3>
+      <ul class="sideul">
+        <!--{loop $concern_users $val}--> 
+        <!--{eval $No++;}-->
+        <li style="width:100%; float:left;"> <span class="boxRl listyle"><var>{$No}</var><a href="index.php?mod={$val[username]}"><!--{eval $val[nickname]}-->{$val[nickname]}</a></span> <em class="mright">{$val[fans_count]}</em> </li>
+        <!--{/loop}-->
+        <li style="width:100%; float:left;"><a class="mores" href="index.php?mod=topic&code=top" title="更多"></a></li>
+      </ul>
+    </div>
+    <!--{/if}--> 
+    
+   
+    <div class="column">
+      <h3>{$this->Config[site_name]}意见反馈</h3>
+      <ul class="sideul">
+        众人拾柴火焰高，如您有任何建议欢迎点<a href="index.php?mod=tag&code=意见反馈" target="_blank">意见反馈</a>告诉我们。
+      </ul>
+    </div>
+    
+    
+    <!--{if $this->Config[ad_enable]}--> 
+    <!--{eval SetADV('group_new','middle_right');}--> 
+    <!--{/if}--> 
+    
+  </div>
+</div>
+<!--{if $this->Config[ad_enable]}--> 
+<!--{eval SetADV('group_new','footer');}--> 
+<!--{/if}--> 
+{template "topic_footer"}

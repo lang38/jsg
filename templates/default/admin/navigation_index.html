@@ -1,0 +1,215 @@
+<!--{template admin/header}-->
+
+<div id="main_wp" class="mt10">
+
+  <script type="text/JavaScript">
+		var rowtypedata = [
+			[
+				[1, '<input name="new_top_nav[name][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input type="checkbox" name="new_top_nav[enable][{addrowcount}]" checked value="1"/>','td2']
+				[1, '<!-- <input type="checkbox" name="new_top_nav[display_in_top][{addrowcount}]" checked value="1"/> -->','td2'],
+				[1, '<!-- <input type="radio" name="new_top_nav[display_in_side][{addrowcount}]" checked value="1"/> -->','td2'],
+				[1, '<!-- <input type="radio" name="new_top_nav[display_in_side][{addrowcount}]" value="0"/> -->','td2'],
+				[1, '<input type="text" name="new_top_nav[order][{addrowcount}]" value="0" size="1"/>', 'td2'], 							
+				[1, '<input name="new_top_nav[value][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input name="new_top_nav[url][{addrowcount}]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<select name="new_top_nav[target][{addrowcount}]"style="width:80px;"><option value="_parent">本窗口</option><option value="_blank">新窗口</option></select>','td2'],
+				[1, '', 'td2'],
+			],
+			[
+				[1, '<i class="l-box l-expandable-open"></i><i class="lower l-box-line"></i><input name="new_side_nav[{1}][name][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input type="checkbox" name="new_side_nav[{1}][enable][{addrowcount}]" checked value="1"/>','td2'],
+				[1, '<input type="checkbox" name="new_side_nav[{1}][display_in_top][{addrowcount}]" checked value="1"/>','td2'],
+				[1, '<!-- <input type="radio" name="new_side_nav[{1}][display_in_side][{addrowcount}]" checked value="1"/> -->','td2'],
+				[1, '<!-- <input type="radio" name="new_side_nav[{1}][display_in_side][{addrowcount}]" value="0"/> -->','td2'],
+				[1, '<input type="text" name="new_side_nav[{1}][order][{addrowcount}]" value="0" size="1"/>', 'td2'], 
+				[1, '<input name="new_side_nav[{1}][value][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input name="new_side_nav[{1}][url][{addrowcount}]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<select name="new_side_nav[{1}][target][{addrowcount}]"style="width:80px;"><option value="_parent">本窗口</option><option value="_blank">新窗口</option></select>','td2'],
+				[1,'', 'td2'],
+			],
+			[
+				[1, '<i class="l-box l-expandable-open"></i><i class="lower l-box-line l-box-linec"></i><input name="new_nav[{1}][{2}][name][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input type="checkbox" name="new_nav[{1}][{2}][enable][{addrowcount}]" checked value="1"/>','td2'],
+				[1, '<input type="checkbox" name="new_nav[{1}][{2}][display_in_top][{addrowcount}]" checked value="1"/>','td2'],
+				[1, '<input type="radio" name="new_nav[{1}][{2}][display_in_side][{addrowcount}]" checked value="1"/>','td2'],
+				[1, '<input type="radio" name="new_nav[{1}][{2}][display_in_side][{addrowcount}]" value="0"/>','td2'],
+				[1, '<input type="text" name="new_nav[{1}][{2}][order][{addrowcount}]" value="0" size="1"/>', 'td2'], 
+				[1, '<input name="new_nav[{1}][{2}][value][{addrowcount}]" value="" type="text" style="width:80px; height:15px;"/>', 'td2'],
+				[1, '<input name="new_nav[{1}][{2}][url][{addrowcount}]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<select name="new_nav[{1}][{2}][target][{addrowcount}]" style="width:80px;"><option value="_parent">本窗口</option><option value="_blank">新窗口</option></select>','td2'],
+				[1,'', 'td2'],
+			],
+		];
+		
+		var addrowdirect = 0;
+		var addrowcount = 0;
+		function addrow(obj, type) {
+			addrowcount += 1;
+			
+			var table = obj.parentNode.parentNode.parentNode;
+			if(!addrowdirect) {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex);
+			} else {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex + 1);
+			}
+			var typedata = rowtypedata[type];
+			for(var i = 0; i <= typedata.length - 1; i++) {
+				var cell = row.insertCell(i);
+				cell.colSpan = typedata[i][0];
+				var tmp = typedata[i][1];
+				if(typedata[i][2]) {
+					cell.className = typedata[i][2];
+				}
+				tmp = tmp.replace('{addrowcount}', addrowcount);
+				tmp = tmp.replace(/\{(\d+)\}/g, function($1, $2) {return addrow.arguments[parseInt($2) + 1];});
+				cell.innerHTML = tmp;
+			}
+			addrowdirect = 0;
+		}
+		
+		function uploadicon(obj){
+			navkey = $(obj).attr("name");
+			navtop = $(obj).attr("data-top");
+			navside = $(obj).attr("data-side");
+			navnav = $(obj).attr("data-nav");
+			document.forminfo.target="uploadframe";
+			document.forminfo.action="admin.php?mod=navigation&code=icon&key="+navkey+"&nav_top="+navtop+"&nav_side="+navside+"&nav_nav="+navnav;
+			$("#forminfo").submit();
+			document.forminfo.target="";
+			document.forminfo.action="admin.php?mod=navigation&code=new_save";
+		}
+	</script>
+  <iframe id="uploadframe" name="uploadframe" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+  <form action="admin.php?mod=navigation&code=new_save" method="post" name="forminfo" id="forminfo" enctype="multipart/form-data">
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableborder tl">
+      <tr class="header"> 
+        <td colspan="12">导航菜单设置</td>
+      </tr>
+      <tr class="list_h">
+        <td width="15%" style="color:red;">*菜单名称(不可留空)</td>
+        <td width="5%" title="勾选则启用该导航">启用</td>
+        <!--新导航 13/11/04 begin-->
+        <td width="5%" title="勾选则在顶部导航下鼠标悬浮时显示">顶部显示</td>
+        <td width="5%" title="选中则在左侧导航直接显示">侧边直显</td>
+        <td width="5%" title="选中则在侧边导航中的更多菜单中悬浮显示">侧边悬浮</td>
+        <!--新导航 13/11/04 end-->
+        <td width="5%" title="数值大的优先显示">菜单顺序</td>
+        <td width="5%" title="用于对连接的特殊处理，不得随意变动" >唯一英文标示符</td>
+        <td title="站内以index.php开头，站外url以http://开头">链接地址（帮助？）</td>
+        <td title="确定点击链接时在新窗口还是当前窗口展示">打开方式</td>
+        <td width="10%" title="上传新的图标">上传图标</td>
+        <td width="5%" title="当前所用图标">图标</td>
+        <td width="5%" title="删除不再使用的导航">删?</td>
+      </tr>
+      
+      <!--{loop $nav_conf $top_nav_key $top_nav}-->
+      
+      <!-- 顶级导航 -->
+        <tr class="n-top-{$top_nav_key}"> 
+        <td class="td2"><i class="l-box l-expandable-open"></i>
+          <input type="text" name="nav[{$top_nav_key}][name]" value="{$top_nav[name]}" style="width:80px; height:15px;"/></td>
+        <td class="td2"><input type="checkbox" name="nav[{$top_nav_key}][enable]" {eval $echo=''; if($top_nav[enable] == 1) $echo="checked";} $echo value="1"/></td>
+        <!--新导航 13/11/04 begin-->
+        <td class="td2"><!-- <input type="checkbox" name="nav[{$top_nav_key}][display_in_top]" {eval $echo='';if($top_nav[display_in_top]) $echo="checked"} $echo value="1"/> --></td>
+        <td class="td2"><!-- <input type="radio" name="nav[$top_nav_key][display_in_side]" {eval $echo='';if($top_nav[display_in_side]) $echo="checked"} $echo value="1"/> --></td>
+        <td class="td2"><!-- <input type="radio" name="nav[$top_nav_key][display_in_side]" {eval $echo='checked';if($top_nav[display_in_side]) $echo=""} $echo value="0"/> --></td>
+        <!--新导航 13/11/04 end-->
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][order]" value="{$top_nav[order]}" size="1" /></td>
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][value]" value="{$top_nav[value]}" style="width:80px; height:15px;" {if $top_nav[system]} readonly disabled {/if}/></td>
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][url]" value="{$top_nav[url]}" style="width:150px; height:15px;" {if $top_nav[system]} readonly disabled {/if}/></td>
+        <td class="td2"><select name="nav[{$top_nav_key}][target]" style="width:80px;">
+            <option value="_parent"{eval if({$top_nav[target]} == "_parent") echo " selected=selected";}>本窗口</option>
+            <option value="_blank"{eval if({$top_nav[target]} == "_blank") echo " selected=selected";}>新窗口</option>
+          </select></td>
+        <td class="td2"><input type="file" name="{$top_nav_key}" data-top="{$top_nav_key}" data-side="" data-nav="" style="width:100px; height:15px;" onchange="uploadicon(this);return false;"/>
+          <input type="hidden" id="nav_{$top_nav_key}_icon_value" name="nav[{$top_nav_key}][icon]" value="{$top_nav[icon]}"></td>
+        <td class="td2"><img width="15px" height="15px" src="{$top_nav[icon]}" id="nav_{$top_nav_key}_icon" {if !$top_nav[icon]}style="display:none;"{/if}> </td>
+        <td class="td2"><input type="checkbox" name="del_top_nav[]" value="{$top_nav_key}" {if $top_nav[system]} disabled {/if} /></td>
+          </tr>
+        
+        <!-- 二级导航 -->
+        <!--{loop $top_nav[list] $side_nav_key $side_nav}-->
+      <tr class="n-left-{$top_nav_key}-{$side_nav_key}">
+        <td class="td2" align="left"><i class="l-box l-expandable-open"></i><i class="lower l-box-line"></i>
+          <input type="text" name="nav[{$top_nav_key}][list][{$side_nav_key}][name]"  style="width:80px; height:15px;" value="{$side_nav[name]}"/></td>
+        <td class="td2"><input type="checkbox" name="nav[{$top_nav_key}][list][{$side_nav_key}][enable]" {eval $echo='';if({$side_nav[enable]} == 1) $echo="checked";} $echo value="1"/></td>
+        <!--新导航 13/11/04 begin-->
+        <td class="td2"><input type="checkbox" name="nav[{$top_nav_key}][list][{$side_nav_key}][display_in_top]" {eval $echo='';if($side_nav[display_in_top]) $echo="checked"} $echo value="1"/></td>
+        <td class="td2"><!-- <input type="radio" name="nav[{$top_nav_key}][list][$side_nav_key][display_in_side]" {eval $echo='';if($side_nav[display_in_side]) $echo="checked"} $echo value="1"/> --></td>
+        <td class="td2"><!-- <input type="radio" name="nav[{$top_nav_key}][list][$side_nav_key][display_in_side]" {eval $echo='checked';if($side_nav[display_in_side]) $echo=""} $echo value="0"/> --></td>
+        <!--新导航 13/11/04 end-->
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][list][{$side_nav_key}][order]" value="{$side_nav[order]}" size="1" /></td>
+        <td class="td2" align="left"><input type="text" name="nav[{$top_nav_key}][list][{$side_nav_key}][value]"  style="width:80px; height:15px;" value="{$side_nav[value]}" {if $side_nav[system]} readonly disabled {/if}/></td>
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][list][{$side_nav_key}][url]"  style="width:200px; height:15px;"  value="{$side_nav[url]}" {if $side_nav[system]} readonly disabled {/if}/></td>
+        <td class="td2"><select name="nav[{$top_nav_key}][list][{$side_nav_key}][target]" style="width:80px;">
+            <option value="_parent"{eval if({$side_nav[target]} == "_parent") echo " selected=selected";}>本窗口</option>
+            <option value="_blank"{eval if({$side_nav[target]} == "_blank") echo " selected=selected";}>新窗口</option>
+          </select></td>
+        <td class="td2"><input type="file" name="{$top_nav_key}_{$side_nav_key}" data-top="{$top_nav_key}" data-side="{$side_nav_key}" data-nav="" style="width:150px; height:15px;" onchange="uploadicon(this);return false;"/>
+          <input type="hidden" id="nav_{$top_nav_key}_{$side_nav_key}_icon_value" name="nav[{$top_nav_key}][list][{$side_nav_key}][icon]" value="{$side_nav[icon]}"></td>
+        <td class="td2"><img width="15px" height="15px" src="{$side_nav[icon]}" id="nav_{$top_nav_key}_{$side_nav_key}_icon" {if !$side_nav[icon]}style="display:none;"{/if}> </td>
+        <td class="td2"><input type="checkbox" name="del_side_nav[{$top_nav_key}][]" value="{$side_nav_key}" {if $side_nav[system]} disabled {/if} /></td>
+      </tr>
+      
+      <!--三级菜单循环部分-->
+      <!--{loop $side_nav[list] $nav_key $nav}-->
+      <tr>
+        <td class="td2"><i class="l-box l-expandable-open"></i><i class="lower l-box-line l-box-linec"></i>
+          <input type="text" name="nav[{$top_nav_key}][list][{$side_nav_key}][list][$nav_key][name]" value="{$nav[name]}" style="width:80px; height:15px;"></td>
+        <td class="td2"><input type="checkbox" name="nav[{$top_nav_key}][list][{$side_nav_key}][list][$nav_key][enable]" {eval $echo='';if({$nav[enable]} == 1) $echo="checked";} $echo value="1"/></td>
+       <!--新导航 13/11/04 begin-->
+        <td class="td2"><input type="checkbox" name="nav[{$top_nav_key}][list][{$side_nav_key}][list][$nav_key][display_in_top]" {eval $echo='';if($nav[display_in_top]) $echo="checked"} $echo value="1"/></td>
+        <td class="td2"><input type="radio" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][display_in_side]" {eval $echo='';if($nav[display_in_side]) $echo="checked"} $echo value="1"/></td>
+        <td class="td2"><input type="radio" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][display_in_side]" {eval $echo='checked';if($nav[display_in_side]) $echo=""} $echo value="0"/></td>
+        <!--新导航 13/11/04 end-->
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][order]" value="{$nav[order]}" size="1"></td>
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][value]" value="{$nav[value]}" style="width:80px; height:15px;" {if $nav[system]} readonly disabled {/if}></td>
+        <td class="td2"><input type="text" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][url]" value="{$nav[url]}" style="width:200px; height:15px;" {if $nav[system]} readonly disabled {/if}></td>
+        <td class="td2"><select name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][target]" style="width:80px;">
+            <option value="_parent"{eval if({$nav[target]} == "_parent") echo " selected=selected";}>本窗口</option>
+            <option value="_blank"{eval if({$nav[target]} == "_blank") echo " selected=selected";}>新窗口</option>
+          </select></td>
+        <td class="td2"><input type="file" name="{$top_nav_key}_{$side_nav_key}_{$nav_key}" data-top="{$top_nav_key}" data-side="{$side_nav_key}" data-nav="{$nav_key}" style="width:150px; height:15px;" onchange="uploadicon(this);return false;"/>
+          <input type="hidden" id="nav_{$top_nav_key}_{$side_nav_key}_{$nav_key}_icon_value" name="nav[{$top_nav_key}][list][$side_nav_key][list][$nav_key][icon]" value="{$nav[icon]}"></td>
+        <td class="td2"><img width="15px" height="15px" src="{$nav[icon]}" id="nav_{$top_nav_key}_{$side_nav_key}_{$nav_key}_icon" {if !$nav[icon]}style="display:none;"{/if}> </td>
+        <td class="td2"><input type="checkbox" name="del_nav[{$top_nav_key}][$side_nav_key][]" value="{$nav_key}" {if $nav[system]} disabled {/if}></td>
+      </tr>
+      <!--{/loop}-->
+      <!--三级菜单循环部分-->
+      
+      
+      <!-- 某些二级导航下不允许添加新的导航，比如频道 -->
+      <!--{if !in_array($side_nav_key, array('channel', ))}-->
+      <tr>
+        <td colspan="12" class="td2">
+        <i class="l-box l-expandable-open"></i><i class="lower l-box-line l-box-linec"></i>
+        <a href="javascript:;" onclick="addrow(this, 2, '{$top_nav_key}','{$side_nav_key}')" class="addCategory" title="三级导航会按需显示在二级导航下">添加三级导航</a>
+        </td>
+      </tr>     
+      <!--{/if}-->
+      
+      
+      <!--{/loop}--> 
+
+      <tr>
+        <td colspan="12" class="td2">
+        <i class="l-box l-expandable-open"></i><i class="lower l-box-line"></i> 
+        <a href="javascript:;" onclick="addrow(this, 1, '{$top_nav_key}')" class="addCategory" title="二级导航会按需显示在对应顶部导航下和侧边导航">添加二级导航</a>
+        </td>
+      </tr>
+      
+      <!--{/loop}-->
+      <tr>
+        <td colspan="12" class="td2">
+        <a href="javascript:;" onclick="addrow(this, 0)" class="addCategory" title="顶级导航会直接显示在网站最顶部导航">添加顶级导航</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="12" class="td2"><center>
+            <input class="button" type="submit" name="cronssubmit" value="提 交"> <a onclick="return confirm('会删除当前新修改的配置，请确认进行此操作？');" href="admin.php?mod=navigation&code=restore">恢复为默认设置</a>
+          </center></td>
+      <tr>
+    </table>
+  </form>
+</div>

@@ -1,0 +1,22 @@
+<!--左边结束，右边开始-->
+<div id="tabnav">
+  <ul>
+    <!--{loop $left_menu_list $name $sub_menu_list}-->
+    <!--{loop $sub_menu_list $sub_name $sub_menu}-->
+    <!--{eval $icon=$sub_menu[icon];}-->
+    <!--{eval $sub_menu['unread']=$sub_menu['unread']?"(".$sub_menu['unread'].")":"";}-->
+    
+      <!--{if $sub_name==$folder}-->
+      <li class="here">
+      <a href="{$sub_menu[link]}"> <strong>{$sub_menu[name]}</strong></a>
+      </li>
+      <!--{else}-->
+      <li>
+      <a href="{$sub_menu[link]}"> {$sub_menu[name]}</a>
+      </li>
+      <!--{/if}-->
+    
+    <!--{/loop}-->
+    <!--{/loop}-->
+  </ul>
+</div>

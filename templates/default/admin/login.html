@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{eval $conf_charset=$this->Config['charset'];}<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<title>登录系统</title>
+<style type="text/css"> 
+body{padding:0;margin:0;font-size:12px;color:gray;font-family:Verdana; background:#25547e;}
+a,a:link,a:visited{ color:gray; text-decoration:none;}
+a:hover{ text-decoration:underline;}
+strong{ font-weight:500;}
+center{ margin:10px auto;}
+select{margin-left:1.5em;vertical-align:middle;border:1px solid #b4cceb;height:22px;font-size:12px;}
+#main{width:600px;margin:auto;}
+*{padding:0;margin:0}
+#wrapc{height:315px; margin-bottom:20px; margin-top:20%;}
+#logo{background:url(./images/logo.png) center 0 no-repeat;height:50px; margin-bottom:10px;}
+#logo a{ width:50%; height:50px; display:block; margin:0 auto;}
+.login{margin:0 0 0 30px;padding-top:10px;}
+.login th{height:33px;line-height:33px;list-style:none;text-align:right;font-weight:normal;width:170px;font-size:14px;}
+.login td{text-align:left;font-size:12px;}
+.input{font-size:14px;vertical-align:middle;border:none; height:23px;color:#666; font-family:"微软雅黑"}
+.logo-icon{border: 1px solid; border-color:#CECECF;float:left;margin:5px 10px;background:#fff; padding:8px 10px; border-radius:4px;}
+.logo-icon div{background:#fff url(./static/image/admincp/login/login-icon.gif);width:18px;float:left;margin-top:3px;margin-left:.2em;}
+.logo-icon .pw{background-position:1px 1px;width:18px;height:20px;}
+.logo-icon .pwpd{background-position:0 -49px;width:18px;height:20px;}
+.logo-icon .yan{background-position:0 -99px;width:18px;height:20px;}
+.logo-icon .daan{background-position:1px -148px;width:18px;height:20px;}
+.logo-icon .pw2{width:11em;}
+.logo-icon .pwpd2{width:11em;}
+.logo-icon .yan2{width:6em;}
+.getpwd{ line-height:55px; padding-left:5px;}
+.getpwd a{ color:#999; text-decoration:none;}
+.getpwd a:hover{ text-decoration:underline;}
+input.btn{
+ padding:0 30px;height:32px;line-height:27px;cursor:pointer;border-radius:3px;font-size:14px;  color:#fff;
+ background-color:#4f9bc9;
+ background-repeat:repeat-x;
+ margin:0 10px;
+ border:none;
+ font-weight:600;
+}
+input.btn:hover{background-color:#66acd7;}
+input.btn:focus,input.btn:active {background-color:#5188b1;}
+</style>
+</head>
+<body>
+
+<div id="main">
+  <div id="wrapc">
+      <div id="logo"><a href="index.php?mod=topic" title="{$this->Config[site_name]}"></a></div>
+
+    <div class="login">
+     <form method="post" name="login" action="{$action}">
+		<input type="hidden" id="referer_input" name="referer" value="{$referer}" />
+        <table cellpadding="0" cellspacing="0" width="100%">
+          <tr>
+            <th>&nbsp;</th>
+            <td><div class="logo-icon">
+                <div class="pw"></div>
+				<!--{if MEMBER_ID > 0}-->
+				<input type="hidden" name="uid" value="{MEMBER_ID}" />
+                <input class="input pw2" id="username" name="username" value="{MEMBER_NICKNAME}" type="text" /> 
+				<!--{else}-->
+                <input class="input pw2" id="username" name="username" type="text" placeholder="管理员昵称"/> 
+				<!--{/if}-->
+              </div></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td><div class="logo-icon">
+                <div class="pwpd"></div>
+                <input class="input pwpd2" type="password" name="password" placeholder="管理员密码" />
+              </div>
+			  
+			  </td>
+          </tr> 
+		  <!--
+          <tr>
+            <th>&nbsp;</th>
+            <td>&nbsp;&nbsp;<label for="savelogin"><input type="checkbox" id="savelogin" name="savelogin" value="1" class="checkb"  title="请不要在公共电脑上使用自动登录功能" style="border:none;">
+			下次自动登录？</label></td>
+          </tr>
+		  -->
+          <tr>
+            <th>&nbsp;</th>
+            <td><input name="submit" class="btn" value="登 录" type="submit" /><span class="getpwd"><a onclick="if(document.getElementById('username').value.length > 0) {window.location.href='index.php?mod=get_password';} else {alert('请输入昵称');}" href="#">忘记密码？</a></span>
+            </td>
+          </tr>
+        </table> 
+	</form>
+	
+    </div>
+  </div>
+</div>
+</body>
+</html>

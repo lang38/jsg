@@ -1,0 +1,25 @@
+
+<!--{template admin/header}-->
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+	<td width="40%">附件名称</td>
+	<td width="20%">管理</td>
+</tr>
+
+<!--{loop $attach_list['list'] $one}-->
+<tr class="altbg1" id="tr_id_{$one['id']}">
+<td width="40%">
+<span id="cat_name_{$one['id']}">
+{$one['name']}
+</span>
+</td>
+
+<td width="20%">
+	<a href="admin.php?mod=attachcat&amp;code=delete_attach&amp;aid={$one['id']}">删除</a>
+</td>
+</tr>
+<!--{/loop}-->
+
+</table>
+{$attach_list['page']['html']}
+

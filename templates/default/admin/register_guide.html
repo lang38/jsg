@@ -1,0 +1,113 @@
+<!--{template admin/header}-->
+
+<form method="post" name="config[settings]" action="admin.php?mod=setting&code=domodify_normal" enctype="multipart/form-data">
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<!--{if $this->Config['ldap_enable']}-->
+		<tr class="header">
+			<td colspan="2"><font color="red">网站开启了windows AD域登录，此部分设置不生效</font></td>
+		</tr>
+		<!--{/if}-->
+		<tr class="header">
+			<td colspan="2">注册引导步骤一：Email验证（建议开启，便于进行email提醒等）</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>新用户验证Email：</b><br>
+			<span class="smalltxt">选择“否”，无需验证Email；<BR>
+			选择“是”将向用户注册Email发送一封验证邮件，以确认Email有效性。 
+			</span></td>
+			<td>{$email_verify_radio} </td>
+		</tr>
+		<tr class="altbg1">
+			<td width="45%"><b>Email未验证的用户角色：</b><br>
+			<span class="smalltxt">如设置了新注册用户需要Email验证，但用户注册了却没验证，就属于该角色。 
+			</span></td>
+			<td>{$no_verify_email_role_select} </td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>禁止使用的Email地址：</b><br>
+			<span class="smalltxt">由于一些大型邮件服务提供商会过滤系统程序发送的有效邮件，您可以要求新用户不得以某些域名结尾的邮箱注册，每行一个域名，例如@hotmail.com。 </span></td>
+			<td><textarea rows="4" name="config[reg_email_forbid]" cols="48">{conf reg_email_forbid}</textarea></td>
+		</tr>
+    </table>
+    
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">注册引导步骤二：关注频道</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>建议开启，便于查看我的频道</b><br>
+			  <span class="smalltxt">选择“否”，则跳过此步骤，进入下一步；<BR>开启此步骤前、请确保已经开启了<a href="admin.php?mod=channel&code=config">频道功能。</a></span>
+            </td>
+			<td>{$regiter3_radio} </td>
+		</tr>
+    </table>
+    
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">注册引导步骤三：关注达人</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>建议开启，进入我的首页有内容可看</b><br>
+			  <span class="smalltxt">选择“否”，则跳过此步骤，进入下一步；<BR>开启此步骤后、请选择显示哪些达人。</span>
+            </td>
+			<td>{$regiter4_radio} </td>
+		</tr>
+        <tr class="altbg1">
+            <td><b>选择推荐类型</b></td>
+            <td>{$regiter_tuijian_select} </td>
+        </tr>
+    </table>
+
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">注册引导步骤四：上传头像</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>建议开启，有头像更精彩</b><br>
+			  <span class="smalltxt">选择“否”，则跳过此步骤，进入下一步。</span>
+            </td>
+			<td>{$regiter5_radio} </td>
+		</tr>
+    </table>
+    
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">注册引导步骤五：资料补全</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>根据情况启用</b><br>
+			  <span class="smalltxt">选择“否”，则跳过此步骤，进入下面一步；选择“是”，请在<a href="admin.php?mod=member&code=profile">可填写资料项</a>中选择你在注册页面所需完善的资料。</span>
+            </td>
+			<td>{$regiter6_radio} </td>
+		</tr>
+        <tr class="altbg1">
+            <td width="45%"><b>注册需选择所在区域:</b><br>
+            <span class="smalltxt">选择“是”，注册时显示区域选项，建议选是，方便查找同城用户。</span></td>
+            <td>$open_city_radio</td>
+        </tr>
+    </table>
+
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">注册引导步骤六：引导第一次发言</td>
+		</tr>
+		<tr class="altbg2">
+			<td width="45%"><b>让用户快速融入到网站</b><br>
+			  <span class="smalltxt">选择“否”，则跳过此步骤，进入网站。</span>
+            </td>
+			<td>{$regiter7_radio} </td>
+		</tr>
+        {if $first_topic_to_channel}
+		<tr class="altbg1">
+			<td width="45%"><b>选择频道</b><br>
+			  <span class="smalltxt">第一次发言默认发到哪个的频道。</span>
+            </td>
+			<td>{$first_topic_to_channel} </td>
+		</tr>
+        {/if}
+    </table>
+	<center><input type="submit" class="button" name="settingsubmit" value="提 交"></center><br>
+	
+</form>
+<br>

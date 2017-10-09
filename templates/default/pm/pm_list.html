@@ -1,0 +1,252 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+
+<div class="main">    
+<link href="static/style/pm.css" rel="stylesheet" type="text/css" />
+  <div class="mainWrap">
+  <div class="contentWrap">
+    <!--以下站内短信导航部分-->
+    {$left_menu}
+    <!--以上站内短信导航部分-->
+
+    <div style="margin:15px 0;">
+    <div class="boxNav">
+      <!--{eval if($read) $r_class="boxNavselect";else $n_class="boxNavselect"}-->
+      <li class="$n_class"><a href="index.php?mod=pm&code=list&folder=inbox">全部</a></li>
+      <li class="$r_class"><a href="index.php?mod=pm&code=list&folder=inbox&read=1">未读</a></li>
+      </li>
+    </div>
+  </div>
+
+
+	  <ul class="followList">
+	  <!--{IF $pm_list}-->
+		<!--{loop $pm_list $key $val}-->
+		<!--{if $folder == 'inbox'}-->
+		<!--{if $val[plid] == 0}-->
+        <li id="msg_0">
+          <div class="fBox_l"><img onerror="javascript:faceError(this);" src="{$val[face]}" onmouseover="get_user_choose({$val[uid]},'_user','{$key}');" onmouseout="clear_user_choose();"/> </div>
+          <div id="user_{$key}_user" class="layS"></div>
+          <div class="fBox_R3">
+          <p>
+             <span><a href="index.php?mod=$val[username]">{$val[nickname]}</a>
+               <a target="_blank" href="index.php?mod=other&code=vip_intro">
+			     <img class="vipImg" src="images/vip.gif" title="管理员">
+			   </a>
+			 </span>
+			 </p>
+             <span>{$val[message]}</span>
+             
+<!--{if $val[attachids] && $val[attach_list]}-->
+<!--{eval $val[attach_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="attachList" id="attach_area_{$val['attach_key']}">
+	<!--{loop $val[attach_list] $iv}-->
+	<!--{eval $attachaid=$iv[id];}-->
+	<li style="border-bottom:none;"><img src="{$iv[attach_img]}" class="attachList_img" />
+	<div class="attachList_att">
+	<p class="attachList_att_name"><b>{$iv[attach_name]}</b>
+	&nbsp;（{$iv[attach_size]}）</p>
+	<p class="attachList_att_doc">
+	<!--{if $iv[onlineview]}--><a href="{$iv[onlineview]}" target="_blank">在线预览</a> | <!--{/if}-->
+	<a href="javascript:void(0);"
+		onclick="downattach({$iv[id]});">点此下载</a>（需<font id="attach_score_{$iv[id]}">{$iv[attach_score]}</font>积分，已下载<font id="attach_downnum_{$iv[id]}">{$iv[attach_down]}</font>次）<!--{hook/global_item_attach $attachaid}--></p>
+	</div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+<!--{if $val[imageids] && $val[image_list]}-->
+<!--{eval $val[image_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="imgList" id="image_area_{$val['image_key']}">
+	<!--{loop $val[image_list] $iv}-->
+	<!--{eval $ivw=min(460, $iv[image_width]);}-->
+	<li style="border-bottom:none;">
+	  <a href="{$iv[image_original]}" class="artZoomAll" rel="{$iv[image_small]}" rev="{$val[image_key]}">
+	    <img src="{$iv[image_small]}" data-original="{$iv[image_small]}" />
+	  </a>
+	<div class="artZoomBox" style="display: none;">
+	<div class="tool"><a title="向左转" href="#" class="imgLeft">向左转</a><a 
+		title="向右转" href="#" class="imgRight">向右转</a><a title="查看原图"
+		href="{$iv[image_original]}" class="viewImg">查看原图</a></div>
+	<a class="maxImgLinkAll" href="{$iv[image_original]}"><img
+		 src="{$iv[image_small]}" data-original="{$iv[image_original]}" maxWidth="460" width="$ivw" class="maxImg"></a></div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+             
+             <p>
+               <span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span>
+               <span style="float: right"><a href="index.php?mod=pm&code=history">共{$val[num]}条记录</a>&nbsp;|&nbsp;<span>回复</span></span>
+             </p>
+	      </div>
+        </li>
+		<!--{else}-->
+        <li id="msg_{$val[uid]}" onclick="setRead($val['uid']);" style="_padding-bottom:23px;">
+          <div class="fBox_l" style="margin-top:3px;"><img onerror="javascript:faceError(this);" src="{$val[face]}" onmouseover="get_user_choose({$val[uid]},'_user',{$val[uid]});" onmouseout="clear_user_choose();"/> 
+          <div id="user_{$val[uid]}_user" class="layS"></div>
+          </div>
+          
+          <div class="fBox_R3">
+          <p>
+          <!--{if $val[msgfromid] == MEMBER_ID}-->
+          <span>我对<a href="index.php?mod=$val[username]">{$val[nickname]}</a>说：</span>
+          <!--{else}-->
+         <span><a href="index.php?mod=$val[username]">{$val[nickname]}</a>对我说：</span>
+          <!--{/IF}-->
+
+          <!--{if $val['is_new']}-->
+          <img src="static/image/navNewgif.gif" title="有新私信" id="img_{$val[uid]}"></img>
+          <!--{/if}-->
+            
+             </p>
+             <span>{$val[message]}</span>
+             
+<!--{if $val[attachids] && $val[attach_list]}-->
+<!--{eval $val[attach_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="attachList" id="attach_area_{$val['attach_key']}">
+	<!--{loop $val[attach_list] $iv}-->
+	<!--{eval $attachaid=$iv[id];}-->
+	<li style="border-bottom:none;"><img src="{$iv[attach_img]}" class="attachList_img" />
+	<div class="attachList_att">
+	<p class="attachList_att_name"><b>{$iv[attach_name]}</b>
+	&nbsp;（{$iv[attach_size]}）</p>
+	<p class="attachList_att_doc">
+	<!--{if $iv[onlineview]}--><a href="{$iv[onlineview]}" target="_blank">在线预览</a> | <!--{/if}-->
+	<a href="javascript:void(0);"
+		onclick="downattach({$iv[id]});">点此下载</a>（需<font id="attach_score_{$iv[id]}">{$iv[attach_score]}</font>积分，已下载<font id="attach_downnum_{$iv[id]}">{$iv[attach_down]}</font>次）<!--{hook/global_item_attach $attachaid}--></p>
+	</div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+<!--{if $val[imageids] && $val[image_list]}-->
+<!--{eval $val[image_key]=$val[tid].'_'.mt_rand();}-->
+<ul class="imgList" id="image_area_{$val['image_key']}">
+	<!--{loop $val[image_list] $iv}-->
+	<!--{eval $ivw=min(460, $iv[image_width]);}-->
+	<li style="border-bottom:none;">
+	  <a href="{$iv[image_original]}" class="artZoomAll" rel="{$iv[image_small]}" rev="{$val[image_key]}">
+	    <img src="{$iv[image_small]}" data-original="{$iv[image_small]}" />
+	  </a>
+	<div class="artZoomBox" style="display: none;">
+	<div class="tool"><a title="向左转" href="#" class="imgLeft">向左转</a><a 
+		title="向右转" href="#" class="imgRight">向右转</a><a title="查看原图"
+		href="{$iv[image_original]}" class="viewImg">查看原图</a></div>
+	<a class="maxImgLinkAll" href="{$iv[image_original]}"><img
+		 src="{$iv[image_small]}" data-original="{$iv[image_original]}" maxWidth="460" width="$ivw" class="maxImg"></a></div>
+	</li>
+	<!--{/loop}-->
+</ul>
+<!--{/if}-->
+             
+             <p style="margin-top:5px; color:#999;">
+               <span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span>
+               <span style="float: right"><a href="index.php?mod=pm&code=history&uid=$val[uid]">共{$val[num]}条记录</a>
+               &nbsp;|&nbsp;
+               <!--{if $val[msgtoid] == MEMBER_ID}-->
+               <a onclick="PmSend($val[uid],'$val[nickname]');return false;" href="javascript:void(0);">回复</a>
+               <!--{else}-->
+               回复
+               <!--{/if}-->
+               &nbsp;|&nbsp;
+               <a href="javascript:void(0);" onclick="delmsg($val[uid]);" title="删除">删除</a>
+               </span>
+             </p>
+	      </div>
+        </li>
+        <!--{/if}-->
+        <!--{else}-->
+        <li id="outbox_{$val[pmid]}">
+          <div class="fBox_l" style="margin-top:3px;"><img onerror="javascript:faceError(this);" src="{$val[face]}" onmouseover="get_user_choose({$val[uid]},'_user',{$val[uid]});" onmouseout="clear_user_choose();"/> 
+          <div id="user_{$val[uid]}_user" class="layS"></div>
+          </div>
+          
+          <div class="fBox_R3"  style="margin:0; width:500px;"><p>
+          发给&nbsp;
+             <span><a href="index.php?mod=$val[username]">{$val[nickname]}</a></span>
+             <span style="float: right"><a href="javascript:void(0);" onclick="deloutbox($val[pmid]);">X</a></span>
+             </p>
+             <span>{$val[message]}</span>
+             <div>
+               <span><!--{eval echo my_date_format($val[dateline], 'm月d日 H:i')}--></span>
+             </div>
+             <div class="show">
+               <span><a href="javascript:void(0);" onclick="PmSend($val[uid],'$val[nickname]','sendagain',$val[pmid]);return false;">重新发送</a></span>
+             </div>
+	      </div>
+        </li>
+        <!--{/if}-->
+		<!--{/loop}-->
+	  <!--{else}-->
+	  <li>
+	  <!--{if $folder == 'inbox'}-->
+	  没有私信聊天记录，赶快<a href="index.php?mod=pm&code=send&folder=send">发一封私信</a>给好友，联络感情。
+	  <!--{else}-->
+	  草稿箱是空的...
+	  <!--{/if}-->
+	  </li>
+	  <!--{/if}-->
+	  </ul>
+	  <ul>
+	  	<!--{if $page_arr[html]}-->	
+	    <li>{$page_arr[html]}</li> 
+	    <!--{/if}--> 
+	  </ul>
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+function delmsg(uid){
+	var del = confirm("确定要删除你和他的所有私信内容吗？");
+	if(del == true){
+		$.post(
+				'ajax.php?mod=pm&code=delusermsg&uid='+uid,
+				function(d){
+					if('' != d){
+						show_message(d);
+					}else{
+						$('#msg_'+uid).remove();
+					}
+				}
+			);
+	}else{
+		return false;
+	}
+}
+
+function deloutbox(pmid){
+	var del = confirm("确定要删除这条私信吗？");
+	if(del == true){
+	$.post(
+			'ajax.php?mod=pm&code=deloutboxmsg&pmid='+pmid,
+			function(d){
+				if('' != d){
+					show_message(d);
+				}else{
+					$('#outbox_'+pmid).remove();
+				}
+			}
+		);
+	}else{
+		return false;
+	}
+}
+
+function setRead(uid){
+	$.post(
+			'ajax.php?mod=pm&code=setread&uid='+uid,
+			function(d){
+				if('' != d){
+					show_message(d);
+				}else{
+					$('#img_' + uid).remove();
+				}
+			}
+		);
+}
+</script>
+<!--{template "topic_right.inc"}-->
+</div>
+{template "topic_footer"}

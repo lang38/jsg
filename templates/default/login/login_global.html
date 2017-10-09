@@ -1,0 +1,142 @@
+{template "guest_header"}
+<style type="text/css">
+#username_tip{ margin-left:10px; background-position:0 2px;}
+#username_tip img{ margin:2px 0 0 0;}
+</style>
+<div class="g-bd">  
+  <div class="m-tit">
+  会员登录
+  </div>
+ <div class="m-box">
+    <div class="m-box-reg">
+    <!--{eval $login_extract=jsg_member_login_extract();}-->
+	<!--{if $login_extract && (($login_extract_forms=$login_extract[login_forms]) || ($login_extract_html=$login_extract[login_html]))}-->
+	<!--{if $login_extract_forms}-->
+	<form method="{$login_extract_forms[method]}" action="{$login_extract_forms[action]}">
+	  <!--{loop $login_extract_forms[hidden_inputs] $v}-->
+	  <input type="hidden" name="{$v[name]}" value="{$v[value]}" />
+	  <!--{/loop}-->
+		<table width="70%" border="0" style="margin:5px auto">
+		  <tr>
+          <td align="right" valign="middle" width="90">帐号：</td>
+			<td>
+            <input name="username" type="text"  class="u-ipt" id="username_input" onblur="logincheckUsername(this.value);" value="$this->Config['changeword']['username']" onfocus="this.value=''"/>
+            <div id="username_tip"></div>
+			</td>
+		  </tr>
+          
+		  <tr>
+                 <td align="right" valign="middle" width="90">密码：</td>
+
+			<td>
+            <input name="password" id="password_input" type="password" class="u-ipt" value="请输入密码" onfocus="this.value=''" onblur="if(this.value==''){this.value='请输入密码';}"/>
+			</td>
+		  </tr>
+		  <tr>
+                 <td align="right" valign="middle" width="90">&nbsp;</td>
+
+			<td>	
+			<input name="{$login_extract_forms[submit_input][name]}" type="button" value="{$login_extract_forms[submit_input][value]}" class="u-btn" onclick="guestLoginSubmit();"/>	
+			</td>
+		  </tr>
+
+		</table>
+</form>
+		  <!--{else}-->
+			<!--{if $login_extract_html}-->{$login_extract_html}<!--{/if}-->
+		  <!--{/if}-->
+<!--{else}-->
+<form method="POST" action="{$action}">
+	<input type="hidden" id="referer_input" name="referer" value="{$referer}" />
+	<table border="0">
+	  <tr>
+            <td align="right" valign="middle" width="90">帐号：</td>
+			<td>
+            <input class="u-ipt" name="username" type="text" id="username_input" onblur="logincheckUsername(this.value);if(this.value==''){this.value='$this->Config['changeword']['username']';}" value="$this->Config['changeword']['username']" onfocus="this.value=''"/>
+            <div id="username_tip"></div>
+            </td>
+	  </tr>
+	  <tr>
+       <td align="right" valign="middle" width="90">密码：</td>
+			<td>
+            <input class="u-ipt" name="password" id="password_input" type="password"  value="请输入登录密码" onfocus="this.value=''" onblur="if(this.value==''){this.value='请输入登录密码';}" />
+			</td>
+	  </tr>
+	  <!--{if $this->Config['seccode_enable']==1 && $this->Config['seccode_login']}-->
+		  <tr>
+           <td align="right" valign="top" width="90">验证码：</td>
+			<td>
+					<input name="seccode" id="seccode_input" type="text" style="width:80px;"/>
+					<span id="dseccode_tips"></span>
+                    <p class="u-verify">
+					<script type="text/javascript">seccode({"id":"seccode_input"});</script>
+					<a href="javascript:updateSeccode('seccode_input');">换一换</a>
+                    </p>
+			</td>
+		  </tr>
+	  <!--{/if}-->
+	  <tr>
+       <td align="right" valign="middle" width="90">&nbsp;</td>
+			<td style="font-size:12px;">	
+            <label for="savelogin"><input type="checkbox" id="savelogin" name="savelogin" value="1" class="checkb"  title="请不要在公共电脑上使用自动登录功能" style="border:none;padding:0;">
+			记住帐号</label> &nbsp;<a href="javascript:void(0)" title="点此可通过2种方式重设密码" target="_blank" onclick="window.location.href='index.php?mod=get_password';return false;">忘记密码</a>
+
+		
+			</td>
+	  </tr>
+      <tr>
+       <td align="right" valign="middle" width="90">&nbsp;</td>
+      <td>
+      		<!--{if $this->Config['seccode_login'] && $this->yxm_title}-->
+			<input name="" type="button" value="登 录" class="u-btn u-btn-lg" onclick="YXM_popBox(this,'login','{$this->yxm_title}');"/>
+			<!--{else}-->
+			<input name="" type="button" value="登 录" class="u-btn u-btn-lg" onclick="guestLoginSubmit();"/>
+			<!--{/if}-->
+			<input name="loginType" type="hidden" id="loginType" value="show_login" />
+			<input name="return_url" type="hidden" id="return_url" value="" />	
+      </td>
+      </tr>
+     
+	</table>
+</form>
+<!--{/if}-->
+    </div>
+    <div class="m-box-side">
+	<!--{if $login_extract && $login_extract[reg_button_html]}-->
+		{$login_extract[reg_button_html]}
+	<!--{else}-->
+    <p class="u-tips">
+	<!--{if !$GLOBALS[_J][config][register_link_display] && jsg_member_register_is_closed()}-->
+		<!-- 不显示注册链接 -->
+		&nbsp;
+	<!--{else}-->
+    还没注册过本站帐户？
+    <a title="注册{conf site_name}" onclick="window.location.href='{conf site_url}/index.php?mod=member&referer={$enreferer}';return false;" >    注册{conf site_name}</a>  </p>
+    <p class="u-tips">
+	注册后，可以方便地分享新鲜事，关注用户分享；
+	并可通过手机随时随地参与互动。
+	<!--{/if}-->
+    </p>
+	<!--{/if}-->
+    <p class="u-tips"></p>
+    <div class="others"> 
+		{if $this->Config[sina_enable] && sina_weibo_init()} &nbsp;{eval echo sina_weibo_login('b');} {/if}
+		{if $this->Config[qqwb_enable] && qqwb_init()} &nbsp; {eval echo qqwb_login('b');} {/if}
+		{if $this->Config[yy_enable] && yy_init()} &nbsp; {eval echo yy_login('b');} {/if}
+		{if $this->Config[renren_enable] && renren_init()} &nbsp; {eval echo renren_login('b');} {/if}
+		{if $this->Config[kaixin_enable] && kaixin_init()} &nbsp;{eval echo kaixin_login('b');} {/if}
+		{if $this->Config[fjau_enable] && fjau_init()} &nbsp;{eval echo fjau_login('b');} {/if}
+    </div>
+</div>
+</div>
+</div>
+<!--{if $this->Config['seccode_enable']==1 && $this->Config['seccode_login']}-->
+<script language="javascript">
+	$(document).ready(function(){
+		$("#seccode_input").blur(function(){
+			checkSeccode($("#seccode_input").val(), {"tips_id":"dseccode_tips"});
+		});
+	});
+</script>
+<!--{/if}-->
+{template "topic_footer"}

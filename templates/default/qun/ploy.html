@@ -1,0 +1,38 @@
+{template "topic_header"}
+<link href="static/style/qun.css" rel="stylesheet" type="text/css" />
+<link href="static/style/theme.css" rel="stylesheet" type="text/css" />
+<form method="post" action="index.php?mod=qun&code=docreate" autocomplete="off" id="qun_form" enctype="multipart/form-data" >
+<div class="appframe">  
+  <div class="appframeTitle">
+    <span class="mleft">{$this->Config[changeword][weiqun]}策略</span>
+    <span class="mright"><a href="index.php?mod=qun&code=profile"><em><<</em>返回</a></span>
+  </div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+		 $(".stripe_tb tr").mouseover(function(){
+		 $(this).addClass("over");}).mouseout(function(){
+		 $(this).removeClass("over");})
+		 $(".stripe_tb tr:even").addClass("alt");
+		 });
+	</script>
+	<div style="margin:15px;">
+		<table width="100%" border="0" class="stripe_tb">
+			<thead>
+			   <tr>
+					 <th>粉丝数介于</th>
+					 <th>{$this->Config[changeword][n_weibo]}数介于</th>
+					 <th>可创建{$this->Config[changeword][weiqun]}数</th>
+				</tr>
+			</thead>
+			<!--{loop $ploys $val}-->
+				<tr>
+					<td>$val['fans_num_min'] ~ $val['fans_num_max'] 人</td>
+					<td>$val['topics_lower'] ~ $val['topics_higher'] 条</td>
+					<td>$val['qun_num'] 个</td>
+				</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+</div></div>
+{template "topic_footer"}

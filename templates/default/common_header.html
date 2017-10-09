@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<!--{eval $__my=$GLOBALS[_J][member];}-->
+<base href="{$this->Config[site_url]}/" />
+<title>{eval echo jhtmlspecialchars($this->Title);} - {$this->Config[site_name]}({$this->Config[site_domain]}){conf page_title}</title>
+{eval $conf_charset=$this->Config['charset'];}
+<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<!--{if $this->Config['default_module']==$this->Module && $this->Code==$this->Config['default_code']}-->
+
+<meta name="Keywords" content="{$this->Config['index_meta_keywords']},{eval echo jhtmlspecialchars($this->MetaKeywords);},{conf site_name}{conf meta_keywords}" />
+<meta name="Description" content="{$this->Config['index_meta_description']},{eval echo jhtmlspecialchars($this->MetaDescription);},{conf site_notice}{conf meta_description}" />
+<!--{else}-->
+<meta name="Keywords" content="{eval echo jhtmlspecialchars($this->MetaKeywords);},{conf site_name}{conf meta_keywords}" />
+<meta name="Description" content="{eval echo jhtmlspecialchars($this->MetaDescription);},{conf site_notice}{conf meta_description}" />
+<!--{/if}-->
+
+<link rel="shortcut icon" href="favicon.ico" >
+<!-- <link href="{conf site_url}/static/min/?g=css&c={$GLOBALS[_J][charset]}&v={SYS_BUILD}" rel="stylesheet" type="text/css" /> -->
+<link href="static/style/main.css" rel="stylesheet" type="text/css" />
+<link href="static/style/send.css" rel="stylesheet" type="text/css" />
+
+<link href="static/style/global.css" rel="stylesheet" type="text/css" />
+<link href="static/style/sidebar.css" rel="stylesheet" type="text/css" />
+
+<!--{if $this->Config[qun_theme_id]}-->
+<link href="static/style/qun_theme/{$this->Config[qun_theme_id]}.css?v={SYS_BUILD}" rel="stylesheet" type="text/css" />
+<!--{elseif $this->Config[theme_id]}-->
+<link href="theme/{$this->Config[theme_id]}/theme.css?v={SYS_BUILD}" rel="stylesheet" type="text/css" />
+<!--{/if}-->
+
+<link href="static/style/hack.css" rel="stylesheet" type="text/css" />
+
+<!--{subtemplate "common_header_css"}-->
+<!--{subtemplate "common_header_js"}-->
+<!-- <script type="text/javascript" src="{conf site_url}/static/min/?g=js&c={$GLOBALS[_J][charset]}&v={SYS_BUILD}"></script> -->
+<script type="text/javascript" src="static/js/cookies.js"></script>
+<script type="text/javascript" src="static/js/min.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+<script type="text/javascript" src="static/js/publishbox.js"></script>
+<script type="text/javascript" src="static/js/jsgst.js"></script>
+<!--{if in_array(jget('mod'), array("follow","fans"))}-->
+<script type="text/javascript" src="static/js/relation.js"></script>
+<!--{/if}-->
+<!--{if $this->Get['mod']=="vote"}-->
+<script type="text/javascript" src="static/js/vote.js"></script>
+<!--{/if}-->
+<!--{if $this->Get['mod']=="qun"}-->
+<script type="text/javascript" src="static/js/qun.js"></script>
+<!--{/if}-->
+
+</head>
+
+{$additional_str}
+
+<body>
+
+<!-- body begin -->
+<div class="j-wrap">

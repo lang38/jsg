@@ -1,0 +1,66 @@
+{template "header"}
+  <style type="text/css">
+  #g_isrcollWrapper{ padding-top:45px;}
+  </style>
+        <a id="cover" href="javascript:;"><img src="{$member[profile_image]}"></a>
+		<div class="user_info">
+        	<section class="card-1">
+				<div class="b_author"><img src="{$member['face_original']}" style="width:80px; height:80px; border-radius: 3px;"/></div>
+				<div class="b_info">
+					<span class="u_name">
+                    {$member['nickname']}{$member[validate_string]}
+                    <!--{if $member['gender'] == 1}-->
+                    <img src="../static/image/user.gif"/><!--{else}--><img src="../static/image/user_female.gif"/>
+                    <!--{/if}-->
+                    </span>
+
+                    <!--{if $member['uid'] == MEMBER_ID}-->
+                    	<!--{if $this->Config['is_mobile_client']}-->
+							<span class="btn"><a href="javascript:goToEditProfile('{$member[uid]}');" class="btn_edit">编辑</a></span>
+                    	<!--{/if}-->
+                    <!--{else}-->
+                    	<span class="">
+                        	<!--{if $is_follow}-->
+                        		<a href="javascript:;" class="btn_y" onclick="delFollow(this, {$member['uid']})"></a>
+                            <!--{else}-->
+                            	<!--{if $is_blacklist}-->
+                            		<a href="javascript:;" class="btn_h" onclick="delFromBlackList(this, {$member['uid']})"></a>
+                              	<!--{else}-->
+                                	<a href="javascript:;" class="btn_g" onclick="addFollow(this, {$member['uid']})"></a>
+                                <!--{/if}-->
+                            <!--{/if}-->
+                     	</span>
+                    <!--{/if}-->
+
+				</div>
+                <p class="info-m">
+                     <!--{if $member['signature']}-->个性签名：{$member['signature']}<br><!--{/if}-->
+                     <!--{if $member['province']}-->常住地址：{$member['province']} {$member['city']}<br><!--{/if}-->
+                     <!--{if $member['email']}-->电子邮件：{$member['email']}<!--{/if}-->
+                
+                </p>
+			</section>
+            
+            <section class="card-2">
+            <a href="javascript:;" onClick="goToMyMbList('{$member[uid]}');"><span>{$member['topic_count']}</span>微博</a>  
+            <a href="javascript:;" onclick="goToTagList('{$member[uid]}');"><span>{$member['tag_favorite_count']}</span>话题</a>            
+            <a href="javascript:;" onClick="goToFwList('{$member[uid]}');"><span>{$member['follow_count']}</span>关注</a>   
+            <a href="javascript:;" onClick="goToFansList('{$member[uid]}');"><span>{$member['fans_count']}</span>粉丝</a>   
+
+            </section>
+            
+		</div>
+
+
+<script language="javascript">
+	$(document).ready(function(){
+		setTmpNick("{$member['nickname']}");
+	});
+</script>
+
+
+
+
+
+
+{template "footer"}

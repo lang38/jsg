@@ -1,0 +1,141 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<link href="static/style/qun.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+	.srch_form{ width:608px; margin-bottom:25px;}
+	.srch_form_c{ width:485px;}
+	a.v_on{ color:#000; font-weight:700;}
+	#tc_wq{ min-height:100px;}
+</style>
+
+<!--{if $this->Config[ad_enable] && $this->Config[ad][ad_list][qun][header]}-->
+<div class="a-h"><!--{eval SetADV('qun','header');}--></div>
+<!--{/if}-->
+
+
+<div class="main"> 
+   <div class="mainWrap ">	
+	
+		<!--{if $join_qun_count === 0}-->
+			<div style=" border: solid 1px #F9F2A7; padding:10px; margin:10px; background:#FEFFE5; color:#333333">
+				你还没有加入任何{$this->Config[changeword][weiqun]}呢。赶快加入发言吧！
+			</div>
+		<!--{/if}-->
+	
+
+	  <div class="n_s" style="margin:10px 20px 20px 110px; ">
+	    <span class="group"><!--{eval if (!$qun_num) $qun_num = 0}-->{$qun_num}</span><span class="normal_f">个兴趣{$this->Config[changeword][weiqun]}</span>
+	    <span class="person"><!--{eval if (!$member_num) $member_num = 0}-->{$member_num}</span><span class="normal_f">个{$this->Config[changeword][weiqun]}成员</span>
+	    <span class="topic"><!--{eval if (!$thread_num) $thread_num = 0}-->{$thread_num}</span><span class="normal_f">个{$this->Config[changeword][weiqun]}话题</span>
+	  </div>
+
+      <div class="srch_form ">
+        <div class="srch_form_r "></div>
+        <div class="srch_form_l"></div>
+	    <form method="get" action="#" name="headSearchForm" id="headSearchForm" onsubmit="return ProfileSearch();">
+          <div class="srch_form_c ">
+            <div class="srch_arrow">
+              <div class="srch_form_cr "></div>
+              <div class="srch_form_cl "></div>
+              <input id="ProfileSearchType" name="searchType" type="hidden" value="qun">
+              <input type="text" id="keywarod" name="headSearchValue"  maxlength="40" value="" class="font_14 txt_srch">
+            </div>
+          </div>
+          <a href="###" class="srch_btn " onclick="javascript:return ProfileSearch();">搜索</a> 
+	    </form>
+	  </div>
+	
+    
+	<!--{if $nav_cat_ary}-->
+	<div class="qun_list_bline">
+		<div class="mleft">推荐{$this->Config[changeword][weiqun]}</div>
+		<div class="mright">
+		<ul id="cat_nav">
+			<!--{loop $nav_cat_ary $tcat}-->
+			<!--{if $tcat['qun_num'] > 0}-->
+			<li>
+				<div class="tagn" id="nav_inner_$tcat['cat_id']">
+				<A HREF="javascript:;"  onclick="recommendQun($tcat['cat_id'])"><span>{$tcat['cat_name']}</span></A>
+				</div>
+			</li>
+			<!--{/if}-->
+			<!--{/loop}-->
+		</ul>
+		</div>
+	</div>
+    <!--{/if}-->
+    
+
+      <div id="listTopicArea">
+	  
+	  	<!--简单显示 Bein-->
+		<div class="Listmain qun_list_b" id="recdqun_wp"></div>
+		<!--简单显示 End-->
+		
+		<!--{if $this->Config['qun_setting']['tc_qun']}-->
+		<div class="Listmain qun_list_b">
+		  <div class="qun_list_bline">
+          <span style="float:left">同城{$this->Config[changeword][weiqun]}</span>
+          <span style="float:right; margin-top:2px;">
+            {$province_list}
+            <select id='tc_city' name="tc_city" onchange="tcityQun($('#tc_city').val());"></select>
+          </span>
+          </div>
+		  <div id="tc_wq"></div>
+		</div>
+		<!--{/if}-->
+
+		<!--微群分类 Begin-->
+		<div class="Listmain qun_list_b">
+		<div id="cat_content_wp">
+			<!--{loop $top_cat_ary $key $top_cat}-->
+			<!--{if $activity_qun[$top_cat['cat_id']]}-->
+			<div class="t_a_q">
+			  <div class="qun_list_bline">
+              <span class="mleft"><a href="index.php?mod=qun&code=category&cat_id={$top_cat['cat_id']}">{$top_cat['cat_name']}活跃群</a></span>
+              <span class="mright"><a href="index.php?mod=qun&code=category&cat_id={$top_cat['cat_id']}">查看全部{$top_cat['cat_name']}分类</a></span>
+              </div>
+			  <!--{loop $activity_qun[$top_cat['cat_id']] $value}-->
+				<div class="qun_block">
+					<div class="rbl">
+						<div class="img_wp">
+							<a href="index.php?mod=qun&qid={$value['qid']}"><img src="{$value['icon']}" title="$value['desc']"/></a>
+						</div>
+					</div>
+					<div class="rbr">
+					<span style="font-size:12px; font-weight:600;"><a href="index.php?mod=qun&qid={$value['qid']}">{$value['name']}</a></span>
+					<br />
+					<span style="color:#aaa">{$value['member_num']}人&nbsp;&nbsp;|&nbsp;&nbsp;{$value['thread_num']}条{$this->Config[changeword][n_weibo]}</span>
+					</div>
+					<div style="clear:both"></div>
+				</div>
+			  <!--{/loop}-->
+			  </div>
+
+			  <!--{/if}-->
+			<!--{/loop}-->
+			<div style="clear:both"></div>
+		</div>
+		</div>
+		<!--微群分类 End-->
+		
+      </div>
+</div>
+
+
+<!--右边栏 Begin-->
+{template "qun/qun_right"}
+<!--右边栏 End-->
+<script language="javascript">
+<!--{if $first_cat_id>0}-->
+recommendQun({$first_cat_id});
+<!--{/if}-->
+<!--{if $this->Config['qun_setting']['tc_qun']}-->
+tcQun($('#tc_province').val());
+<!--{/if}-->
+</script>
+ 
+<!--{if $this->Config[ad_enable]}-->
+<!--{eval SetADV('qun','footer');}-->
+<!--{/if}-->
+{template "topic_footer"}

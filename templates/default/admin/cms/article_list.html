@@ -1,0 +1,35 @@
+
+<!--{template admin/header}-->
+
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+	<td width="90">文章标题</td>
+	<td width="90">发布者</td>
+	<td width="80">时间</td>
+	<td width="90">是否通过审核</td>
+	<td width="300">操作</td>
+</tr>
+<!--{loop $list $one}-->
+<tr>
+<td width="90"><a href="admin.php?mod=cms&amp;code=article_modify&amp;article={$one['aid']}">{$one['title']}</a></td>
+<td width="90">
+	{$one['username']}
+</td>
+<td width="90">
+	{eval echo date('y-m-d H:i:s',$one['dateline']);}
+</td>
+<td width="90">
+	<!--{if $one['check']}-->
+	是 <a href="admin.php?mod=cms&amp;code=article_un_pass&amp;article={$one['aid']}">取消通过</a>
+	<!--{else}-->
+	否 <a href="admin.php?mod=cms&amp;code=article_pass&amp;article={$one['aid']}">通过</a>
+	<!--{/if}-->
+</td>
+<td width="300">
+	<a href="admin.php?mod=cms&amp;code=article_modify&amp;article={$one['aid']}">编辑</a>
+	<a href="admin.php?mod=cms&amp;code=article_delete&amp;article={$one['aid']}">删除</a>
+</td>
+</tr>
+<!--{/loop}-->
+
+</table>

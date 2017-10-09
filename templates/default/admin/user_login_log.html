@@ -1,0 +1,50 @@
+<!--{template admin/header}-->
+
+<div class="mt10">
+
+  <form method="get" name="search" action="admin.php">
+    <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+      <tr>
+        <td width="20%">用户昵称</td>
+        <td><input type="text" name="nickname" value="{$nickname}" onkeyup="ajax_nickname(this,this.value);" autocomplete="off"></td>
+      </tr>
+      <tr>
+        <td width="20%">记录时间(例如: 2012-01-01)</td>
+        <td><input type="text" name="time" value="{$time}"></td>
+      </tr>
+      <tr>
+        <td width="20%">IP地址</td>
+        <td><input type="text" name="ip" value="{$ip}"></td>
+      </tr>
+      <tr>
+        <td><input type="hidden" name="mod" value="member"><input type="hidden" name="code" value="user_login_log"></td>
+        <td><input type="submit" name="Submit" value="查询" class="button"> &nbsp; <a href="admin.php?mod=member&code=user_login_log">查看全部</a></td>
+      </tr>
+    </table>
+  </form>
+  
+  <form method="post" action="admin.php?mod=member&code=dowaitvalidate">
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr align="center" class="header">
+			<td width="20%">用户昵称</td>
+      <td width="20%">IP地址:端口</td>
+      <td width="20%">记录时间</td>
+      <td width="20%">客户端类型</td>
+		</tr>
+		<!--{loop $data['list'] $log}-->
+		<tr class="altbg2" onmouseover="this.className='altbg1'" onmouseout="this.className='altbg2'">
+			<td style="border-bottom:1px dotted #EDEDED"><a href="admin.php?mod=member&code=user_login_log&uid={$log['uid']}">{$log['user_nickname']}</a></td>
+			<td style="border-bottom:1px dotted #EDEDED"><a href="admin.php?mod=member&code=user_login_log&ip={$log['ip']}">{$log['ip']}</a>:{$log[ip_port]}</td>
+			<td style="border-bottom:1px dotted #EDEDED">{$log['time']}</td>
+			<td style="border-bottom:1px dotted #EDEDED">{$log['type']}</td>
+		</tr>
+		<!--{/loop}-->
+		
+		<!--{if $data['page']['html']}-->
+		<tr>
+			<td colspan="4">{$data['page']['html']}</td>
+		</tr>
+		<!--{/if}-->
+	</table>
+  </form>
+</div>

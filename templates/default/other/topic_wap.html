@@ -1,0 +1,171 @@
+{template "topic_header"}
+<div class="setframe">
+
+  {template 'setting/setting_main_left.inc'}
+  
+  <div class="setframeWrap">
+  
+	<div class="Menubox">
+	  <ul>
+	    <!--{eval  $wap = ('wap' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $mobile = ('mobile' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $sms = ('sms' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $wechat = ('wechat' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $iphone = ('iphone' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $android = ('android' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+	    <!--{eval  $pad = ('pad' == $this->Code ? 'class="tagcurrent"' :'class="tagn"');}-->
+		<li><div {$wap}><a href="index.php?mod=other&code=wap"><span>WAP版</span></a></div></li>
+		<li><div {$mobile}><a href="index.php?mod=other&code=mobile"><span>3G版</span></a></div></li>
+		<!--{if !$this->Config[sms_enable] && !$this->Config[sms_link_display]}-->&nbsp;<!--{else}-->
+			<li><div {$sms}><a href="index.php?mod=other&code=sms"><span>短·彩信</span></a></div></li>
+		<!--{/if}-->
+		<li><div {$wechat}><a href="index.php?mod=other&code=wechat"><span>微信</span></a></div></li>
+		<li><div {$iphone}><a href="index.php?mod=other&code=iphone"><span>iPhone</span></a></div></li>
+		<li><div {$android}><a href="index.php?mod=other&code=android"><span>Android</span></a></div></li>
+		<!--<li><div {$pad}><a href="index.php?mod=other&code=pad"><span>Android平板</span></a></div></li>-->
+	  </ul>
+	</div>
+  
+	<div class="m-box">
+		
+		  <!--{if 'wap' == $this->Code}-->
+		  <div class="wap">
+			<div class="wapF"><iframe frameborder="0" src="{conf wap_url}/"></iframe></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="wapT_1">
+            <div class="wapspan1">{conf wap_url}</div>
+			<!--{eval $en_wap_url=urlencode($GLOBALS[_J][wap_url]);}-->
+            <div class="wapspan2"><img src="http://server.tttuangou.net/qrcode/?data={$en_wap_url}" /></div>
+            </div>
+		    <div class="ts_m4">
+		      <li>手机访问{conf site_name}，享受与网页版同样的内容与服务，可用户登录、查看$this->Config['changeword']["n_weibo"]、查看我关注的人、关注我的人、发$this->Config['changeword']["n_weibo"]、评论转发$this->Config['changeword']["n_weibo"]等，让你随时随地分享。</li>
+			  <li>手机访问{conf site_name}是<b>完全免费</b>的，网站不收取任何费用，GPRS流量费由运营商收取。建议您开通手机上网包月套餐，更省钱，详情请咨询当地运营商 10086（移动）、10010（联通）或10000（电信）。</li>
+		    </div>
+		  </div>
+		  <!--{elseif 'mobile' == $this->Code}-->
+		  <div class="wap3">
+			<div class="wapF"></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="wapT_1">
+            <div class="wapspan1">{conf mobile_url}</div>
+			<!--{eval $en_3g_url=urlencode($GLOBALS[_J][mobile_url]);}-->
+            <div class="wapspan2"><img src="http://server.tttuangou.net/qrcode/?data={$en_3g_url}" /></div>
+            </div>
+		    <div class="ts_m4">
+		      <li>3G手机访问{conf site_name}，享受与网页版同样的内容与服务，可用户登录、查看$this->Config['changeword']["n_weibo"]、查看我关注的人、关注我的人、发$this->Config['changeword']["n_weibo"]、评论转发$this->Config['changeword']["n_weibo"]等，让你随时随地分享。</li>
+			  <li>3G手机访问{conf site_name}是<b>完全免费</b>的，网站不收取任何费用，GPRS流量费由运营商收取。建议您开通手机上网包月套餐，更省钱，详情请咨询当地运营商 10086（移动）、10010（联通）或10000（电信）。</li>
+		    </div>
+		  </div>
+		  <!--{elseif 'sms' == $this->Code}-->
+		  {$smsHTML}
+		  <!--{elseif 'wechat' == $this->Code}-->
+		  <div class="wap4">
+			<div class="wapF"></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="ts_m4">
+		      <p class="wechat_bg">微信机器人</p>
+		      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于微信公共平台的微信机器人，集成3G网页版功能。绑定微博帐号后，你可以直接在微信里发文字微博，发图片微博，你甚至不用记住网址，直接在微信里访问{conf site_name}3G网页版。
+     想体验微信机器人，请关注官方微信（搜索帐号<span style="color:red;">{$wechat_conf[mywechat]}</span>或扫一扫关注）
+	<!--{if $wechat_conf[my_qrcode]}--><img src="{$wechat_conf[my_qrcode]}" style="width:175px; height:175px; margin:10px 0 0 60px;"><!--{/if}-->
+</p>
+			  <p class="W_hline"></p>
+			  <p style="font-size:16px;font-weight:600">微信机器人使用帮助：</p>
+			  <ul>
+			    <li>回复{eval echo "“".implode("”，“",$wechat_conf[bind_key])."”";} =〉微博与微信帐号绑定</li>
+				<li>回复"{$wechat_conf[add_weibo]}+微博内容"=〉发布文字微博</li>
+				<li>回复 图片   =〉发布图片微博</li>
+				<li>回复{eval echo "“".implode("”，“",$wechat_conf[3g_key])."”";}   =〉访问3G网页版微博</li>
+				<li>回复{eval echo "“".implode("”，“",$wechat_conf[help_key])."”";}=〉查看帮助说明</li>
+			  </ul>
+		    </div>
+		  </div>
+		  <!--{elseif 'iphone' == $this->Code}-->
+		  <div class="wap2">
+			<div class="wapF"></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="ts_m4">
+		      <p class="iphone_bg">iPhone 客户端</p>
+		      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于iPhone、iPod touch平台的iPhone版手机客户端，实现了阅读、发布、评论、转发、私信、关注等各主要功能，支持本地相机即拍即传和新消息提醒，记录点滴生活，分享精彩瞬间。</p>
+			  <p class="W_hline"></p>
+			  <p>
+			  <!--{if {$this->Config['iphone_download_url']}}-->
+			  <a href="{conf iphone_download_url}" target="_blank">点击直接访问APP Store下载应用（或者通过手机扫描下面的二维码直接访问）</a>
+			  <!--{eval $en_iphone_download_url=urlencode($this->Config['iphone_download_url']);}-->
+              <p class="app_code_two"><img src="http://server.tttuangou.net/qrcode/?data={$en_iphone_download_url}" /></p>
+			  <!--{else}-->如需客户端操作，请联系管理员开通此服务。
+			  <!--{/if}-->
+			  </p>
+			  <p class="W_hline"></p>
+			  <p style="font-size:16px;font-weight:600">特点</p>
+			  <ul>
+			    <li>1.手机拍照一键发送。 </li>
+				<li>2.对话模式的私信，让你拥有即时聊天的体验。 </li>
+				<li>3.数据量小，强劲的本地缓存功能为您节省流量。 </li>
+				<li>4.同时添加多个帐号，保存多个帐号信息随心切换。 </li>
+				<li>5.支持客户端帐号注册。 </li>
+				<li>6.支持iPhone4 Retina 屏幕高清显示。</li>
+			  </ul>
+		    </div>
+		  </div>
+		  <!--{elseif 'android' == $this->Code}-->
+		  <div class="wap1">
+			<div class="wapF"></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="ts_m4">
+		      <p class="android_bg">Android客户端2.8</p>
+		      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于Android平台的{$this->Config[changeword][p_weibo]}手机客户端，集阅读、发布、评论、转发、私信、关注等主要功能为一体。</p>
+               
+			  <p class="W_hline"></p>
+			  <p>
+			    <!--{if {$this->Config['android_download_url']}}-->
+			    <a href="{conf android_download_url}" target="_blank">点击直接下载应用（或者通过手机扫描下面的二维码直接下载）</a>
+				<!--{eval $en_android_download_url=urlencode($this->Config['android_download_url']);}-->
+                <p class="app_code_two"><img src="http://server.tttuangou.net/qrcode/?data={$en_android_download_url}" /></p>
+			    <!--{else}-->如需客户端操作，请联系管理员开通此服务。
+			    <!--{/if}-->
+			  </p>
+			  <p class="W_hline"></p>
+			  <p style="font-size:16px;font-weight:600">v2.8新功能点：</p>
+			  <ul>
+			    <li>1.全新的频道，支持微博的属性功能；</li>
+				<li>2.发微博@好友支持选择功能，不用手动输入了；</li>
+				<li>3.站长信箱；</li>
+				<li>4.群发通知；</li>
+                <li>5.消息中心写私信功能；</li>
+				<li>6.全新广场，ui大幅优化；</li>
+                <li>更多了解，<a href="http://t.jishigou.net/topic/255651" target="_blank">点此链接</a></li>
+			  </ul>
+		    </div>
+		  </div>
+		  <!--{elseif 'pad' == $this->Code}-->
+		  <div class="wap2">
+			<div class="wapF"></div>
+		  </div>
+		  <div class="wapT">
+		    <div class="ts_m4">
+		      <p class="android_bg">Android平板 客户端</p>
+		      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基于Android平台的{$this->Config[changeword][p_weibo]}平板客户端，集阅读、发布、评论、转发、私信、关注等主要功能为一体，本地相机即拍即传，随时随地同朋友分享身边的新鲜事。</p>
+			  <p class="W_hline"></p>
+			  <p><a href="#">点击直接下载应用</a></p>
+			  <p class="W_hline"></p>
+			  <p style="font-size:16px;font-weight:600">特点</p>
+			  <ul>
+			    <li>1.手机拍照一键发送。 </li>
+				<li>2.同时添加多个帐号，保存多个帐号信息随心切换。 </li>
+				<li>3.支持客户端帐号注册。 </li>
+			  </ul>
+		    </div>
+		  </div>
+		  <!--{/if}-->
+          
+	</div>
+  </div>
+  </div>
+</div>
+
+{template "topic_footer"}

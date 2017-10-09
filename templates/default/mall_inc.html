@@ -1,0 +1,63 @@
+<!--{if $_mymember}-->
+<script type="text/javascript">
+$(document).ready(function(){$("#m_avatar2").mouseover(function(){$(".avatar2_tips").show();});$("#m_avatar2").mouseout(function(){$(".avatar2_tips").hide();});});
+</script>
+ <div class="column">
+	<div class="left" id="m_avatar2">
+		<a href="index.php?mod={$_mymember[username]}" title="{$_mymember[nickname]}"> 
+			<img src="{$_mymember[face_original]}" alt="{$_mymember[nickname]}" onerror="javascript:faceError(this);" /> </a> 
+		{if MEMBER_ID == $_mymember['uid']}
+		<p class="avatar2_tips"><a id="avatar_upload" href="index.php?mod=settings&code=face">修改头像</a></p>
+		{/if} 
+	</div>
+	<div style="float:left; margin-left:10px;">
+	    <p class="name"> 
+		    <a href="index.php?mod={$_mymember[username]}" title="@{$_mymember[nickname]}">{$_mymember[nickname]}</a> 
+			</p>
+			<p>总积分：<span>{$_mymember[credits]}</span></p>
+			<p>{$_mymember['mall_credits_name']}：<span>{$_mymember['mall_credits']}</span></p>
+	</div>
+	<div style="clear:both;height:0;"></div>
+</div> 
+<!--{/if}-->
+
+<div class="column jifen_list">
+	<ul>
+	<li{$css['mall']}><a href="index.php?mod=mall">积分商城</a></li>
+	<li{$css['exchange']}><a href="index.php?mod=mall&code=exchangegoods">兑换记录</a></li>
+	<li{$css['rule']}><a href="index.php?mod=settings&code=extcredits&op=base">积分管理</a></li>
+	</ul>
+</div>
+
+
+<div  class="column">
+ 
+			<h3>最新商品兑换动态</h3> 
+			<ul class="feed_news_list_wrap" id="feed_news_list">
+			<!--{if $feeds}-->
+			<!--{loop $feeds $val}-->
+				<li>
+				<p><span>&middot;</span>
+					<a href="index.php?mod={$val[uid]}">{$val[nickname]}</a>&nbsp;兑换了&nbsp;<a href="index.php?mod=mall&code=goodsinfo&id={$val[tid]}" target="_blank">{$val[msg]}</a>
+				</p>
+				</li>
+			<!--{/loop}-->
+			<!--{/if}-->
+			</ul>
+    
+</div>
+
+<div class="rank column">  
+	<h3>{$config['credits_name']}排行</h3> 
+	<ul>
+	<!--{if $top_credit_members}-->
+	<!--{loop $top_credit_members $val}-->
+	<li>
+	<a href="index.php?mod={$val[username]}" title="{$val[nickname]}"> 
+	<img src="{$val[face_small]}" alt="{$val[nickname]}" onerror="javascript:faceError(this);" /> </a>
+	<a href="index.php?mod={$val[username]}" class="r"><p>{$val[nickname]}</p><span>{$config['credits_name']}：{$val[credits]}</span></a>
+	</li>
+	<!--{/loop}-->
+	<!--{/if}-->
+	</ul>
+</div>

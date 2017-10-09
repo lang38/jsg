@@ -1,0 +1,15 @@
+<!--{loop $group_list $val}-->
+<dl class="ml_dl" id="del_group_ajax_{$val[id]}">
+<dd>
+<!--{if $touid}-->
+<input id="select_{$val[uid]}_{$val[id]}" name="group" type="checkbox" onclick="groupState({$val[id]},'{$touid}',this);return false;"/>
+<!--{/if}-->
+<!--{if 'follow' == jget('mod')}--> 
+<a href="index.php?mod=follow&gid={$val[id]}" title="成员人数：{$val[count]}">{$val[name]}</a>
+<!--{else}--> 
+<a href="index.php?mod=topic&code=myhome&gid={$val[id]}" title="成员人数：{$val[count]}">{$val[name]}</a>
+<!--{/if}--> 
+</dd>
+<dt>({$val[count]})<a onclick="del_group('{$val[id]}','{$touid}');return false;" href="javascript:;" title="删除分组" style="float:none;">×</a></dt>
+</dl>
+<!--{/loop}-->

@@ -1,0 +1,67 @@
+<link href="static/style/vote.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.vote_list .Contant, .vote_li_list .Contant{ width:495px; padding:0; background:none;}
+.vote_num{ top:20px;}
+</style>
+<!--{loop $vote_list $val}-->
+<div id="topic_list_25">
+<div class="feedCell vote_list" id="topic_list_25"> 
+	<div class="avatarL"> 
+		<div class="avatar">
+			<a href="index.php?mod=vote&view=me&uid=$val[uid]" class="nude_face"><img src="{$members[$val[uid]]['face']}" onerror="javascript:faceError(this);" /></a>
+		</div>
+		<div class="vText"><a href="index.php?mod=$val[uid]&type=vote">{$members[$val[uid]]['nickname']}{$members[$val[uid]]['validate_html']}</a></div>
+	</div>
+	<div id="user_25_user"></div>
+	<div id="Pmsend_to_user_area" style="width:430px; display:none"></div>
+	<div id="global_select_4" class="alertBox" style="display:none"></div>
+    
+	<div class="Contant">
+	<div id="topic_lists_25" style="_overflow:hidden">
+	<div class="topicTxt">
+		<p class="vote_l_1">
+		<span><a title="$val[subject]" href="index.php?mod=vote&code=view&vid=$val['vid']" target="_blank" >$val[subject]</a><span>
+		<!--{if $val['is_expiration']}-->
+			<span style="color:#666;">(已结束)</span>
+		<!--{/if}-->
+		<!--{if $val['is_vote']}-->
+			<span style="color:#080;">(已投票)</span>
+		<!--{/if}-->
+		</p>
+		<p style="font-size:12px; color:#666;">投票有效期：{$val['expiration']}
+		<!--{if $val['is_vote'] && !$val['is_expiration']}-->
+		<span style="margin-left:50px;"><label for="follow_vote_{$val[vid]}"><input id="follow_vote_{$val[vid]}" type="checkbox" value="1" style="vertical-align:middle; margin:-1px 0 0 0;" {if $val['hasfollowed']}checked="checked"{/if} onclick="mod_follow_vote(this.checked,'{MEMBER_ID}','{$val[vid]}');">&nbsp;关注更新</label></span>
+		<!--{/if}-->
+		</p>
+		<div class="vote_num"><b>{$val[voter_num]}</b></div>
+	</div>
+	<div class="from" style="*margin-top:-15px;">
+	<div class="handle"></div>
+	<div class="mycome" style="width:420px;white-space: normal;">
+	<span style="color:#666;">
+	<!--{if $val['loption']}-->
+	<!--{if $val[lusername]}-->
+	<a href="index.php?mod={$val[lusername]}" target="_blank">{$val['lnickname']}</a>
+	<!--{else}-->
+	{$val['lnickname']}
+	<!--{/if}-->	
+	&nbsp;最后投给了&nbsp;{$val['loption']}&nbsp;(<!--{$val['last_vote_time']}-->)
+	<!--{else}-->
+	暂无人投票，欢迎您来投一票！
+	<!--{/if}-->
+	</span>
+	<span style="margin-left:5px;"><a href="index.php?mod=vote&code=view&vid=$val['vid']" target="_blank" >查看投票&rsaquo;&rsaquo;</a></span>
+	</div>
+    </div>  
+          
+    </div>
+    </div>
+    
+</div>
+</div>
+<!--{/loop}-->
+<!--{if $page_arr[html]}-->
+<div class="pageStyle">
+<li>{$page_arr[html]}</li>
+</div>
+<!--{/if}-->

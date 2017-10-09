@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<!--{eval $__my=$GLOBALS[_J][member];}-->
+<base href="{$this->Config[site_url]}/" />
+{eval $conf_charset=$this->Config['charset'];}<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<title>{$this->Config[site_name]}({$this->Config[site_domain]}){conf page_title}</title>
+<meta name="Keywords" content="{$this->Config['index_meta_keywords']},{$this->MetaKeywords},{conf site_name}{conf meta_keywords}" />
+<meta name="Description" content="{$this->Config['index_meta_description']},{$this->MetaDescription},{conf site_notice}{conf meta_description}" />
+
+<!--{subtemplate "common_header_css"}-->
+<!--{subtemplate "common_header_js"}-->
+
+<script type="text/javascript" src="static/js/min.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+
+<style type="text/css">
+ul,li{list-style:none; padding:0 0; margin:0 0;}
+body{font-size:12px; font-family:""; padding:0; margin:0;  margin:0 auto;  background: url("http://www.wehangzhou.cn:8082/wmhz/static/system/user/images/index_47.jpg")}
+img{border:none;}
+/* 公用样式 */
+a{text-decoration:none; color:#fff}
+a:link{color:#fff;}
+.hd1rt{width:425px;}
+.q_main{width:270px;height:70px; padding:20px 0 0; float:right;}
+.q_main tr{padding:5px;}
+.q_main .left{width:195px;float:left; border-right:1px dotted #d1d1d1;}
+.q_main .right{height:50px;margin-top:8px;float:right;}
+.q_main .right ul{margin:-7px 0 0 -22px;*margin:-7px 0 0 15px}
+.q_main .right li{list-style:none;line-height:32px;}
+.q_main .right li a{text-decoration:none;}
+
+.log input{ padding:5px;  border:none; color:#666; width:85px;}
+.log_v,.log_v2{ padding-left:5px;}
+.log_v input{ vertical-align:middle;}
+.log_v2 .u-btn{height:24px; width:65px; background:#F29407;border:none;cursor:pointer;color:#fff;border-radius:2px;box-shadow:none; font-size:12px; padding:4px 0;}
+.log_v2 .u-btn:hover{ background:#fc0;}
+</style>
+
+</head>
+<body>
+
+{if $member['uid']<0||!$member}
+<div class="q_main">
+	
+	{if $member['uid']<0}
+	<span style="color: #f60;position: absolute;left: -150px;width: 125px;top: 24px;background: #FFc;padding: 10px;">$member['error']</span>
+	{/if}
+    <div class="left">
+	<form action="index.php?mod=index&code=do_other_login" method="post">
+      <table>
+        <tbody>
+          <tr>
+            <td class="log"><input type="text" name="username" placeholder="用户名/昵称"></td>
+            <td class="log_v"><label><input type="checkbox" name="savelogin" value="1" checked="checked"><span style="color:#fff">自动登录</span></label></td>
+          </tr>
+          <tr>
+            <td class="log"><input type="password"  name="password" placeholder="密码"> </td>  
+            <td class="log_v2"><input type="submit" value="登录" class="u-btn"></td>
+          </tr>
+        </tbody>
+      </table>
+	</form>
+    </div>
+    <div class="right">
+      <ul>
+		<!--{if !$GLOBALS[_J][config][register_link_display] && jsg_member_register_is_closed()}-->
+			<!-- 不显示注册链接 -->
+		<!--{else}-->
+	    <li>
+		<a title="注册{conf site_name}" href="{conf site_url}/index.php?mod=member" target="_blank"><b>立即注册</b></a>
+		</li>
+		<!--{/if}-->
+	    <li><a href="{conf site_url}/index.php?mod=get_password" class="forgetPass" target="_blank">忘记密码</a></li>
+      </ul>
+    </div>
+</div>
+{else}
+<div style="float:right; padding:5px; line-height:17px;">
+	<br />
+	<table>
+        <tbody>
+		<tr valign="top">
+		<td><div style="width:50px; height:50px; float:left; margin-right:10px;"><a href="index.php?mod={$member[username]}" target="_blank" title="在新窗口中打开查看我的微博">
+		<img src="{$member[face]}" alt="{$member[nickname]}" width="50px"></a></div></td>
+		<td><a href="index.php?mod={$member[username]}" target="_blank" title="在新窗口中打开查看我的微博">{$member[nickname]}</a><br />
+		<a href="index.php?mod=topic" target="_blank" title="在新窗口中打开查看我的首页">我的首页</a><br />
+		<a href="index.php?mod=index&code=other_logout">退出</a></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+{/if}
+
+
+</body>
+</html>

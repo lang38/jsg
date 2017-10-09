@@ -1,0 +1,14 @@
+<!--{if (($limit=jconf::get('show', 'topic_new', 'tag')) && $tags = jlogic('tag_list')->get_tag_by_top_topic_count($limit, jconf::get('cache', 'topic_new', 'day_tag')))}-->
+	 <div class="column">
+      <h3>最近话题榜  <em>TOP {$limit}</em> </h3>
+      <ul class="sideul">
+        <!--{loop $tags $val}-->
+		<!--{eval $TagNo++;}-->
+        <li style="width:100%; float:left;">
+		  <span class="boxRl listyle"><var>{$TagNo}</var> . <a href="index.php?mod=tag&code={$val[name]}">{$val[name]}</a></span>
+		  <em class="mright" style="background: #eee;padding: 0 7px;border-radius: 50%;">{$val[topic_count]}</em>
+		</li>
+        <!--{/loop}-->
+      </ul>
+     </div>
+     <!--{/if}-->

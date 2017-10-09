@@ -1,0 +1,25 @@
+<success></success>
+<script type="text/javascript">
+	$(document).ready(function() {
+		showdiguser();
+		showrcduser();
+	});
+</script>
+
+<div id="topic_view_comment_msg_area_{$topic_info[tid]}"></div>
+<!--{loop $reply_list $val}-->
+<div id="view_comment_{$val[tid]}" class="comment_p {$val[ch_ty_css]}">
+	<!--{subtemplate topic_comment_item}-->
+</div>
+<!--{/loop}-->
+
+<!--{if $topic_info[replys]>0 && $reply_list && $more_display}-->
+<p class="comment_p_more">
+	共{$topic_info[replys]}条
+	<!--{if $topic_info[replys]>$limit}-->
+	，<a href="index.php?mod=topic&code={$topic_info[tid]}" target="_blank">查看全部</a>
+	<!--{/if}-->
+</p>
+<!--{/if}-->
+
+<!--{eval echo $this->js_show_msg();}-->

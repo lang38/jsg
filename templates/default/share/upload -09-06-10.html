@@ -1,0 +1,99 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="GBK">
+<meta http-equiv="X-UA-Compatible" content="Chrome=1,IE=edge" />
+<script type="text/javascript" src="templates/default/js/min.js"></script>
+<script type="text/javascript" src="templates/default/js/imgupload.js"></script>
+</head>
+
+<body style="margin:0">
+
+<script type="text/javascript">
+		document.domain='hzswb.cn';
+        $(document).ready(function(){
+			
+			$('#image_upload').uploadify({
+				'uploader'  : '{conf site_url}/images/uploadify/uploadify.swf?random=' + Math.random(),
+				'swf'		: '{conf site_url}/images/uploadify/uploadify.swf',
+			    'script'    : '{echo urlencode({conf site_url} . "/ajax.php?mod=uploadify&code=image&uninitmember=1&type=flash&iitem={$item}&iitemid={$item_id}&auto_topic=1")}',
+			    'cancelImg' : '{conf site_url}/images/uploadify/cancel.png',
+			    'buttonImg'	: '{conf site_url}/images/uploadify/upload.gif',
+			    'width'		: 78,
+			    'height'	: 78,
+			    'multi'		: false,
+			    'auto'      : true,
+			    'sizeLimit' : '{conf image_size_limit}',
+			    'fileExt'	: '*.jpg;*.png;*.gif;*.jpeg',
+			    'fileDesc'	: '请选择图片文件(*.jpg;*.png;*.gif;*.jpeg)',
+			    'queueID'	: 'uploadifyQueueDiv',
+			    'wmode'		: 'transparent',
+			    'fileDataName'	 : 'topic',
+			    'simUploadLimit' : 1,
+				'scriptData'	 : {
+			    	'cookie_auth': '{echo urlencode(jsg_getcookie("auth"))}'
+			    },
+				'onSelectOnce'	 : function (event, data) {imageUploadifySelectOnce();},
+			    'onProgress'     : function(event, ID, fileObj, data) {
+			        return false;
+			    },
+			    'onComplete'	 : function(event, ID, fileObj, response, data) {
+			    	eval('var r = ' + response + ';');
+					if (r.done) {					
+						onComplete(r);
+					}
+			    },
+			    'onError'        : function (event, ID, fileObj, errorObj) {
+			        alert(errorObj.type + ' Error: ' + errorObj.info);
+			    },
+
+				'onAllComplete'	 : function(event, data) {imageUploadifyAllComplete();},
+			});
+				
+		});
+
+		function imageUploadifySelectOnce(){
+			$('#uploading').html("<img src='static/image/loading.gif'/>&nbsp;上传中，请稍候…�?);
+		}
+        function imageUploadifyAllComplete(){
+			$('#uploading').html('');
+		}		
+
+		function onComplete(r){
+			if(r.done){
+				//parent.location.reload();//刷新页面
+				$(window.parent.document).find(".jsg_backdrop").remove();
+				
+				$(window.parent.document).find(".jsg_modal").remove();
+			} else {
+				alert("上传失败");
+			}
+
+		}
+		
+		
+</script>
+<div class="flash" style="display:none;">
+<h3 style="width:100%;height:35px; line-height:35px; background:#f2f2f2;margin:0;font-size: 14px;text-indent: 15px;color: #666;">点此上传图片</h3>
+<div style="padding:20px;">
+<input type="file" name="image_upload" id="image_upload" />
+</div>
+</div>
+
+<div  class="form">
+<iframe name="upload" style="display:none;" width="0" height="0"></iframe>
+<form action="ajax.php?mod=uploadify&type=share_upload&code=image&iitem={$item}&iitemid={$item_id}&auto_topic=1" method="POST" target="upload" enctype="multipart/form-data">
+<h3 style="width:100%;height:35px; line-height:35px; background:#f2f2f2;margin:0;font-size: 14px;text-indent: 15px;color: #666;position: relative;">点此上传图片
+<span class="jsg_modal_imgspan" style="width:50px;height: 15px;color: #666;line-height: 15px;position: absolute;right:0;top:10px;font-size:12px;cursor: pointer;font-weight: 500;" onclick="onComplete({done:1});">关闭</span>
+</h3>
+<div style="padding:20px;">
+<input type="file" name="topic" id="image_upload" />
+<input type="hidden" name="cookie_auth" value="{echo urlencode(jsg_getcookie('auth'))}"/>
+<input type="submit" value="�?�? class="u-btn-img"/>
+</div>
+</form>
+</div>
+
+
+</body>

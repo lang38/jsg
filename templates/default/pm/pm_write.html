@@ -1,0 +1,127 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<div class="main">  
+<link href="static/style/pm.css" rel="stylesheet" type="text/css" />
+  <div class="mainWrap">
+  <div class="contentWrap">
+	<!--以下站内短信导航部分-->
+    {$left_menu}
+	<!--以上站内短信导航部分-->
+	
+	<script type="text/javascript">
+	 $(document).ready(function() {
+			$("#add_atuser").click(function(){$("#showout_atuser").show();});
+			$(".menu_hpb_c1").click(function(){$("#showout_atuser").hide();});
+		 //表情
+		 $(".menu_bqb_c").click(function(){
+		 	$("#msg_showface").show();
+		 	$(".menu_tqb").hide();
+		 	$(".menu_fjb").hide();
+		 });
+		 //图片 
+		 $(".menu_tqb_c").click(function(){
+		 	$(".menu_tqb").show();
+			$("#msg_showface").hide();
+			$(".menu_fjb").hide();
+		 });
+		 $('#pubImg').click(function(){$("#publisher_file").style.posLeft=event.x-offsetWidth/2;$("#publisher_file").style.posTop=event.y-offsetHeight/2;});
+		 $(".menu_tqb_c1").click(function(){$(".menu_tqb").hide();});
+		 $("#publishSubmit").click(function(){$(".menu_tqb").hide();});
+		 //附件 
+		 $(".menu_fjb_c").click(function(){
+		 	$(".menu_fjb").show();
+		 	$(".menu_tqb").hide();
+			$("#msg_showface").hide();
+		 });
+		 $('#pubAttach').click(function(){$("#publisher_file_attach").style.posLeft=event.x-offsetWidth/2;$("#publisher_file_attach").style.posTop=event.y-offsetHeight/2;});
+		 $(".menu_fjb_c1").click(function(){$(".menu_fjb").hide();});
+		 $("#publishSubmit").click(function(){$(".menu_fjb").hide();});
+	 })
+	 </script>
+   
+     
+    <div class="letterBox">
+      <!--{if $this->Config['seccode_sms'] && $this->yxm_title}-->
+	  <form action="{$action}" method="post" id='sendPM'>
+	  <!--{else}-->
+	  <form action="{$action}" method="post" onsubmit="return Validator.Validate(this,3);" id='sendPM'>
+	  <!--{/if}-->
+        <table width="100%" border="0" style="font-size:12px;">
+          <tr>
+            <td width="16%" align="right" valign="top">收件人：</td>
+            <td width="84%" align="left" valign="middle">
+              <input type="text"  name="to_user" id="to_user" value="{$to_user}" class="text-area" style="width:300px;"/>
+			  <input id="add_atuser" type="button" class="u-btn" value="添加收信人" onclick="showatuserw('to_user','pm','');return false;"/>
+              <div class="pm_user_input" style="z-index:10;">
+			    <div class="menu_hpb" id="showout_atuser">
+                  <span class="arrow-up"></span><span class="arrow-up-in"></span>
+			      <div class="menu_tb showusr">
+                     <div id="showatuser_pm" class="showatuser"></div>
+                     <sub class="menu_hpb_c1"></sub>
+                  </div>
+			    </div>				
+			  </div>
+			</td>
+          </tr>
+          <!--{if $buddy_list}-->
+          <tr>
+            <td align="right" valign="middle">好友群发：</td>
+            <td align="left" valign="middle">
+			<!--{loop $buddy_list $buddy}-->
+              <input type="checkbox" style="border:none" name="buddy_list[{$buddy[touid]}]" value="{$buddy['nickname']}">
+              <span title="{$buddy[description]}">{$buddy[nickname]}</span> &nbsp;
+              <!--{/loop}-->            </td>
+          </tr>
+          <!--{/if}-->
+          <tr>
+            <td align="right" valign="top"><span valign="top">内容：</span></td>
+            <td align="left" valign="middle"><textarea cols="45" rows="8" id="message" name="message" datatype="LimitB" min="1" msg="内容不能为空"  class="text-area" style="height:100px;">{$message}</textarea>            </td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">&nbsp;</td>
+            <td>
+              <div class="comment_p_t2">
+                <!--{if $this->Config['face_enable']}-->
+                <div class="menuf_bq" id="editface"><b class="menu_bqb_c"><a href="javascript:void(0);" onclick="topic_face('msg_showface','message','topic_face');return false;" style="color:#666;">表情</a></b>
+                   <div id="msg_showface" class="showface"></div>
+                </div>
+                <!--{/if}-->       
+        
+                <!--{if $this->Config['image_enable']}-->
+                <div id="pm_image_uploadify" class="comment_p_b2 comment_p_b22">
+                   <div class="menuf_tq" onclick="imageUploadifyHTML('', 'message', 'pm_image_uploadify', '1');"><b class="menu_tqb_c">图片</b></div>
+                </div>
+                <!--{/if}-->
+                <!--{if $this->Config['attach_enable']}-->
+                <div id="pm_attach_uploadify" class="comment_p_b2 comment_p_b22">
+                   <div class="menuf_fj menu_fj_reply_style s" onclick="attachUploadifyHTML('', 'message', 'pm_attach_uploadify', '1', '', '0');"><b class="menu_fjb_c">附件</b></div>
+                </div>
+                <!--{/if}-->
+            </div>
+            
+         
+			<!--{if $this->Config['seccode_sms'] && $this->yxm_title}-->
+			<input type="button" class="u-btn" value="发送" onclick="YXM_popBox(this,'sms1','{$this->yxm_title}');" />
+			<!--{else}-->
+			<button type="submit" id="#submit" class="u-btn" style=" float:right;" onclick="sendMsg(1); return false;">发送</button>
+			<!--{/if}-->
+			<div style=" float:right;margin-right: 10px;">
+               <label><input name="save_to_outbox" type="checkbox" id="outbox" value="1" style="border:none;">不发送，只保存到草稿箱中</label>
+            </div>
+			</td>
+          </tr>
+          
+        </table>
+      </form>
+    </div>
+    <!--{if $pm}-->
+    <div style="border:1px solid #ccc;padding:5px;margin:5px;color:#484848;"><b>{$to_user}说:</b><br>
+      {$pm[message]}</div>
+    <!--{/if}-->
+	
+  </div>
+  </div>
+  <!--左边结束，右边开始-->
+  <!--{template "topic_right.inc"}-->
+</div>
+{template "topic_footer"}

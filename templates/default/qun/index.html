@@ -1,0 +1,61 @@
+{template "topic_header"}
+<link href="static/style/qun.css" rel="stylesheet" type="text/css" />
+{template "topic_left_nav.inc"}
+<div class="main">  
+
+  <div class="mainWrap ">	
+    <div  class="contentWrap">
+	<div class="Menubox">
+		<ul>
+			<li>
+				<div class="<!--{if $active['new']}-->tagcurrent<!--{else}-->tagn<!--{/if}-->" >
+				<A HREF="index.php?mod=qun&view=new"><span>最近更新</span></A>
+				</div>
+			</li>
+			<li>
+				<div class="<!--{if $active['mypublish']}-->tagcurrent<!--{else}-->tagn<!--{/if}-->">
+				<A HREF="index.php?mod=qun&view=mypublish"><span>我发布的</span></A>
+				</div>
+			</li>
+			<li>
+				<div class="<!--{if $active['mycomment']}-->tagcurrent<!--{else}-->tagn<!--{/if}-->">
+				<A HREF="index.php?mod=qun&view=mycomment"><span>我评论的</span></A>
+				</div>
+			</li>
+		</ul>
+	</div>
+<style type="text/css">
+	a.v_on{ color:#000; font-weight:700;}
+</style>
+		
+		<!--微博列表 Begin-->
+		<div id="listTopicArea">
+			<!--{if $is_join}-->
+				<!--{if !empty($topic_list)}-->
+					{template "qun/topic_list_ajax"}
+				<!--{else}-->
+					<div style=" margin-top:30px; width:300px; margin-left:auto; margin-right:auto; text-align:center;">
+					<!--{if $this->Get['view']=='new'}-->
+						这里的{$this->Config[changeword][weiqun]}静悄悄…
+						<br />
+						你加入的{$this->Config[changeword][weiqun]}居然没有人说话呢
+					<!--{elseif $this->Get['view']=='mypublish'}-->
+						你还没发布{$this->Config[changeword][n_weibo]}呢
+					<!--{elseif $this->Get['view']=='mycomment'}-->
+						你还没发布任何呢
+					<!--{/if}-->
+					</div>
+				<!--{/if}-->
+			<!--{else}-->
+				<div style="color:#ccc; margin-left:10px; margin-top:20px;">你还没有加入任何{$this->Config[changeword][weiqun]}呢。赶快加入发言吧！</div>
+			<!--{/if}-->
+		</div>
+		<!--微博列表 End-->
+</div>
+
+<!--{subtemplate qun/qun_right}-->
+
+<!--{if $this->Config[ad_enable]}-->
+<div class="header_ad"> {$this->Config[ad][ad_list][qun][footer]} </div>
+<!--{/if}-->
+{template "topic_footer"}

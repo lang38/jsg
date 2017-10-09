@@ -1,0 +1,197 @@
+<script language="javascript">
+		$(document).ready(function(){
+			//这里的函数可以随便更改位置，加载的顺序也会不同。
+			get_tag_Right2();
+	
+		});
+		function get_tag_Right2(){
+			//我关注的话题
+			right_show_ajax('{MEMBER_ID}','myfavoritetags','myfavoritetags');
+		}
+</script>
+<!-- page right begin -->
+
+
+  <div class="sideBar">
+  
+    <!--{eval SetADV('tag_view','middle_right_top');}-->
+
+    <!--{if $tag_extra}-->
+    <!--{if $tag_extra[right_top_text][enable]}-->
+    <div class="column">
+      <!--{if $tag_extra[right_top_text][title]}-->
+      <h3>{$tag_extra[right_top_text][title]}</h3>
+      <!--{/if}-->
+      <!--{if $tag_extra[right_top_text][content]}-->
+      <ul class="sideul">
+        <li>{$tag_extra[right_top_text][content]}</li>
+      </ul>
+      <!--{/if}-->
+    </div>
+    <!--{/if}-->
+	
+    <!--{if $tag_extra[right_top_image][enable]}-->
+    <div class="column">
+      <!--{if $tag_extra[right_top_image][title]}-->
+      <h3>{$tag_extra[right_top_image][title]}</h3>
+      <!--{/if}-->
+      <!--{if $tag_extra[right_top_image][list]}-->
+      <ul class="sideul">
+        <!--{loop $tag_extra[right_top_image][list] $v}-->
+        <li><a href="{$v}" target="_blank"><img src="{$v}" style="border:none;width:180px;" /></a></li>
+        <!--{/loop}-->
+      </ul>
+      <!--{/if}-->
+    </div>
+    <!--{/if}-->
+	
+    <!--{if $tag_extra[right_top_video][enable]}-->
+    <div class="column">
+      <!--{if $tag_extra[right_top_video][title]}-->
+      <h3>{$tag_extra[right_top_video][title]}</h3>
+      <!--{/if}-->
+      <!--{if $tag_extra[right_top_video][rlist]}-->
+      <ul class="sideul">
+        <!--{loop $tag_extra[right_top_video][rlist] $val}-->
+        <li>
+          <div class="feedUservideo">
+          <a id="a{$val[vid]}" onClick="javascript:showFlash('{$val[host]}', '{$val[id]}', this, '{$val[vid]}','{$val[url]}',1);" >
+            <div id="play_{$val[vid]}" class="vP"></div>
+            <!--{if $val[image_src]}-->
+            <img src="{$val[image_src]}" style="border:none" />
+            <!--{else}-->
+            <img src="static/image/feedvideoplay.gif"  />
+            <!--{/if}-->
+            </a></div>
+          <br />
+        </li>
+        <script type="text/javascript">
+					$(document).ready(function(){
+						$('#a{$val[vid]}').click();
+					});				
+				</script>
+        <!--{/loop}-->
+      </ul>
+      <!--{/if}-->
+    </div>
+    <!--{/if}-->
+	
+    <!--{if $tag_extra[right_top_user][enable]}-->
+    <div class="column">
+      <!--{if $tag_extra[right_top_user][title]}-->
+      <h3>{$tag_extra[right_top_user][title]}</h3>
+      <!--{/if}-->
+      <!--{if $tag_extra[right_top_user][rlist]}-->
+      <ul class="sideul sideuserList">
+        <!--{loop $tag_extra[right_top_user][rlist] $val}-->
+        <li class="h_h2"> <a href="index.php?mod={$val[username]}" target="_blank"><img onerror="javascript:faceError(this);" src="{$val[face]}" class="manface" onmouseover="get_user_choose({$val[uid]},'_user',{$val[uid]})" onmouseout="clear_user_choose()"/></a> <b><a href="index.php?mod={$val[username]}" target="_blank">{$val[nickname]}</a></b> {template "alert_menu"} </li>
+        <!--{/loop}-->
+      </ul>
+      <!--{/if}-->
+    </div>
+    <!--{/if}-->
+    <!--{/if}-->
+	
+	
+    <!--{if $day7_r_tags}-->
+    <script type="text/javascript">
+			$(document).ready(function(){
+			$(".SC_benzhouremen").click(function(){$(this).parent().toggleClass("fold_benzhouremen");$(".SC_benzhouremen_box").toggle();});
+			});
+		  </script>
+    <div class="column">
+      <h3>本周热门话题</h3>
+      <ul class="sideul">
+        <!--{loop $day7_r_tags $val}-->
+        <li><a href="index.php?mod=tag&code={$val[name]}">{$val[name]}</a>&nbsp;&nbsp;({$val[topic_count]})</li>
+        <!--{/loop}-->
+      </ul>
+    </div>
+    <!--{/if}-->
+    
+  	 <!--{if $tag}-->
+    <div class="column">
+      <h3>{$tag_favorite_count}人关注该话题</h3>
+      <ul class="sideul sideuserList">
+        <!--{loop $tag_favorite_list $val}-->
+        <li class="h_h2">
+        <a href="index.php?mod={$val[username]}" target="_blank"><img onerror="javascript:faceError(this);" style="height:50px;width:auto; " src="{$val[face]}" title="{$val[nickname]}" class="manface" onmouseover="get_user_choose({$val[uid]},'_user',{$val[uid]})" onmouseout="clear_user_choose()"/></a> <b><a href="index.php?mod={$val[username]}" target="_blank">{$val[nickname]}</a></b>
+        <div id="user_{$val[uid]}_user" class="layS2"></div>
+        </li>
+        <!--{/loop}-->
+        <!--{if !$tag_favorite_list}-->
+        暂无人关注该话题。
+        <!--{/if}-->
+        
+        
+      <!--{if $__my[uid]>0}-->
+      <!--{if $is_favorite}-->
+      <a id="favorite_tag_id" class="noattbtn" href="javascript:void(0);" onclick="favoriteTag('{$tag}','delete');return false;" title="取消关注该话题"></a>
+      <!--{else}-->
+      <a id="favorite_tag_id" class="attbtn" href="javascript:void(0);" onclick="favoriteTag('{$tag}');return false;" title="关注该话题"></a>
+      <!--{/if}-->
+      <!--{/if}-->
+      </ul>
+
+    </div>
+    <!--{/if}-->	
+	
+
+	
+	
+    <!--{if $this->Config[hot_tag_recommend_enable] && ($hot_tag_recommend = jconf::get('hot_tag_recommend')) && $hot_tag_recommend[list]}-->
+	<script language="javascript">
+		$(document).ready(function() {
+			//热门话题
+			right_show_ajax('{MEMBER_ID}','hot_tag','hot_tag');	
+		});
+	</script>
+    <!-- 热门话题推荐 -->
+    <div id="hot_tag_div" class="column">
+      <h3>{$hot_tag_recommend[name]}</h3>
+      <ul class="sideul">
+        <div id="{MEMBER_ID}_hot_tag"></div>
+      </ul>
+    </div>
+	<!-- 热门话题推荐 -->
+    <!--{/if}-->
+
+
+	<!--我关注的话题-->
+		<!--{if MEMBER_ID > 0}-->
+
+		<div class="column">
+		  <h3>我关注的话题<a href="javascript:void(0);" onclick="right_show_ajax('{MEMBER_ID}','myfavoritetags','myfavoritetags')"></a></h3>
+		  <ul class="sideul">
+			<div id="{MEMBER_ID}_myfavoritetags"></div>
+		  </ul>
+		</div>
+		<!--{/if}-->
+   <!--我关注的话题-->
+
+	
+    <!--{if $day1_r_tags}-->
+
+    <div class="column">
+      <h3>今日热门话题</h3>
+      <ul class="sideul">
+        <!--{loop $day1_r_tags $val}-->
+        <li><a href="index.php?mod=tag&code={$val[name]}" target="_blank">{$val[name]}</a></li>
+        <!--{/loop}-->
+      </ul>
+    </div>
+    <!--{/if}-->
+	
+
+    <!-- <div class="column">
+      <h3>{$this->Config[site_name]}意见反馈</h3>
+      <ul class="sideul">
+        <li>众人拾柴火焰高，如您有任何建议欢迎点<a href="index.php?mod=tag&code=意见反馈" target="_blank">意见反馈</a>告诉我们。</li>
+
+      </ul>
+    </div> -->
+
+    <!--{eval SetADV('tag_view','middle_right');}-->
+  </div>
+
+<!-- page right end -->

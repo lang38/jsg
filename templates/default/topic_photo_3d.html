@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$conf_charset" />
+<meta content="noindex, nofollow" name="robots">
+<title>{eval echo jhtmlspecialchars($this->Title);}</title>
+<link type="image/x-icon" rel="shortcut icon" href="favicon.ico" />
+</head>
+<body>
+<style type="text/css">
+html{height:100%;overflow:hidden;}
+body{backgroud:#dcdcdc;height:100%;margin:0;padding:0;}
+</style>
+<script type="text/javascript" src="static/js/cooliris.js"></script>
+<script type="text/javascript">
+var weburl = "{$this->Config[site_domain]}";
+var flashvars = {feed:"http%3a%2f%2f"+weburl+"%2findex.php%3fmod%3drss",backgroundColor:"#dcdcdc",style:"light",numRows:4,showEmbed:false};
+var params = {allowFullScreen:"false",allowscriptaccess:"always"};
+swfobject.embedSWF("http://apps.cooliris.com/embed/cooliris.swf","cooliris-wall","100%","100%","9.0.0","",flashvars,params);
+</script>
+<div id="cooliris-wall"></div>
+</body>
+</html>

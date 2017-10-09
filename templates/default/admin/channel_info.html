@@ -1,0 +1,134 @@
+<!--{template admin/header}-->
+<!--{if 'config' == $this->Code}-->
+<form method="post" action="{$action}">
+<table cellspacing="1" cellpadding="4" width="100%" align="center"	class="tableborder">
+<tr class="header">
+	<td colspan="2">频道设置</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>是否开启频道：</b><br>
+	<span class="smalltxt">选择“是”，则频道开启；否则频道关闭。</span></td>
+	<td bgcolor="#FFFFFF">{$channel_enable_html}</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>频道是否必选：</b><br>
+	<span class="smalltxt">选择“是”，则发布微博时，必须要选择一个频道后，微博才能发布。<br>(频道关闭状态下，此设置无效)。</span></td>
+	<td bgcolor="#FFFFFF">{$channel_must_html}</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>右侧推荐频道：</b><br>
+	<span class="smalltxt">页面右侧的推荐频道内容</span></td>
+	<td bgcolor="#FFFFFF"><select name="channel[recommend]"><option value="0">选择频道...</option>
+	<!--{loop $channels $value}-->
+	<option value="{$value['ch_id']}" <!--{if $value['ch_id']==$this->Config['channel_recommend']}-->selected="selected"<!--{/if}-->>{$value['ch_name']}</option>
+	<!--{/loop}-->
+	</select></td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>推荐的导航名称：</b><br>
+	<span class="smalltxt">例如“新闻公告”等。</span></td>
+	<td bgcolor="#FFFFFF"><input type="test" name="channel[rtitle]" value="{$this->Config['channel_rtitle']}"></td>
+</tr>
+</table>
+<br /><center><input type="submit" class="button" name="submit" value="提 交"> &nbsp; <INPUT TYPE="reset" class="button" value="取 消" onclick="history.go(-1)"></center>
+<br />
+</form>
+<!--{else}-->
+<!--{if $channel_info}-->
+<form method="post" action="{$action}" enctype="multipart/form-data"><input type="hidden"	name="id" value="{$channel_info[ch_id]}">
+<table cellspacing="1" cellpadding="4" width="100%" align="center"	class="tableborder">
+<tr class="header">
+	<td colspan="2">编辑频道 - {$channel_info[ch_name]}
+	<!--{if $channel_info[parent_id] == 0}-->
+	<font style="color:#D94446;font-weight:normal;">（以下所有权限设置均无继承关系，不会影响到下级频道）</font>
+	<!--{/if}-->
+	</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>频道名称</b></td>
+	<td bgcolor="#FFFFFF"><input name="ch_name" value="{$channel_info[ch_name]}">&nbsp;(已有微博数:<!--{if !$channel_info[parent_id]}-->{$channel_info[total_topic_num]}条[本级频道:{$channel_info[topic_num]}条]<!--{else}-->{$channel_info[topic_num]}条<!--{/if}-->)</td>
+</tr>
+<!--{if $channel_info[parent_id] > 0}-->
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>上级频道</b></td>
+	<td bgcolor="#FFFFFF">{$selecthtml}</td>
+</tr>
+<!--{else}-->
+<input type="hidden" name="parent_id" value="{$channel_info[parent_id]}">
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>侧栏显示</b><br>即：左侧显示</td>
+	<td bgcolor="#FFFFFF">{$recommend_html}（页面左侧导航里增加链接菜单）</td>
+</tr>
+<!--{/if}-->
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>推送动态</b><br>即：动态提醒</td>
+	<td bgcolor="#FFFFFF">{$feed_html}（动态提醒里对微博进行统计）</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>频道类型</b><br>即：频道的模型</td>
+	<td bgcolor="#FFFFFF">{$channel_typehtml}（普通模型即系统默认的对微博进行归类）</td>
+</tr>
+<input type="hidden" name="oldchannel_typeid" value="{$channel_info[channel_typeid]}">
+<input type="hidden" name="oldparent_id" value="{$channel_info[parent_id]}">
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>显示顺序</b></td>
+	<td bgcolor="#FFFFFF"><input name="display_order" value="{$channel_info[display_order]}"></td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>模板文件</b><br>保存在模板目录的channel目录下</td>
+	<td bgcolor="#FFFFFF"><input name="template" value="{$channel_info[template]}">.html（名称字符必须是字母、数字、下划线，且首字符必须是字母，末字符不得是下划线的*.html类型文件，留空则使用该频道类型默认模板）</td>
+</tr>
+<tr class="altbg1" id="listhtml" <!--{if $channel_info[channel_typeid]>0}-->style="display:none;"<!--{/if}-->>
+	<td width="30%" bgcolor="#F8F8F8"><b>默认显示模式</b><br>设置前台普通频道页微博的显示方式。</td>
+	<td bgcolor="#FFFFFF">{$list_html}（如果使用的自定义模板不支持，则此设置无效）</td>
+</tr>
+<tr class="altbg1" id="viewhtml" <!--{if $channel_info[channel_typeid]>0}-->style="display:none;"<!--{/if}-->>
+	<td width="30%" bgcolor="#F8F8F8"><b>默认显示内容</b><br>设置前台普通频道页微博的显示内容。</td>
+	<td bgcolor="#FFFFFF">{$view_html}（如果使用的自定义模板不支持，则此设置无效）</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>频道简介</b><br />支持最多500个汉字</td>
+	<td bgcolor="#FFFFFF"><textarea name="description" rows="6" cols="120">{$channel_info[description]}</textarea></td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>微博发布权限</b><br />只有勾选的用户组用户才可以发微博到该频道<br>(全部不选或全选，均表示所有用户都有发布权限)	</td>
+	<td bgcolor="#FFFFFF">{$purviewhtml}</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>微博查看权限</b><br />只有勾选的用户组用户才可以查看该频道下的微博<br>(全部不选或全选，均表示所有用户都有查看权限)	</td>
+	<td bgcolor="#FFFFFF">{$purpostviewhtml}</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>微博审核</b><br>微博发布后，是否需要审核<br>(选择“是”，则只有通过审核后，才会在前台显示)</td>
+	<td bgcolor="#FFFFFF">{$radiohtml}</td>
+</tr>
+<tr class="altbg1" id="filterhtml" <!--{if $channel_info[verify]==0}-->style="display:none;"<!--{/if}-->>
+	<td width="30%" bgcolor="#F8F8F8"><b>排除用户组</b><br />即：勾选的用户组无需审核<br>(如果某用户组无发布权限，则勾选后也无效)
+	</td>
+	<td bgcolor="#FFFFFF">{$filterhtml}</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>评论与转发权限</b><br>设置该频道下的微博是否允许评论与转发	</td>
+	<td bgcolor="#FFFFFF">{$topictypehtml}</td>
+</tr>
+<input type="hidden" name="oldpurpostview" value="{$channel_info[purpostview]}">
+<input type="hidden" name="oldtopictype" value="{$channel_info[topictype]}">
+<tr class="altbg1" id="imghtml">
+	<td width="30%" bgcolor="#F8F8F8"><b>频道形象图</b><br>该图片将显示在游客首页位置</td>
+	<td bgcolor="#FFFFFF"><input type="file" name="image">（大小：110*110 px）
+	<!--{if $channel_info[picture]}--><br><img src="$channel_info[picture]" width="110" height="110"></img><!--{/if}-->
+	</td>
+</tr>
+<tr class="altbg1">
+	<td width="30%" bgcolor="#F8F8F8"><b>管理员昵称</b><br>可在前台直接管理频道</td>
+	<td bgcolor="#FFFFFF"><input type="text" name="managename" value="{$channel_info['managename']}">多个用|分开</td>
+</tr>
+</table>
+<br /><center><input type="submit" class="button" name="submit" value="提 交"> &nbsp; <INPUT TYPE="reset" class="button" value="取 消" onclick="history.go(-1)"></center>
+<br />
+</form>
+<script type="text/javascript">
+$(function(){$("#verify_1").click(function(){$("#filterhtml").show();});$("#verify_0").click(function(){$("#filterhtml").hide();});$("#channeltypeid").change(function(){if($(this).val()>0){$('#listhtml,#viewhtml').hide();}else{$('#listhtml,#viewhtml').show();}});}); 
+</script>
+<!--{/if}-->
+<!--{/if}-->

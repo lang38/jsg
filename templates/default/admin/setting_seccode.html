@@ -1,0 +1,126 @@
+<!--{template admin/header}-->
+<form method="post" name="config[settings]" action="admin.php?mod=setting&code=domodify_normal" enctype="multipart/form-data">
+	
+	<input type="hidden" name="seccode_setting" value="1" />
+		<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="2">一、是否开启（启用云验证码可有效防止注册机自动注册、群发广告内容等，建议只对LV1以下帐户启用）</td>
+		</tr>
+		<tr class="altbg1">
+		<td width="170"><b>是否开启验证码？</b><br></td>
+		<td>{$seccode_enable_radio}</td>
+		</tr>
+		<tbody id="seccode_1" style="display:{$seccode_1_style}">
+		<tr class="header">
+			<td colspan="2">二、使用范围</td>
+		</tr>
+		<tr class="altbg1">
+			<td width="170"><b>1、用户动作：</b><br>在哪些动作开启验证码功能</td>
+			<td>
+				<span>
+					<input type="checkbox" name="config[seccode_logins]" id="seccode_logins" value="1" {$checked['seccode_login']}>
+					<label for="seccode_login">用户登录</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_registers]" id="seccode_registers" value="1" {$checked['seccode_register']}>
+					<label for="seccode_register">游客注册</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_passwords]" id="seccode_passwords" value="1" {$checked['seccode_password']}>
+					<label for="seccode_password">密码找回</label>
+				</span>
+			</td>
+		</tr>
+		</tbody>
+		<tbody id="seccode_2" style="display:{$seccode_2_style}">
+		<tr class="header">
+			<td colspan="2">二、使用范围</td>
+		</tr>
+		<tr class="altbg1">
+			<td width="170"><b>1、用户动作：</b><br>在哪些动作开启验证码功能</td>
+			<td>
+				<span>
+					<input type="checkbox" name="config[seccode_login]" id="seccode_login" value="1" {$checked['seccode_login']}>
+					<label for="seccode_login">用户登录(防破解)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_register]" id="seccode_register" value="1" {$checked['seccode_register']}>
+					<label for="seccode_register">游客注册(防注册机)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_password]" id="seccode_password" value="1" {$checked['seccode_password']}>
+					<label for="seccode_password">取回密码(防广告)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_publish]" id="seccode_publish" value="1" {$checked['seccode_publish']}>
+					<label for="seccode_publish">发布微博(防群发)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_comment]" id="seccode_comment" value="1" {$checked['seccode_comment']}>
+					<label for="seccode_comment">评论微博(防灌水)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_forward]" id="seccode_forward" value="1" {$checked['seccode_forward']}>
+					<label for="seccode_forward">转发微博(防灌水)</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_sms]" id="seccode_sms" value="1" {$checked['seccode_sms']}>
+					<label for="seccode_sms">私信(防群发)</label>
+				</span>
+			</td>
+		</tr>
+		<tr class="altbg1">
+			<td width="170"><b>2、用户角色：</b><br>哪些用户组开启验证码功能</td>
+			<td>{$purviewhtml}</td>
+		</tr>
+		<tr class="altbg1">
+			<td width="170"><b>3、特殊用户：</b><br>没有补充相关资料的用户</td>
+			<td>
+				<span>
+					<input type="checkbox" name="config[seccode_no_email]" id="seccode_no_email" value="1" {$checked['seccode_no_email']}>
+					<label for="seccode_no_email">E-mail未验证用户</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_no_photo]" id="seccode_no_photo" value="1" {$checked['seccode_no_photo']}>
+					<label for="seccode_no_photo">未上传头像者</label>
+				</span>
+				<span style="margin-left:5px;">
+					<input type="checkbox" name="config[seccode_no_vip]" id="seccode_no_vip" value="1" {$checked['seccode_no_vip']}>
+					<label for="seccode_no_vip">非V认证用户</label>
+				</span>
+			</td>
+		</tr>
+		<tr class="altbg1">
+			<td colspan="2">上述2、3项需配合第1项使用，即第1项未启用的动作，则2、3项中设置无效；</td>
+		</tr>
+		<tr class="header">
+			<td colspan="2">三、云验证初始化</td>
+		</tr>
+		<tr class="altbg1">
+		<td width="170"><b>初始化重要提示</b></td>
+		<td>1、默认参数下，在第一步中开启云验证即可正常使用，切记不用随意修改下列的参数。
+		2、云验证码不仅可防注册机，还可为网站带来一定的广告收入；<a href="javascript:" onclick="window.open('http://www.yinxiangma.com/server/register.php?refer=mdibzy');"><font color="red">点击这里</font></a>注册一个自己帐号，把获得的Key值对应填写在下面即可。<br>
+		3、如果修改了云验证设置，导致无法正常验证，请清空云验证私钥和云验证公钥后提交，系统会还原为初始默认值。</td>
+		</tr>
+		<tr class="altbg1">
+		<td width="170"><b>1、PRIVATE_KEY：</b><br>云验证私钥</td>
+		<td><input name="config[seccode_pri_key]" type="text" value="{$pri_key}" size=50>（不要随意修改，否则无法验证）</td>
+		</tr>
+		<tr class="altbg1">
+		<td width="170"><b>2、PUBLIC_KEY：</b><br>云验证公钥</td>
+		<td><input name="config[seccode_pub_key]" type="text" value="{$pub_key}" size=50>（不要随意修改，否则无法验证）</td>
+		</tr>
+		</tbody>
+	</table>
+	<br>
+		<center><input type="submit" class="button" name="settingsubmit" value="提 交"></center>
+	<br>	
+</form>
+<br>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#seccode_enable_0").click(function(){$("#seccode_1").hide();$("#seccode_2").hide();});
+	$("#seccode_enable_1").click(function(){$("#seccode_1").show();$("#seccode_2").hide();});
+	$("#seccode_enable_2").click(function(){$("#seccode_1").hide();$("#seccode_2").show();});
+}); 
+</script>

@@ -1,0 +1,179 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<div class="appframe">  
+  <div class="appframeTitle">
+    <span class="mleft">帐号绑定</span>
+  </div>
+  <div class="themepwarp" style="padding:20px;">
+    <div class="Menulink">
+         <a id="hzswb_div_0" class="selected" onclick="hzswb_switch_div(0);return false;" href="javascript:void(0)">注册新帐户</a>
+    	 <a id="hzswb_div_1" onclick="hzswb_switch_div(1);return false;" href="javascript:void(0)">绑定已有的帐号</a>
+	</div>
+    <script language="javascript">
+        function hzswb_switch_div(ss)
+        {
+            var ss = ('undefined'==typeof(ss) ? 0 : ss);
+            
+            if(ss)
+            {
+                $('#hzswb_div_0').attr('class','');
+                $('#hzswb_div_1').attr('class','selected');
+                $('#hzswb_user_reg').css('display','none');
+                $('#hzswb_user_login').css('display','block');
+            }
+            else
+            {                
+                $('#hzswb_div_0').attr('class','selected');
+                $('#hzswb_div_1').attr('class','');
+                $('#hzswb_user_reg').css('display','block');
+                $('#hzswb_user_login').css('display','none');
+            }
+            
+            return false;            
+        }
+        function hzswb_user_reg_check()
+        {
+            var reg_nickname = $('#reg_nickname').val();
+            var reg_email = $('#reg_email').val();
+            var reg_password = $('#reg_password').val();           
+            
+            var myAjax = $.post
+            (
+                'index.php?mod=hzswb&code=reg_check&in_ajax=1',
+                {
+                    nickname:reg_nickname,
+                    email:reg_email,
+                    password:reg_password
+                },
+                function(d)
+                {
+                    if(d)
+                    {
+                        alert(d);
+                    }
+                    else
+                    {
+                        $('#hzswb_user_reg_form').submit();
+                        
+                        return true;
+                    }
+                }
+            );
+            
+            return false;
+        }
+        function hzswb_user_login_check()
+        {
+            var login_username = $('#login_username').val();
+            var login_password = $('#login_password').val();
+            
+            var myAjax = $.post
+            (
+                'index.php?mod=hzswb&code=login_check&in_ajax=1',
+                {
+                    username:login_username,
+                    password:login_password
+                },
+                function(d)
+                {
+                    if(d)
+                    {
+                        alert(d);
+                    }
+                    else
+                    {
+                        $('#hzswb_user_login_form').submit();
+                        
+                        return true;
+                    }
+                }
+            );
+            
+            return false;
+        }
+    </script>
+    <div class="set_warp">    
+        <div id="hzswb_user_reg" style="display: block;">
+			<!--{eval $regstatus = jsg_member_register_check_status();}-->
+            <!--{if $regstatus['error'] || (true!==JISHIGOU_FORCED_REGISTER && $regstatus['invite_enable'] && !$regstatus['normal_enable'])}-->
+            
+                非常抱歉，本站目前不支持绑定新注册用户；<a onclick="hzswb_switch_div(1);return false;" href="javascript:void(0)"><span><strong>请点此绑定已有的帐号</strong></span></a>
+                
+            <!--{else}-->            
+                
+        	<form id="hzswb_user_reg_form" name="hzswb_user_reg_form" method="POST" action="index.php?mod=hzswb&code=do_reg" onsubmit="return hzswb_user_reg_check();">
+        		<input type="hidden" name="hash" value="{$hash}" />        		
+                <!--{loop $bind_info $k $v}-->
+            	<input type="hidden" name="bind_info[{$k}]" value="{$v}" />
+            	<!--{/loop}-->
+            	<!--{if $reg[password]}-->
+            	<input id="reg_password" name="password" type="hidden" value="{$reg[password]}" class="p1" />
+            	<!--{/if}-->
+            	<table width="100%" border="0">
+                  <tr>
+            	    <td colspan="2">            
+            	       <div class="tagg2">新注册的帐号将会与HZSWB帐号绑定；如果您已有帐号，<a onclick="hzswb_switch_div(1);return false;" href="javascript:void(0)"><span><strong>请点此绑定已有的帐号</strong></div>
+           	        </td>
+            	  </tr>
+            	  <tr>
+            	    <td width="15%" align="right" valign="top">帐户/昵称：</td>
+            	    <td><input id="reg_nickname" name="nickname" type="text"  class="p1"  value="{$reg[nickname]}" />
+            		（用于登录、显示、@通知和发送站内信）
+            		</td>
+            	  </tr>
+            	  <tr>
+            	    <td align="right" valign="top">Email 邮箱：</td>
+            	    <td><input id="reg_email" name="email" type="text" value="{$reg[email]}" class="p1" />
+            		（用于登录、提醒和取回密码）
+            		</td>
+            	  </tr>
+            	  <!--{if !$reg[password]}-->
+                  <tr>
+            	    <td align="right" valign="top">登录密码：</td>
+            	    <td><input id="reg_password" name="password" type="password" value="{$reg[password]}" class="p1" />
+            		</td>
+            	  </tr>
+            	  <!--{/if}-->          
+            	  <tr>
+            	    <td align="right" valign="top">&nbsp;</td>
+            	    <td><input type="submit" class="u-btn" value="注 册"/></td>
+            	  </tr>
+            	</table>
+            </form>
+            
+            <!--{/if}-->
+            
+        </div>        
+        <div id="hzswb_user_login" style="display: none;">
+            <form id="hzswb_user_login_form" name="hzswb_user_login_form" method="POST" name="profile_base" action="index.php?mod=hzswb&code=do_login" onsubmit="return hzswb_user_login_check();">
+            	<input type="hidden" name="hash" value="{$hash}" />        		
+                <!--{loop $bind_info $k $v}-->
+            	<input type="hidden" name="bind_info[{$k}]" value="{$v}" />
+            	<!--{/loop}-->
+            	<table width="100%" border="0">
+                  <tr>
+            	    <td colspan="2">            
+            	       <div class="tagg2">登录的帐号将会与HZSWB帐号绑定</div>
+           	        </td>
+            	  </tr>
+            	  <tr>
+            	    <td width="13%" align="right" valign="top">帐户/昵称：</td>
+            	    <td><input id="login_username" name="username" type="text" value="" class="p1" />
+            		</td>
+            	  </tr>
+                  <tr>
+            	    <td align="right" valign="top">登录密码：</td>
+            	    <td><input id="login_password" name="password" type="password" value="" class="p1" />
+            		</td>
+            	  </tr>          
+            	  <tr>
+            	    <td align="right" valign="top">&nbsp;</td>
+            	    <td><input type="submit" class="u-btn" value="登 录"/></td>
+            	  </tr>
+            	</table>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{template "topic_footer"}

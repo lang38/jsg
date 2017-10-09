@@ -1,0 +1,37 @@
+{template admin/header}
+<div><span style="color:#D94446">*</span>特殊项目不允许用户在前台自由编辑</div><br>
+<br><br>
+<div>
+  <form action="admin.php?mod=event&code=do_profile" method="POST">
+  <table width="50%" cellspacing=1 cellpadding=3 class="tableborder">
+    <tr class="header">
+      <td>项目名</td>
+      <td width="10%">排序</td>
+      <td width="10%">活动报名资料项</td>
+    </tr>
+    <!--{loop $profile $key $val}-->
+    <tr class="altbg2" onmouseover="this.className='altbg1'" onmouseout="this.className='altbg2'">
+      <td style="border-bottom:1px dotted #ededed;">
+      <!--{if in_array($key,array('field1','field2','field3','field4','field5','field6','field7','field8'))}-->
+      <input type="text" name="title[{$val[fieldid]}]" value="$val['title']">
+      <!--{else}-->
+      {$val['title']}
+      <!--{/if}-->
+      </td>
+	  <td style="border-bottom:1px dotted #ededed;text-align:center;">
+	    <input type="text" name="displayorder[{$val[fieldid]}]" value="$val[displayorder]" size="2">
+	  </td>
+      <td style="border-bottom:1px dotted #ededed;text-align:center;">
+      	<input type="checkbox" value ="1" name="eventinfo[{$val['fieldid']}]" <!--{eval if($eventinfo[$key]) echo checked}-->>
+      </td>
+
+    </tr>
+    <!--{/loop}-->
+    <tr>
+      <td colspan="9">
+        <center><input type="submit" class="button" name="Submit" value="提交"></center>
+      </td>
+    </tr>
+  </table>
+  </form>
+</div>

@@ -1,0 +1,33 @@
+{template admin/header}
+<form action="admin.php?mod=setting&code=dochangeword" method="post" name="FORM">
+  <table width=100% cellspacing=1 cellpadding=3 class="tableborder">
+    <tr class="header">
+      <td colspan="2">修改输入框中的文字，前台相关文字自动变更（导航条中的相应文字<a href="admin.php?mod=navigation">需点此修改</a>）</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="20%"><b>代表内容的"微博"字样：</b><br><span class="smalltxt">比如我的微博，可改成我的发言。</span></td>
+      <td class="altbg2"><input type="text" name="word[n_weibo]" value="{$word[n_weibo]}"></td>
+    </tr>
+    <tr>
+      <td class="altbg1"><b>代表平台的“微博”字样：</b><br><span class="smalltxt">比如手机玩转微博，可改成手机玩转社区。</span></td>
+      <td class="altbg2"><input type="text" name="word[p_weibo]" value="{$word[p_weibo]}"></td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="20%"><b>“微群”字样：</b><br><span class="smalltxt">比如微群可改为群组、小组、圈子等。</span></td>
+      <td class="altbg2"><input type="text" name="word[weiqun]" value="{$word[weiqun]}"></td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="20%"><b>“顶”字样：</b><br><span class="smalltxt">用于挖掘内容，可根据情况选用赞、顶、关注、喜欢等。</span></td>
+      <td class="altbg2"><input type="text" name="word[dig]" value="{$word[dig]}"></td>
+    </tr>
+	<tr>
+      <td class="altbg1" width="20%"><b>登录页面输入框提示：</b><br><span class="smalltxt">提示用户可用登录方式，支持昵称、Email、个性地址、UID登录。</span></td>
+      <td class="altbg2"><input type="text" name="word[username]" value="{$word[username]}"></td>
+	</tr>
+	<tr>
+      <td class="altbg1" width="20%"><b>注册页面“帐号”字样</b><br></td>
+      <td class="altbg2"><input type="text" name="word[account]" value="{$word[account]}"></td>
+	</tr>
+  </table>
+  <center><input type="submit" class="button" name="DoSubmit" value="提交"></center>
+</form>

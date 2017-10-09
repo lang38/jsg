@@ -1,0 +1,27 @@
+<div class="dialog_inner">
+  <div>
+      <table>
+        <tr>
+          <input type="hidden" name="tid" id="tid" value="{$tid}">
+		  <input type="hidden" name="rloadtrue" id="rloadtrue" value="{$rloadtrue}">
+		  <!--{if $topicinfo[relateid] == $replyid}-->
+		  <input type="hidden" name="replyid" id="replyid" value="0">
+		  <td align="center">取消引用该评论并设置原微博状态为</td>
+		  <!--{else}-->
+		  <input type="hidden" name="replyid" id="replyid" value="{$replyid}">
+		  <td align="center">引用此条评论并设置原微博状态为</td>
+		  <!--{/if}-->
+        </tr>
+        <tr>
+          <td align="center">{$featurehtml}</td>
+        </tr>
+        <tr>
+          <td align="center">
+            <input class="u-btn" type="button" name="Submit" onclick="domodfeature();" value="提 交">
+            <input class="u-btn u-btn-c4" type="button" name="docancel" onclick="closeDialog('{$this->Get['handle_key']}');" value="取 消">
+          </td>
+        </tr>
+      </table>
+  </div>
+</div>
+<script type="text/javascript">function domodfeature(){var tid = $('#tid').val();var replyid = $('#replyid').val();var featureid = $('#featureid').val();var fcss = $('#fcss').val();var rloadtrue = $('#rloadtrue').val();$.post('ajax.php?mod=feature&code=domodfeature',{tid:tid,replyid:replyid,featureid:featureid},function(d){if(d.msg){show_message(d.msg,1);}closeDialog('{$this->Get[handle_key]}');if(rloadtrue){location.reload();}else{modifyTopicSuccess(tid,'');}},'json');}</script>

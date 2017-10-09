@@ -1,0 +1,71 @@
+<!--{if !empty($topic_list)}-->
+	<div id="weibo_list_wp">
+	<!--{loop $topic_list $key $topic}-->
+    <article>
+		<div id="weibo_itmes_{$topic['tid']}" class="weibo" data-tid="{$topic['tid']}" <!--{if MEMBER_ID < 1}-->data-login="0"<!--{else}-->data-login="1"<!--{/if}--> data-uid="{$topic['uid']}" data-huifu="is_huifu">
+        
+        <header class="tit-wb clearfix">
+            <img class="avatar-wb" src="{$topic['face']}" onclick="goToUserInfo($topic['uid']);"/>
+            <span class="nikename-wb">{$topic['nickname']}{$topic[validate_string]}</span>
+            <span class="origin-wb">
+            <time class="time-wb" onclick="goToMBlogDetail({$topic[tid]});">{$topic['dateline']}</time>
+            {$topic['from_string']}
+            </span>
+            <!--{if $topic['image_list']}--><img src="./images/pic.png"/ style="position: absolute;right: 10px;top: 10px;"><!--{/if}-->
+        </header>
+        
+        <section class="content-wb">
+        			<!--{if $topic[totid] > 0}-->
+					<!--{eval $parent=$parent_list[$topic[totid]];}-->
+					<!--{/if}-->
+					<div class="wb_c">
+						<!--{if $topic[totid] > 0 && $topic[totid] != $topic[roottid]}-->
+							<!--{eval $parent=$parent_list[$topic[totid]];}-->
+							<!--{if $parent}-->
+							回复<a href="">@{$parent['nickname']}</a>:
+							<!--{/if}-->
+						<!--{/if}-->
+						{$topic['content']}
+					</div>
+					<!--{if $topic['image_list']}-->
+					<div class="share">
+						<!--{loop $topic['image_list'] $image}-->
+							<img class="author" src="{$image['image_small']}" style="width:100px; height:100px;" />
+						<!--{/loop}-->
+					</div>
+					<!--{/if}-->
+
+        
+        </section>
+        
+         <footer class="action-wb">
+            <a href="javascript:;" class="rt-action-wb L-item-tab " onclick="goToForwardEditView('{$topic[tid]}')"><p><i>&nbsp;</i><span data-num="0">
+            <!--{if $topic['forwards'] > 0}-->转发（{$topic['forwards']}）<!--{else}-->转发<!--{/if}--></span></p></a>
+            <a href="javascript:;" class="cmt-action-wb L-item-tab" onclick="goToCommentList('{$topic[tid]}');"><p><i>&nbsp;</i><span data-num="0"><!--{if $topic['replys'] > 0}-->评论（{$topic['replys']}）<!--{else}-->评论<!--{/if}--></span></p></a>
+
+        </footer>
+        
+        
+       
+
+        </article>
+	<!--{/loop}-->
+	</div>
+    
+	<!--{if $list_count == Mobile::config('perpage_mblog')}-->
+    	<!--{if $this->Module == 'topic'}-->
+			<div class="wb_more" onclick='getMoreMBlogList({"tid":{$this->Get[tid]}, "max_tid":{$max_tid}, "next_page":{$next_page}, "code":"{$this->Code}", "list_type":"comment"});return false;' id="btn_more">更多...</div>
+        <!--{/if}-->
+	<!--{/if}-->
+	
+	<script language="javascript">
+		$(document).ready(function(){
+			setMBlogListEvent();
+		});
+	</script>
+<!--{else}-->
+	<script language="javascript">
+			showTips("没有数据", 0)
+	</script>
+<!--{/if}-->
+

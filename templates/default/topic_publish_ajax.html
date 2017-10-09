@@ -1,0 +1,21 @@
+<!--{eval $h_key = ($this->Get[mod] == 'item') ? 'ajax' : '';$not_indestr = 1;}-->
+<div id="topic_new_add" class="topic_new_add">
+	{subtemplate "topic_publish"}
+</div>
+<script language="javascript">
+	<!--{if $this->Get['handle_key']}-->
+	$(document).ready(function(){
+		$('#publishSubmit{$h_key}').click(function(){
+			//closeDialog('{$this->Get[handle_key]}');	
+		})
+	});
+	<!--{/if}-->
+</script>
+<style type="text/css">
+#topic_new_add{
+	margin: 20px 0;
+	display: block;
+	clear: both;
+	}
+
+</style>

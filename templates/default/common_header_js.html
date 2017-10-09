@@ -1,0 +1,26 @@
+<script type="text/javascript">
+var thisSiteURL = '{conf site_url}/';
+var thisTopicLength = '{conf topic_input_length}';
+var thisMod = '{$this->Module}';
+var thisCode = '{$this->Code}';
+var thisFace = '{$__my[face_small]}';
+var YXM_POP_Title = '{$this->yxm_title}';
+var YXM_CODE_COM = '{$this->Config[seccode_comment]}';
+var YXM_CODE_FOR = '{$this->Config[seccode_forward]}';
+var __N_WEIBO__ = '{$this->Config[changeword][n_weibo]}';
+var __P_WEIBO__ = '{$this->Config[changeword][p_weibo]}';
+var __WEIQUN__ = '{$this->Config[changeword][weiqun]}';
+var publish_in_str=[{$this->Config[in_publish_notice_js]}];
+var __ALERT__='{$this->Config[verify_alert]}';
+
+<!--{if $GLOBALS['_J']['config']['qun_setting']['qun_open']}-->	
+	var isQunClosed = false;
+<!--{else}-->
+	var isQunClosed = true;
+<!--{/if}-->
+
+function faceError(imgObj) {
+	var errorSrc = '{conf site_url}/images/noavatar.gif';
+	imgObj.src = errorSrc;
+}
+</script>

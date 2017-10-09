@@ -1,0 +1,74 @@
+<!--{template admin/header}-->
+<!--{if $ldap_server_enable}-->
+<form method="post" action="admin.php?mod=ldap&code=ldap_save">
+	<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+		<tr class="header">
+			<td colspan="3">使用说明</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="altbg1">功能介绍：使用Windows AD域中帐号与密码登录记事狗微博系统！</td>
+		</tr>
+		<tr class="header">
+			<td colspan="3">Windows AD域登录</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="20%">
+                <b>开启Windows AD域登录:</b>
+			</td>
+            <td class="altbg1" width="20%">{$ldap_enable}			
+			</td>
+			<td class="altbg1">
+                <span class="smalltxt">开启后可用Windows AD域中帐号与密码登录</span><br /> 
+			</td>
+		</tr>
+		<tr id="ldapemail" {if $ldap[enable]==0}style="display:none;"{/if}>
+		<td class="altbg2" width="20%">
+                <b>请输入您的windows AD域帐号:</b>
+			</td>
+            <td class="altbg2" width="20%"><input type="text" name="ldap_email" value="" /></td>
+			<td class="altbg2">
+                <span class="smalltxt">避免您使用域帐号登录后，无法进入后台</span><br /> 
+			</td>
+		</tr>
+		<tr><td class="altbg1" colspan="3"><font color="green">开启该功能后，系统将禁止新用户注册，禁止用户修改密码与修改E-mail，不支持密码找回功能，且系统中原有帐户将无法登录，此时只接收windwos AD域用户登录。</font></td></tr>
+		<tr class="header">
+			<td colspan="3">参数设置</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="20%">
+                <b>Windows AD域服务器地址:</b>
+            </td>
+            <td class="altbg1" width="20%"><input type="text" name="ldap_host" value="{$ldap[db_host]}" />			
+			</td>
+			<td class="altbg1">
+                <span class="smalltxt">请填写服务器主机名或IP地址（例如：ad.cenwor.com或10.3.58.88）</span><br />
+			</td>
+		</tr>
+		<tr>
+			<td class="altbg1" width="20%">
+                <b>Windows AD域服务器端口:</b>
+            </td>
+            <td class="altbg1" width="20%"><input type="text" name="ldap_port" value="{$ldap[db_port]}" />			
+			</td>
+			<td class="altbg1">
+                <span class="smalltxt">默认是：389</span><br />
+			</td>
+		</tr>
+	</table>
+	<br />
+	<center><input class="button" type="submit" name="cronssubmit" value="提 交" /></center>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){$("#ldap_enable_1").click(function(){$("#ldapemail").show();});$("#ldap_enable_0").click(function(){$("#ldapemail").hide();});}); 
+</script>
+<!--{else}-->
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header"> <td>功能说明</td> </tr>
+<tr> <td class="altbg1">这是企业2.0应用模块，供在企业内部搭建互动交流平台使用</td> </tr>
+<tr class="header"> <td>功能介绍</td> </tr>
+<tr> <td class="altbg1">
+1、当企业组建了windows AD域时，开启此模块后，企业用户无须注册帐号，可直接使用windowns AD域帐号和密码进行登录。<br>
+2、如需此模块请与企业<b>QQ：800058566</b>联系，或者电话垂询<b>0571-88800819</b>。
+</td> </tr>
+</table>
+<!--{/if}-->

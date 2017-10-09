@@ -1,0 +1,32 @@
+<!--{template admin/header}-->
+<form method="post" action="admin.php?mod=contest&code=do_modify_project" enctype="multipart/form-data">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+	<tr class="header">
+		<td colspan="2">添加专题</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">专题名字</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<input type="text" name="name" value="{$info['name']}">
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">专题描述</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<textarea name="describe">{$info['describe']}</textarea>
+			
+		</td>
+	</tr>
+	<tr>
+		<td class="altbg1" width="15%" bgcolor="#F8F8F8">专题图片</td>
+		<td class="altbg2" width="85%" align="right" bgcolor="#FFFFFF">
+			<input type="file" name="image">
+		</td>
+	</tr>
+
+</table>
+<br>
+<input type="hidden" name="project_id" value="{$project_id}">
+<center><input type="submit" class="button" id="submit" name="addsubmit" value="保 存"></center>
+</form>
+

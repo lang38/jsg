@@ -1,0 +1,67 @@
+{template 'topic_header'}
+{template "topic_left_nav.inc"}
+<link href="static/style/reward.css" rel="stylesheet" type="text/css" />
+<link href="static/style/event.css" rel="stylesheet" type="text/css" />
+<div class="main">  
+  <div class="mainWrap "> 
+     <div  class="contentWrap">
+        <div class="Menulink">
+		   <a href="index.php?mod=reward" {if $this->Code == ''}class="selected"{/if}>有奖转发</a>
+		   <a href="index.php?mod=reward&code=myreward" {if $this->Code == 'myreward'}class="selected"{/if}>我的有奖转发</a>
+	       <a href="index.php?mod=reward&code=joinedreward" {if $this->Code == 'joinedreward'}class="selected"{/if}>我参与的有奖转发</a>
+		   <a href="index.php?mod=reward&code=freward" {if $this->Code == 'freward'}class="selected"{/if}>我关注的人的有奖转发</a>
+	    </div>   
+	 {template 'reward/reward_list_ajax'}
+     </div>
+  </div>
+<!--右边栏目1 Begin-->
+  <div class="sideBar">
+     {template "topic_right_ajax.inc"}
+     <div class="column">
+     <ul class="sideul">
+     <!--{if MEMBER_ID<1}-->
+       <span>还没有{$this->Config[changeword][p_weibo]}帐号？<a href="index.php?mod=member">注册</a></span>
+       <br>
+       <span>已有帐号，<a href="index.php?mod=login">请点此登录</a></span>
+     <!--{else}-->
+	   <div class="create_qun_b">
+	      <a class="create_button" href="index.php?mod=reward&code=add">发起有奖转发</a>
+	   </div>
+	 <!--{/if}-->
+     </ul>
+     </div>
+  
+	 <!--热点推荐 Begin-->
+	 {if $recd_reweard}
+	 <div class="column">
+        <h3>有奖转发推荐</h3>
+	    <ul class="followList act_ul">
+	    <!--{eval $i = 0}-->
+        <!--{loop $recd_reweard['reward_list'] $key $val}-->
+        <!--{eval $i++}-->
+        <!--{if $i<4}-->
+  	      <li class="pane">
+  	         <div class="fBox_l">
+  	           <a href="index.php?mod=reward&code=detail&id=$val['id']" title="{$val['title']}">
+  	             <img src="{$val['event_image_path']}" width="60" height="60">
+  	           </a>
+  	         </div>
+  	         <div class="fBox_r">
+  	           <p class="ff_1 w_num"><a href="index.php?mod=reward&code=detail&id=$val[id]" title="{$val['title']}">{$val['title']}</a></p>
+  	           <p class="ff_1">转发了{$val['f_num']}次</p>
+  	         </div>
+  	      </li>
+	      <!--{else}-->
+	      <li>
+	         <span class="boxRl"><a href="index.php?mod=reward&code=detail&id=$val['id']" title="{$val['title']}">{$val['title']}</a></span>
+	         <span style="float:right;">(转发了{$val['f_num']}次)</span>
+	      </li>
+	      <!--{/if}-->
+  	      <!--{/loop}-->
+	    </ul>
+	 </div>
+	 {/if}
+	 <!--热点推荐 End-->	
+  </div>
+</div>
+<!--{template 'topic_footer'}-->

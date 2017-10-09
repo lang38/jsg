@@ -1,0 +1,66 @@
+
+<!--{if !$no_header}-->
+<!--{template admin/header}-->
+<script>
+function cat_list(obj,catid){
+	if($('#tr_id_'+catid).next('.sublist').length){
+		$('#id_sublist_'+catid).toggle();
+	}else{
+		$('#tr_id_'+catid).after('<tr id="id_sublist_'+catid+'" class="sublist"></tr>');
+	}
+	if($('#id_sublist_'+catid+':visible').length){
+		$(obj).children('img').attr('src','images/cp/close.gif');
+	}else{
+		$(obj).children('img').attr('src','images/cp/open.gif');
+	}
+	$.get('admin.php?mod=cms&catid='+catid,{is_ajax:1},function(r){
+		$('#id_sublist_'+catid).html(r+'');
+		
+	},'html');
+}
+</script>
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tr class="header">
+	<form action="admin.php?mod=cms&code=search" method="post" >
+	<td width="40%">分类名称<input type="text" name="key"><input type="submit" value="搜索"></td>
+	<td width="40%">总资讯数</td>
+	<td width="20%">管理</td>
+	</form>
+</tr>
+<!--{else}-->
+
+<td colspan="6">
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+<tbody>
+<!--{/if}-->
+
+<!--{loop $list $one}-->
+<tr class="altbg1" id="tr_id_{$one['catid']}">
+<td width="40%">
+<span id="cat_name_{$one['catid']}" onclick="cat_list(this,'{$one['catid']}');">
+<!--{if $one['count_sub']}-->
+<img id="img_2" class="acp_list_img" src="images/cp/open.gif">
+<!--{/if}-->
+{$one['catname']}
+</span>
+</td>
+<td width="40%">
+	<a href="admin.php?mod=cms&amp;code=article_list&amp;catid={$one['catid']}">{$one['articles']}</a>
+</td>
+<td width="20%">
+	<a href="admin.php?mod=cms&amp;code=add&amp;catid={$one['catid']}">添加子分类</a> | 
+	<a href="admin.php?mod=cms&amp;code=modify&amp;catid={$one['catid']}">编辑</a> | 
+	<a href="admin.php?mod=cms&amp;code=delete_category&amp;catid={$one['catid']}">删除</a>
+</td>
+</tr>
+<!--{/loop}-->
+
+<!--{if !$no_header}-->
+</table>
+<a href="admin.php?mod=cms&amp;code=add">添加顶级分类</a>
+<!--{else}-->
+</tbody>
+</table>
+</td>
+<!--{eval exit();}-->
+<!--{/if}-->

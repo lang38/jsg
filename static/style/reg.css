@@ -1,0 +1,116 @@
+/*################################
+   @Name:记事狗微博客注册页样式表 
+   @Link:www.jishigou.net
+   @Date:2013.06.05
+   @Author:@itom
+##################################*/
+/* CSS Document begin */
+
+
+.m-box-reg{float:left;width:650px;border-right:1px solid #ECECEC; }
+.m-box-reg tr,.m-box-reg td{ position:relative;}
+.m-box-reg .u-tips,.m-box-reg .u-warn{overflow:hidden;padding:5px 0;margin-left:208px;font-size:12px;}
+
+.m-box-reg .u-warn{ background-color:#fff; width:255px; z-index:1;color:#e76969; position:absolute; margin:10px 0 0 207px;}
+.m-box-reg .check_email_result2{margin-top:-33px;}
+ .m-box-reg .u-tips-2{color:#7ca511;padding:0 0 10px 27px;margin-top:-30px;} 
+.m-box-reg .u-reg-login{width:auto; height:25px; margin-right:10px;margin-left: -28px;}
+.m-box-reg #check_nickname_result{margin-top: 8px; top:0;}
+
+.m-box-side{float: left;margin-left:20px; height:450px;width:200px;}
+.m-box-reg img{ margin:0 5px 0 0 ; vertical-align:middle;}
+.m-box-side p{ display:block; padding-top:10px;}
+
+.others{ display:block;}
+.others .sinaweiboLogin,.others .qqweiboLogin{ width:100%; margin:0 0 10px 0; height:40px;float:left;overflow:hidden;}
+.others img:hover{ opacity:0.8;}
+
+.m-reg{ margin:0 0 20px;}
+.m-regStep{ margin:15px 0; overflow:hidden;}
+
+
+.m-regStep .on em{ color:#fff;}
+.m-regStep li {width:150px;height:23px;padding:9px 0 0;font-size:14px;line-height:14px;text-align:center;color:#888;background:url(../../static/image/reg/327.png?20140922) no-repeat; float:left;}
+.m-regStep b {position:relative;overflow:hidden;display:inline-block;width:16px;height:15px;margin:0 -25px 0.2em 0;vertical-align:middle}
+.m-regStep .t2 {width:236px;background-image:url(../../static/image/reg/328.png?20140922)}
+.m-regStep .t2 .ii {top:-15px}
+.m-regStep .t3 {position:relative;width:244px;background-image:url(../../static/image/reg/329.png?20140922)}
+.m-regStep .t3 .ii {top:-30px}
+.m-regStep .on {font-weight:bold;color:#fff;background-position:0 -32px}
+.m-regStep .on .ii {left:-16px;}
+
+
+/*关注频道页面*/
+.m-reg .follow_channel{ padding:0 0 10px;}
+.m-reg .follow_channel dl{clear:both;border-bottom:1px solid #EEE;font-size:12px;text-align:center;margin:0px;padding:20px 0px 10px;min-height:108px;_height:108px;}
+.m-reg .follow_channel dl img{width:85px;height:80px; margin-bottom:5px;}
+.m-reg .follow_channel dl a.follow_html_n{color:#d4a639;text-decoration:none;margin-left:0px;background:#feffe5}
+.m-reg .follow_channel dl .follow_html_n,.register_div1 .follow_channel dl .follow_html_d{position:absolute;top:58px;_top:56px;left:18px;padding:2px 0px;text-align:center;width:50px;}
+.m-reg .follow_channel dl .follow_html_d{left:10px;}
+.m-reg .follow_channel dt{width:130px;_width:110px;float:left;font-weight:bold;}
+.m-reg .follow_channel dd{overflow:hidden;_width:540px;}
+.m-reg .follow_channel div{width:90px;position:relative;float:left;}
+.m-reg .follow_channel dd div{margin:0px 8px 5px}
+.follow_channel_fav{position: absolute;left: 20px;top: 60px;}
+
+.next a:hover{width:100px;height:80px;border:1px solid #61872C; background:#5C9E04;color:#FFF;}
+.sendBox{box-shadow:none;background: #f2f2f2;}
+
+
+.Reg_b{background:url(../../static/image/member/regb.gif?20140922) no-repeat left top; cursor:pointer; border:none}
+.Reg_b{background-position:0 0;display:block;overflow:hidden;text-indent:-299px;width:209px;height:62px;}
+.Reg_b:hover{background-position:0 -62px}
+.R_treaty{border:1px dashed #666;color:#CCC;font-size:12px;height:50px;overflow-x:hidden;overflow-y:scroll;width:430px;margin:5px 0;padding:10px}
+.r_tit{width:120px;color:#666;line-height:18px;margin:10px 0 0 0;}
+a.r_loginbtn{background:url(../../static/image/member/rbtn2.gif?20140922) no-repeat;color:#666;display:block;font-size:12px;height:30px;line-height:30px;margin:15px 0 0 12px;text-align:center;width:97px; text-decoration:none}
+
+.R_logoList{ margin-top:2px;line-height:1px;}
+.R_logoList .sinaweiboLogin,.R_logoList .qqweiboLogin,.R_logoList .yyLogin,.R_logoList .renrenLogin,.R_logoList .kaixinLogin.R_logoList ,.fjauLogin{ width:126px; height:30px; border:none; float:left; margin-right:10px; text-decoration:none;}
+.regP{ float:left; font-size:14px; margin-bottom:3px;}
+.R_tt0,.R_tt1,.R_tt2,.R_tt3,.R_tt4,.error{overflow:hidden;padding:5px 0; float:left; margin-left:208px;*margin-left:10px;*margin-top:5px;position:absolute;font-size:12px;}
+.R_tt2{*margin-top:0px; }
+.error{ z-index:1;*margin-top:0px;}
+.bottomLinks_R .bottomLinks_reg{ width:780px;}
+.bottomLinks_R .bottomLinks .bL_info{ width:150px;}
+
+.avt img{ width:auto; height:50px; border:none; padding:0;}
+/*通行宝部分*/
+#logo_nedu{height:80px;width:324px;overflow:hidden;position:absolute;top:2px;overflow:hidden;}
+#logo_nedu a{display:block;height:80px;text-decoration:none;width:324px;background:url(../../../../static/image/nedu_logo_g.png?20140922) no-repeat;}
+#logo_nedu a:hover{ background-position:0 0;}
+
+/*温馨提示*/
+.column{margin:0 auto;line-height:20px; color:#999;padding: 10px 20px;background-color: white;*border-bottom:2px solid #EEE;box-shadow: 0px 2px 2px #ddd;}
+.column h3,.sideul{ overflow:hidden;*zoom:1;clear:both;}
+.sideul li{ display:inline-block;}
+.column h3,.column .vpnav{ height:30px;line-height:30px;  color:#555; font-size:14px;}
+
+/*补全资料页面*/
+tr td{ padding:10px 5px;border:none; font-size:14px; line-height:22px;}
+tr input{padding:2px ;}
+
+
+
+.setp_send{margin: 20px auto;padding:0 0 0 110px;float: left;}
+
+
+.colf{margin: 18px 0 18px 30px;}
+#cbox label input,.reg_member_title input{padding: 0;border: none;background: none;}
+.colf .u-btn{ width:50px; padding:0; height:24px;}
+.colf .menu_htb{ background:#fff;}
+
+/* #check_email_result{width: 85px;margin: -33px 0 0 450px;} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+

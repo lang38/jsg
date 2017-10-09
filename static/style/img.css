@@ -1,0 +1,223 @@
+/* CSS Document begin */
+a.u-del {
+	color: #fff;
+}
+.menu_tqboxc p.stitle {
+	border-bottom: 1px solid #ddd;
+}
+.menu_tqboxc p.stitle b {
+	width: 74px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	height: 28px;
+	line-height: 28px;
+	margin: 2px 1px -1px 1px;
+	cursor: pointer;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 4px 4px 0 0;
+}
+.menu_tqboxc p.stitle b.curr {
+	background: #fff;
+	font-weight: bold;
+	cursor: pointer;
+	border-bottom-color: #fff;
+	border-radius: 4px 4px 0 0;
+}
+.tpcontent {
+	margin: 10px 0px;
+}
+.tpcontent p.em {
+	margin: 10px 0px 5px;
+	padding: 5px;
+	border-top: 1px dashed #ddd;
+}
+.sbottom {
+	padding-top: 10px;
+	text-align: right;
+}
+.menu_tqboxc .tab3, .menu_tqboxc .tab4 {
+	padding: 20px 10px;
+}
+.menu_tqboxc .add .input {
+	width: 380px;
+	margin-right: 10px;
+	color: #999;
+}
+#album_list, #viewImgDiv {
+	font-size: 12px;
+}
+#album_list textarea {
+	font-size: 12px;
+	height: 38px;
+	width: 430px;
+}
+#viewImgDiv textarea {
+	font-size: 12px;
+	height: 38px;
+	width: 420px;
+}
+#baidusearch_image_list li {
+	width: 110px;
+	float: left;
+}
+#baidusearch_image_list img {
+	width: 100px;
+	height: 100px;
+}
+/*相册页面*/
+.t-h3{ 
+	font-size: 12px;
+	font-weight: 500;
+	color: #666;
+}
+ul.album {
+	display: block;
+	padding: 10px 0;
+	width: 110%;
+	overflow: hidden;
+}
+ul.album li {
+	float: left;
+	padding: 0;
+	display: inline;
+	margin: 0 43px 25px 0;
+	text-align: center;
+	color: #aaa;
+	width: 150px;
+	height: 220px;
+	overflow: hidden;
+	word-break: keep-all;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+ul.album li.new {
+	background: #f4f4f4;
+}
+ul.album li a.usermod {
+	margin: 0px 5px;
+}
+ul.album li p {
+	background: #f9f9f9;
+}
+.album_img {
+	height: 150px;
+	border: none;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 10px;
+}
+.album_name {
+	font-size: 12px;
+	font-weight: 600;
+	height: 20px;
+	text-overflow: ellipsis;
+	line-height: 1.5;
+	overflow: hidden;
+	color: #333;
+}
+.album_total, .album_aut {
+	width: 130px;
+	height: 20px;
+	overflow: hidden;
+	padding: 0;
+	float: left;
+}
+
+#viewUrlImgDiv {
+	margin: 10px 0;
+}
+#viewUrlImgDiv textarea {
+	font-size: 12px;
+	height: 38px;
+	width: 420px;
+}
+/*相册导航*/
+.album-nav {
+	padding: 0px 5px;
+	border-bottom: 1px solid #eee;
+	margin: 10px 0;
+}
+.album-nav a.curr {
+	background: #fff;
+	font-weight: bold;
+	cursor: pointer;
+	border-bottom-color: #fff;
+	border-radius: 3px 3px 0 0;
+}
+.album-nav a {
+	width: 80px;
+	display: inline-block;
+	font-weight: normal;
+	text-align: center;
+	height: 34px;
+	line-height: 34px;
+	margin: 2px 3px -1px 3px;
+	cursor: pointer;
+	border: 1px solid #eee;
+	background: #FCFDFF;
+	border-radius: 3px 3px 0 0;
+	text-decoration: none;
+font-size: 14px;
+}
+.g-bd, .m-box {
+	overflow: visible;
+	background: #fff;
+}
+.u-send:before,.u-send:after{
+    display:none;
+}
+/*相册首页2013.11.28*/
+.m_nav_home{
+	width:100%;
+	height:70px;
+	background:#f2f2f2;
+	border-bottom:1px solid #ddd;
+}
+.m_nav_home .nav_home {
+	width: 950px;
+	margin: 0 auto;
+}
+.m_nav_home .logo {
+    height: 60px;
+	background: url(../../static/image/photo/photo-logo.png?20140922) no-repeat 0 0;
+	float: left;
+	margin: 0 25px 0 0;
+	line-height: 0;
+	overflow: hidden;
+}
+.m_nav_home .logo a {
+	width: 223px;
+	height: 60px;
+	display: block;
+	text-indent: -10000px;
+}
+.m_nav_home .nav {
+	float: right;
+	font-size: 15px;
+	margin-top: 17px;
+}
+.m_nav_home .nav li {
+    float: left;
+}
+.m_nav_home .current .link {
+    font-weight: 600;
+}
+.m_nav_home .nav .valign {
+    vertical-align: middle;
+}
+.m_nav_home .nav .link {
+	display: inline-block;
+	padding: 5px 10px 0;
+	border-bottom: none;
+	margin: 0 15px;
+}
+.m_nav_home .nav .M_dotted_y {
+	width: 1px;
+	height: 14px;
+	display: inline-block;
+	font-size: 0;
+	vertical-align: middle;
+	background: #ccc;
+}

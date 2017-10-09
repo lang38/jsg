@@ -1,0 +1,33 @@
+{template "topic_header"}
+
+<!--头部广告-->
+<!--{if $this->Config[ad_enable] && $this->Config[ad][ad_list][group_myhome][header]}-->
+<div class="a-h"><!--{eval SetADV('group_myhome','header');}--></div>
+<!--{/if}-->
+<!--头部广告-->
+
+<!--{if MEMBER_ID ==0}-->
+{template "topic_guest_top"}
+<!--{/if}-->
+
+{template "topic_left_nav.inc"}
+
+<div class="main">    
+
+  <!--中间栏-->
+  {template 'topic_common_middle'}
+  <!--中间栏-->
+  
+  <!--页面右侧-->
+  {template "topic_myhome.inc"}
+  <!--页面右侧-->
+  
+</div>
+
+<!--底部广告-->
+ <!--{eval SetADV('group_myhome','footer');}-->
+<!--底部广告-->
+
+<!--页面底部-->
+{template "topic_footer"}
+<!--页面底部-->

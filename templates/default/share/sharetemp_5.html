@@ -1,0 +1,25 @@
+<div class="welist">
+<div class="up"></div>
+<div class="listbox">
+{loop $topic_list $v}
+<div class="wetran">
+<div class="weuser">
+<a href="index.php?mod={$v[username]}" target="_blank" class="b"><img src="{$v[face]}" class="userimg" /></a>
+<div class="userinfo">
+<div class="wname"><a href="index.php?mod={$v[username]}" target="_blank" class="b">{$v[nickname]}</a>{$v[from_area]}</div>
+<div class="att">{$v[follow_html]}</div>
+</div>
+</div>
+
+<div class="s">
+<a title="{$v[content]}" href="index.php?mod=topic&code={$v[tid]}" style="color: #666" target="_blank">{eval echo(cut_str($v[content], 180));}</a>
+<div class="wefrom"><span class="mleft"><a href="index.php?mod=topic&code={$v[tid]}" target="_blank">{$v[dateline]}</a>   {$v[from_html]} </span><span class="mright"><a href="index.php?mod=topic&code={$v[tid]}" target="_blank">转发({$v[forwards]})</a> | <a href="index.php?mod=topic&code={$v[tid]}" target="_blank">评论({$v[replys]})</a></span>
+</div>
+
+</div>
+
+</div>
+{/loop}
+</div>
+<div class="down"></div>
+</div>

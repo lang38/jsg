@@ -1,0 +1,15 @@
+<!--{if (($limit = jconf::get('show', 'topic_index', 'guanzhu')) && $members=jlogic('member')->get_member_by_top_fans($limit))}-->
+    <div class="column">
+	 <h3>人气关注榜 <em>TOP {$limit}</em> </h3>
+      <ul class="sideul">
+        <!--{loop $members $val}-->
+		<!--{eval $No++;}-->
+        <li style="width:100%; float:left;">
+		<span class="boxRl listyle"><var>{$No}</var> . <a href="index.php?mod={$val[username]}"><!--{eval $val[nickname]}-->{$val[nickname]}</a></span>
+		<em class="mright">{$val[fans_count]}</em>
+		</li>
+        <!--{/loop}-->
+		<li style="width:100%; float:left;"><a class="mores" href="index.php?mod=top&code=member" title="更多"></a></li>
+      </ul>
+    </div>
+    <!--{/if}-->

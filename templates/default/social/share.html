@@ -1,0 +1,88 @@
+{template "topic_header"}
+
+<div class="appframe" style="width:980px; text-align:center; min-height:500px;"> 
+  <div class="appframeTitle">
+    <span class="mleft">分享到我的$this->Config['changeword']["n_weibo"]，顺便说点什么吧</span>
+  </div>
+<div class="appframeWrap">
+<div class="set_warp" style=" margin:0 10px; padding:20px 0 50px;">
+<!--{if $this->Code == 'share' || $this->Code == 'doshare'}-->
+	<!--{if MEMBER_ID}-->
+	<script type="text/javascript">
+		var oTimer = null;
+		function share_a() {
+			if($('#share_later').html()=="-1"){oTimer=null;window.close();}
+		}
+		function share_b() {
+			var oTimer=setInterval("$('#share_later').html(parseInt($('#share_later').html())-1);share_a();",1000);
+		}
+		var __PUBLISH_SUCESS_CALLBACK__ = function () {
+			$('#share_topic_publish_area').html('<p style="padding:10px;"><br /><br /><h1>内容分享成功</h1>去<a href="index.php?mod=topic&code=myhome" target="_blank">我的首页</a>看看，或<a href="javascript:void(0);" onclick="javascript:window.close();">点击这里</a>立即关闭<br /><br /><span id="share_later">5</span> 秒后窗口自动关闭</p>');
+			share_b();
+		};
+		/*
+		$(document).ready(function() {
+			__PUBLISH_SUCESS_CALLBACK__ && __PUBLISH_SUCESS_CALLBACK__();
+		});
+		*/
+	</script>
+    <style type="text/css">
+    .sendBox{ box-shadow:none; background:#f2f2f2; border-radius:0; margin-left:100px;}
+    </style>
+			<div id="share_topic_publish_area">
+				<input type="hidden" name="check_PublishBox_uid" id="check_PublishBox_uid"  value="{MEMBER_ID}"/>
+				<!--{template "topic_publish"}-->
+			</div>
+	<!--{else}-->
+
+		<h1>欢迎登录本站</h1>
+		<a onclick="ShowLoginDialog();return false;" title="快捷登录" rel="nofollow" href="http://dev.jishigou.net/index.php?mod=login" class="r_loginbtn">请点此登录</a>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				ShowLoginDialog();
+			});
+		</script>
+
+	<!--{if !$GLOBALS[_J][config][register_link_display] && jsg_member_register_is_closed()}-->
+			<!-- 不显示注册链接 -->
+			&nbsp;
+	<!--{else}-->
+		还没注册过本站帐户？
+		<a title="点此免费注册" onclick="window.open('{$this->Config[site_url]}/index.php?mod=member');return false;" class="Nbtn_reg" target="_blank">注册{conf site_name}</a>
+	注册后，可以方便地分享新鲜事，关注用户分享；
+	并可通过<b>手机</b>随时随地参与互动。
+	<!--{/if}-->
+
+	<!--{/if}-->
+<!--{/if}-->
+
+<!--{if $this->Code == 'endshare'}-->
+<div style="background:#f2f2f2;  margin-left:100px; text-align:center;">
+  <table width="400" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:50px;">
+    <tr>
+      <td height="40" align="center"><h1>分享成功</h1></td>
+    </tr>
+    <tr>
+      <td height="40" align="center">
+	  <div style="font-size:16px;">
+	  	去<a href="index.php?mod=topic&code=myhome" target="_blank">我的首页</a>看看，或<a href='javascript:void(0);' onclick="javascript:window.close();">点击这里</a>立即关闭
+	  </div>
+	  </td>
+    </tr>
+    <tr>
+      <td height="40" align="center"><span id="later">5</span> 秒后窗口自动关闭</td>
+    </tr>
+  </table>
+</div>
+<script type="text/javascript">
+function a(){
+if(later.innerText=="-1"){oTimer=null;window.close();}
+}
+var oTimer=setInterval("later.innerText=parseInt(later.innerText)-1;a();",1000);
+
+</script>
+<!--{/if}-->
+</div>
+</div>
+</div>
+{template "topic_footer"}

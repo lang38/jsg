@@ -1,0 +1,58 @@
+{template "topic_header"}
+<script>$(function(){$("#cmssearch").bind('click',function(){cmssearchSubmit('cmssearchchar');return false;});});</script>
+<script type="text/javascript" src="static/js/cms.js"></script>
+<link href="static/style/cp.css" rel="stylesheet" type="text/css" />
+<style>.g-content .g-doc{background-image:none;}.exp-wrap .g-bd{ width:940px;}</style>
+<script type="text/javascript" src="static/js/cms.js"></script>
+<div class="g-bd">  
+<div class="g-doc">
+<div class="m-tit">{$navtitle}
+<span class="f-right">
+<!--{if MEMBER_ID>0}-->
+<a href="index.php?mod=cms&code=channel&id={$catid}&my=yes" class="u-btn" style="color:#fff;">我的文章</a>
+<input type="button" value="发布文章" class="u-btn " onclick="publishcms(0,{$catid});">
+<!--{/if}-->
+<!--{if $ismanageman}--><input type="button" value="审核文章" class="u-btn " onclick="checkhtml({$catid});"><!--{/if}-->
+</span>
+</div>
+<div class="m-box">
+<div class="left">
+<form id="cmssearchform" style="margin-bottom:15px;"><input type="text" value="{$searchchar}" name="cmssearchchar" id="cmssearchchar" onfocus="if(this.value == '输入关键词') {this.value = '';}" onblur="if(this.value == '') {this.value = '输入关键词';}"> <button type="submit" class="u-btn" id="cmssearch">搜索</button></form>
+<script type="text/javascript">
+var ids=[{$catids}];$(function(){var cp_i=0;if(ids.length > 0){for(var i in ids){window.setTimeout(function(){$('#cms_img_'+ids[cp_i]).click();cp_i++;},i*500);}}});
+</script>
+{$cmscatlist}
+</div>
+
+<div class="right">
+
+<h2 class="t-sub">当前位置 ：<span id="nav_list">{$navhtml}</span></h3>
+
+<div class="down">
+<ul class="m-list-cms cmslist_{$catid}" style="width:100%;">
+<!--{if $articles}-->
+<!--{loop $articles $val}-->
+<li><a href="index.php?mod=cms&code=article&id={$val[aid]}">{$val[title]}</a>
+<span class="f-right">
+<!--{if $val['cancheck']}-->
+<a href="javascript:;" onclick="checkcms({$val[aid]});" class="check_{$val[aid]}">审核</a>
+<!--{/if}-->
+<!--{if $val['edit']}-->
+<a href="javascript:;" onclick="publishcms({$val[aid]});">编辑</a>
+<!--{/if}-->
+{$val[time]}
+</span>
+</li>
+<!--{/loop}-->
+<!--{else}-->
+<li class="noarticle">暂时没有可显示的内容</li>
+<!--{/if}-->
+</ul>
+<!--{if $pagehtml[html]}--><p><div style="float:left;width:620px;padding-top:10px;margin-top:10px;border-top:1px dotted #ddd"><li>{$pagehtml[html]}</li></div></p><!--{/if}-->
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{template "topic_footer"}

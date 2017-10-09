@@ -1,0 +1,57 @@
+{template "topic_header"}
+<link href="static/style/qun.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+
+.mr20{ margin-right:20px;}
+.cat_content a{ margin-right:10px;}
+.rbl{ float:left;}
+.rbl img{ height:48px;width:48px; border:1px solid #ccc; margin-right:10px;}
+#sub_cat_wp{ border-bottom: dotted 1px #eee; padding-bottom:5px;}
+#sub_cat_wp a{ margin-right:10px;}
+a.on{ color:#000000; font-weight:700;}
+#sort_wp a{ margin-right:10px;}
+</style>
+{template "topic_left_nav.inc"}
+<div class="main">  
+
+  <div class="mainWrap ">	
+    <div class="contentWrap">
+    	<div class="qun_cat_listT">
+		<h1>
+		<span class="mleft">{$title}</span>
+		<span class="mright"><a href="index.php?mod=qun&code=category">返回全部分类列表</a></span>
+		</h1>
+
+		<!--排序等相关信息 Begin-->
+		<!--{if $count}-->
+		<div style="margin-top:10px;">
+			<div style="float:left; color:#999;">共{$count}个</div>
+			<div style="float:right;" id="sort_wp">
+				<span>排序方式：</span>
+				<span>
+					<a href="index.php?mod=qun&code=tag&tag_id={$tag_id}&sort=1" {$active_sort[1]}>成员人数</a>
+					<a href="index.php?mod=qun&code=tag&tag_id={$tag_id}&sort=2" {$active_sort[2]}>{$this->Config[changeword][weiqun]}博数</a>
+					<a href="index.php?mod=qun&code=tag&tag_id={$tag_id}&sort=3" {$active_sort[3]}>创建时间</a>
+				</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>	
+		<!--{/if}-->	
+		<!--排序等相关信息 End-->
+	</div>
+<style type="text/css">
+	a.v_on{ color:#000; font-weight:700;}
+</style>
+      <div id="listTopicArea">
+			{template "qun/qun_search_list"}
+      </div>
+</div>
+</div>
+<!--右边栏 Begin-->
+{template "qun/qun_right"}
+<!--右边栏 End-->
+</div>
+<!--{if $this->Config[ad_enable]}-->
+<div class="header_ad"> {$this->Config[ad][ad_list][qun][footer]} </div>
+<!--{/if}-->
+{template "topic_footer"}

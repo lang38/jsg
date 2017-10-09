@@ -1,0 +1,241 @@
+{template "topic_header"}
+<div class="main talkwrap">
+<link href="static/style/live.css" rel="stylesheet" type="text/css" />
+
+<div class="talkviewtop">
+<!--{if $live[image]}-->
+<img src='{$live[image]}' width='980' height='120'>
+<!--{else}-->
+<img src='images/live_banner.png' width='980' height='120'>
+<!--{/if}-->
+</div>
+
+<div class="mainWrap ">
+<!--{if MEMBER_ID < 1}-->
+<center><b>登录后，就可以与主持人或嘉宾进行互动，我要&nbsp;<a href="javascript:viod(0)" rel="nofollow" title="快速登录" onclick="ShowLoginDialog(); return false;">登录</a></b></center>
+<!--{else}-->
+<!--{if $live['status_css'] == 'ico_notyet' || $live['status_css'] == 'ico_ongoing'}-->
+{template "topic_publish"}
+<!--{/if}-->
+<!--{/if}-->
+<div  class="contentWrap">
+<div class="contentWrap">
+<div class="Menubox">
+<script language="Javascript">
+function listTopic( s , lh ) {	
+	var s = 'undefined' == typeof(s) ? 0 : s;
+	var lh = 'undefined' == typeof(lh) ? 1 : lh;
+	if(lh) {
+		window.location.hash="#listTopicArea";
+	}
+    $("#listTopicMsgArea").html("<div><center><span class='loading'>内容正在加载中，请稍候……</span></center></div>");
+	var myAjax = $.post(
+		"ajax.php?mod=app&code=list_topic",
+		{
+			<!--{loop $params $k $v}-->
+			{$k}:"{$v}",
+			<!--{/loop}-->
+			start:s
+		},
+		function (d) {
+			$("#listTopicMsgArea").html('');
+			$("#listTopicArea").html(d);
+		}
+	); 
+}
+</script>
+<ul>
+<!--{eval if($ltype == 'h') $h_css= 'tagcurrent';else $h_css = 'tagn';}-->
+<li><div class="{$h_css}"><a href="index.php?mod=live&code=view&id={$live[lid]}&list=h" title="直播{$live['banner']}"><span>直播{$live['banner']}</span></a></div></li>
+<!--{eval if($ltype == 'g') $g_css= 'tagcurrent';else $g_css = 'tagn';}-->
+<li><div class="{$g_css}"><a href="index.php?mod=live&code=view&id={$live[lid]}&list=g" title="网友热议"><span>网友热议</span></a></div></li>
+<li style="float:right; padding:0;">（共{$topic_count}条{$this->Config[changeword][n_weibo]}）</li>
+</ul>
+</div>
+
+<div id="ajax_recommend"></div>
+<div id="ajax_reminded"></div>
+<!--微博列表 Begin-->
+<div id="listTopicMsgArea"></div>
+<div id="listTopicArea">
+<div class="Listmain">
+<!--{if $topic_list}-->
+<!--{loop $topic_list $val}-->
+<!--{eval $counts++;}-->
+<div class="feedCell" id="topic_list_{$val[tid]}">
+<!--{subtemplate topic_item_ajax}-->
+</div>
+<!--{/loop}-->
+<!--{if $page_arr[html]}--><div class="pageStyle">{$page_arr[html]}</div><!--{/if}-->
+<!--{/if}-->
+</div>
+{eval echo $this->js_show_msg();}
+</div>
+<!--微博列表 End-->
+</div>
+</div>
+</div>
+
+<!--右边栏目 Begin-->
+<style>
+.exp-wrap .memberBox, .exp-wrap .column{ background:none;}
+.exp-wrap .user_atten .person_atten_l, .exp-wrap .column h3, .exp-wrap .column .vpnav, .exp-wrap .column h4, .exp-wrap .side-tabtit{ border-color:#eee;}
+</style>
+<div class="sideBar">
+<div class="column" style=" overflow:hidden;">
+<div class="live_line"><span><a class="ico_recommed" href="javascript:void(0)"  onclick="showMainPublishBox('design','live','{$live[lid]}');">推荐给朋友</a></span>直播时间</div>
+<div class="time_liveShowWrap clearFix">
+<div class="status_lf"><span class="{$live[clock_css]}"></span><span class="ico_status {$live[status_css]}">{$live[status]}</span></div>
+<div class="time_rt">
+<p class="date_ls">{$live[date]}</p><p class="time_ls">{$live[time]}</p>
+<p><a id='btn_css' href="javascript:void(0)" class="btn_tm_show {$live[btn_css]}" onclick="showMainPublishBox('{$live[btn_css]}','live','{$live[lid]}');">我要{$live[str]}</a></p>
+</div>
+</div>
+</div>
+
+<div class="talkside">
+<div class="column">
+	<h3>直播简介</h3>
+	<ul class="sideul" style="margin-bottom:15px;">{$live[description]}</ul>
+</div>
+<div class="column">
+	<h3>主持人</h3>
+	<ul class="followList act_ul">
+	<!--{loop $live[host] $user}-->
+	  <li class="pane">
+  	    <div class="fBox_l">
+  	        <a href="index.php?mod={$user[username]}" title="{$user[nickname]}">
+  	          <img src="{$user[face]}" title="{$user[nickname]}" onerror="javascript:faceError(this);" width="60" height="60">
+  	        </a>
+  	      </div>
+		  <div class="fBox_r">
+		  <p class="ff_1 w_num"><a href="index.php?mod={$user[username]}" title="{$user[nickname]}">{$user[nickname]}</a>{$user[validate_html]}</p>
+		  <p class="ff_1 w_num">粉丝{$user[fans_count]}人</p>
+		  <p class="ff_1">
+		  <!--{if $user[uid] != MEMBER_ID}-->
+		  <!--{if $user[followed]}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','');return false;" class="attention_del"></a></span>
+		  <!--{else}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','add');return false;" class="attention"></a></span>
+		  <!--{/if}-->
+		  <!--{else}-->
+		  <span class="btn_normal">我自己</span>
+		  <!--{/if}-->		  
+		  </p>
+		  </div>
+		  <!--{if $user[description]}-->
+           <p class="user_aboutme">
+           <div class="right_tj_box"> 
+           <div class="right_tj_box_arrow"><i class="out">◆</i><i class="inside">◆</i></div> 
+           <span>个人介绍：{$user[description]}</span> 
+           </div>
+           </p>
+          
+		  <!--{/if}-->
+  	  </li>
+	<!--{/loop}-->
+	</ul>
+</div>
+<div class="column">
+	<h3>重要嘉宾</h3>
+	<ul class="followList act_ul">
+	<!--{loop $live[guest] $user}-->
+	  <li class="pane">
+  	    <div class="fBox_l">
+  	        <a href="index.php?mod={$user[username]}" title="{$user[nickname]}">
+  	          <img src="{$user[face]}" title="{$user[nickname]}" onerror="javascript:faceError(this);" width="60" height="60">
+  	        </a>
+  	      </div>
+		  <div class="fBox_r">
+		  <p class="ff_1 w_num"><a href="index.php?mod={$user[username]}" title="{$user[nickname]}">{$user[nickname]}</a>{$user[validate_html]}</p>
+		  <p class="ff_1 w_num">粉丝{$user[fans_count]}人</p>
+		  <p class="ff_1">
+		  <!--{if $user[uid] != MEMBER_ID}-->
+		  <!--{if $user[followed]}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','');return false;" class="attention_del"></a></span>
+		  <!--{else}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','add');return false;" class="attention"></a></span>
+		  <!--{/if}-->
+		  <!--{else}-->
+		  <span class="btn_normal">我自己</span>
+		  <!--{/if}-->
+		  </p>
+		  </div>
+		  <!--{if $user[description]}-->
+           <p class="user_aboutme">
+           <div class="right_tj_box"> 
+           <div class="right_tj_box_arrow"><i class="out">◆</i><i class="inside">◆</i></div> 
+           <span>嘉宾介绍：{$user[description]}</span> 
+           </div>
+           </p>
+          
+          
+		  <!--{/if}-->
+  	  </li>
+	<!--{/loop}-->
+	</ul>
+</div>
+<!--{if $live[media]}-->
+<div class="column">
+	<h3>合作媒体</h3>
+	<ul class="followList act_ul">
+	<!--{loop $live[media] $user}-->
+	  <li class="pane">
+  	    <div class="fBox_l">
+  	        <a href="index.php?mod={$user[username]}" title="{$user[nickname]}">
+  	          <img src="{$user[face]}" title="{$user[nickname]}" onerror="javascript:faceError(this);" width="60" height="60">
+  	        </a>
+  	      </div>
+		  <div class="fBox_r">
+		  <p class="ff_1 w_num"><a href="index.php?mod={$user[username]}" title="{$user[nickname]}">{$user[nickname]}</a>{$user[validate_html]}</p>
+		  <p class="ff_1 w_num">粉丝{$user[fans_count]}人</p>
+		  <p class="ff_1">
+		  <!--{if $user[uid] != MEMBER_ID}-->
+		  <!--{if $user[followed]}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','');return false;" class="attention_del"></a></span>
+		  <!--{else}-->
+		  <span class="follow_{$user[uid]}"><a href="javascript:void(0)" onclick="follow({$user[uid]},'follow_{$user[uid]}','add');return false;" class="attention"></a></span>
+		  <!--{/if}-->
+		  <!--{else}-->
+		  <span class="btn_normal">我自己</span>
+		  <!--{/if}-->
+		  </p>
+		  </div>
+		  <!--{if $user[description]}-->
+          <p class="user_aboutme">
+           <div class="right_tj_box"> 
+           <div class="right_tj_box_arrow"><i class="out">◆</i><i class="inside">◆</i></div> 
+           <span>媒体简介：{$user[description]}</span> 
+           </div>
+           </p>
+          
+          
+		  <!--{/if}-->
+  	  </li>
+	<!--{/loop}-->
+	</ul>
+</div>
+<!--{/if}-->
+<div class="column">
+	<h3><!--{if $live_count >5}--><span><a href="index.php?mod=live">更多>></a></span><!--{/if}-->直播列表</h3>
+	<ul class="live_list_side">
+	<!--{loop $live_list $val}-->
+	<li>
+	<p><a href="index.php?mod=live&code=view&id={$val[lid]}" target="_blank" title="{$val[livename]}">{$val[shortname]}</a>&nbsp;({$val[status]})</p>
+	<p>主持人：<!--{loop $val[host] $user}--><a href="index.php?mod={$user[username]}" title="{$user[description]}" target="_blank">{$user[nickname]}</a><!--{/loop}--></p>
+	<p>时间：{$val[ldate]}</p>
+	</li>
+	<!--{/loop}-->
+	</ul>
+</div>
+<div class="column">
+	<h3>微直播合作</h3>
+	<ul class="sideul" style=" margin-bottom:15px;">
+	<!--{if $live_config[ads]}-->{$live_config[ads]}<!--{/if}-->
+	</ul>
+</div>
+</div>
+</div>
+</div>
+
+{template "topic_footer"}

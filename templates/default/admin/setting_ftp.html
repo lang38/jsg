@@ -1,0 +1,181 @@
+<!--{template admin/header}-->
+<script type="text/JavaScript">
+		var rowtypedata = [
+			[
+				[1,'', 'td2'],
+				[1, '<select name="newftp[type][]"><option value="FTP">普通FTP</option><option value="Aliyun">阿里云</option><option value="Upyun" disabled=true>又拍云</option><option value="99Pan" disabled=true>私有云</option></select>', 'td2'],
+				[1, '<input type="text" name="newftp[host][]" value="" style="width:200px; height:15px;"/>', 'td2'], 
+				[1, '<input name="newftp[port][]" value="" type="text" style="width:50px; height:15px;"/>', 'td2'],
+				[1, '<input name="newftp[username][]" value="" type="text" style="width:200px; height:15px;"/>', 'td2'],
+				[1, '<input name="newftp[password][]" value="" type="password" style="width:200px; height:15px;"/>','td2'],
+				[1,'','td2'],
+				[1,'','td2'],
+				[1,'','td2']
+			],
+		];
+		
+		var addrowdirect = 0;
+		function addrow(obj, type) {
+			var table = obj.parentNode.parentNode.parentNode;
+			if(!addrowdirect) {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex);
+			} else {
+				var row = table.insertRow(obj.parentNode.parentNode.rowIndex + 1);
+			}
+			var typedata = rowtypedata[type];
+			for(var i = 0; i <= typedata.length - 1; i++) {
+				var cell = row.insertCell(i);
+				cell.colSpan = typedata[i][0];
+				var tmp = typedata[i][1];
+				if(typedata[i][2]) {
+					cell.className = typedata[i][2];
+				}
+
+				tmp = tmp.replace(/\{(\d+)\}/g, function($1, $2) {return addrow.arguments[parseInt($2) + 1];});
+				cell.innerHTML = tmp;
+			}
+			addrowdirect = 0;
+		}
+	</script>
+<table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+  <tr class="header">
+    <td>技巧提示</td>
+  </tr>
+  <tr class="altbg1">
+    <td><ul>
+        <li>1、开启本功能后，会将用户上载的图片、头像以及附件文档上传到远程服务器上，便于实施附件与程序分离。</li>
+        <li>2、从记事狗V4开始，支持多FTP服务器负载均衡和阿里云存储（简称OSS）（推荐使用<a href="javascript:" onclick="window.open('http://www.aliyun.com/cps/rebate?from_uid=q1TkC72juVyni9gAg5Uf7kHWF7PhHca/');">阿里云服务器</a>）。</li>
+      </ul></td>
+  </tr>
+</table>
+<form method="post" name="ftp" action="admin.php?mod=setting&code=do_modify_ftp">
+  <a name="远程附件设置"></a>
+<!--{if $do!='edit'}-->
+ <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+     <tr class="header">
+      <td colspan="9">远程附件列表</td>
+    </tr>
+	<tr class="altbg1">
+      <td width="40"><label><input type="checkbox" id="chkall" class="checkbox" onclick="checkall(this.form, 'ids')" name="chkall">删</label></td>
+	  <td width="8%"><b>类型:</b></td>
+      <td width="20%"><b>空间地址:</b><br>
+        <span class="smalltxt">FTP服务器请填写其域名或者IP地址<br>阿里云OSS默认为：oss.aliyuncs.com</span>
+      </td>      
+      <td width="8%"><b>连接端口:</b><br>
+        <span class="smalltxt">FTP默认为21<br>OSS默认为80</span>
+      </td>      
+      <td width="20%"><b>连接帐号:</b><br>
+        <span class="smalltxt">FTP帐号必须具有读写权限<br>OSS为：Access Key ID</span>
+      </td>      
+      <td width="15%"><b>连接密码:</b><br>
+        <span class="smalltxt">FTP帐号对应的密码<br>OSS为：Access Key Secret</span>
+      </td>
+	  <td width="8%">负载均衡比</td>
+	  <td width="8%">是否开启</td>
+      <td></td>
+    </tr>
+	<!--{if $ftp}-->
+    <!--{loop $ftp $k $v}-->
+    <tr>
+      <td><input class="checkbox" type="checkbox" value="{$k}" name="ids[]" size="10">删</td>
+	  <td>{$v[type]}</td>
+      <td>{$v[host]}</td>
+      <td>{$v[port]}</td>
+      <td>{$v[username]}</td>
+      <td><!--{if $v[password]}-->******<!--{/if}--></td>
+	  <td><!--{if $v[on]}-->{$v[priority]}<!--{else}-->---<!--{/if}--></td>
+      <td>{$v[status]}</td>
+	  <td><a href="admin.php?mod=setting&code=modify_ftp&do=edit&key={$k}">编辑</a></td>
+    </tr>
+    <!--{/loop}-->
+	<!--{/if}-->
+    <tr>
+      <td colspan="9"><a href="javascript:void(0);" onclick="addrow(this,0)" class="addtr">点此添加FTP服务器</a></td>
+    </tr>
+  </table>
+<!--{else}-->
+  <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+    <tr class="header">
+      <td colspan="2">远程附件设置<input type="hidden" name="ftp_key" value="{$ftp_key}"><input type="hidden" name="ftp[type]" value="{$ftp[type]}"><input type="hidden" name="do" value="edit"></td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>是否开启？</b><br>
+      <span class="smalltxt"></span>
+      </td>
+      <td class="altbg2">{$ftp_on_radio}</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>启用SSL？</b><br>
+      <span class="smalltxt">注意：FTP服务器必需开启 SSL</span>
+      </td>
+      <td class="altbg2">{$ftp_ssl_radio}</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>{$ftp_language[$ftp[type]][host][0]}:</b><br>
+        <span class="smalltxt">{$ftp_language[$ftp[type]][host][1]}</span></td>
+      <td class="altbg2"><input type="text" size="40" name="ftp[host]" value="{$ftp[host]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>{$ftp_language[$ftp[type]][port][0]}:</b><br>
+        <span class="smalltxt">{$ftp_language[$ftp[type]][port][1]}</span></td>
+      <td class="altbg2"><input type="text" size="6" name="ftp[port]" value="{$ftp[port]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>{$ftp_language[$ftp[type]][username][0]}:</b><br>
+        <span class="smalltxt">{$ftp_language[$ftp[type]][username][1]}</span></td>
+      <td class="altbg2"><input type="text" size="40" name="ftp[username]" value="{$ftp[username]}">
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%"><b>{$ftp_language[$ftp[type]][password][0]}:</b><br>
+        <span class="smalltxt">{$ftp_language[$ftp[type]][password][1]}</span></td>
+      <td class="altbg2"><input type="password" size="40" name="ftp[password]" <!--{if $ftp[password]}-->value="请输入FTP密码"<!--{/if}-->>
+      </td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>被动模式(pasv)连接？</b><br>
+      <span class="smalltxt">一般情况下非被动模式即可，如果存在上传失败问题，可尝试打开此设置</span>
+      </td>
+      <td class="altbg2">{$ftp_pasv_radio}</td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>{$ftp_language[$ftp[type]][dir][0]}</b><br>
+      <span class="smalltxt">{$ftp_language[$ftp[type]][dir][1]}</span>
+      </td>
+      <td class="altbg2"><input type="text" size="40" name="ftp[attachdir]" value="{$ftp[attachdir]}" /></td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>{$ftp_language[$ftp[type]][url][0]}</b><br>
+      <span class="smalltxt">{$ftp_language[$ftp[type]][url][1]}</span>
+      </td>
+      <td class="altbg2"><input type="text" size="40" name="ftp[attachurl]" value="{$ftp[attachurl]}" /></td>
+    </tr>
+    <tr>
+      <td class="altbg1" width="45%" width="45%">
+      <b>FTP传输超时时间</b><br>
+      <span class="smalltxt">单位：秒，0 为服务器默认</span>
+      </td>
+      <td class="altbg2"><input type="text" size="6" name="ftp[timeout]" value="{$ftp[timeout]}" /></td>
+    </tr>
+	<tr>
+      <td class="altbg1" width="45%"><b>负载均衡级别:</b><br>
+        <span class="smalltxt">当开启多个FTP服务器时，级别越高，使用概率越高。建议填写1至10之间的阿拉伯数字。</span></td>
+      <td class="altbg2"><input type="text" size="6" name="ftp[priority]" value="{$ftp[priority]}">
+      </td>
+    </tr>
+  </table>
+<!--{/if}-->
+  <br>
+  <center>
+    <input class="button" type="submit" name="settingsubmit" value="提 交">
+  </center>
+  <br>
+</form>
+<br>

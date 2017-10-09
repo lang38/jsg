@@ -1,0 +1,41 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+
+<div class="main" id="mainWrapper" style="background-image:none;">
+ <div class="mainWrap ">
+      <!--{if $this->Get[ids] == ''}-->
+      <div class="u-title">
+      <span class="mleft">网站公告</span>
+      </div>     
+	  <!--{loop $list_notice $val}-->
+	  <!--{eval $No++}-->
+	  <div style="padding:10px;"><a href="index.php?mod=other&code=notice&ids={$val[id]}">{$No}. {$val[title]}</a></div>
+	  <!--{/loop}-->
+	  <p style="text-align:right">{$page_arr[html]}</p>
+      <!--{else}-->	  
+      <div class="u-title"> 
+      <span class="mleft">{$title}</span>
+      </div>      
+	  {$content}
+	  <p style="text-align:right">发布于：{$dateline}</p>
+      <!--{/if}-->	  
+ </div>
+ 
+ <div class="sideBar">
+ <!--{if $this->Get[ids] != ''}-->
+  <!--网站公告-->
+  <div class="column">
+  <h3>{$this->Config[site_name]}网站公告 </h3>
+  <ul class="sideul">
+	<!--{loop $list_notice $val}-->
+	  <li><a title="{$val[title]}" href="index.php?mod=other&code=notice&ids={$val[id]}">{$val[titles]}</a></li>
+	<!--{/loop}-->
+	</ul>
+  </div>
+ <!--{/if}-->	
+  </div>
+</div>
+
+</div>
+</div>
+{template "topic_footer"}

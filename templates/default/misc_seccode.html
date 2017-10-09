@@ -1,0 +1,30 @@
+<div class="m-dialog">
+  <form onsubmit="return false;" onkeydown="if(event.keyCode==13) seccodeLogin();">
+    <div class="dili"> 验证码：
+      <input id="d_seccode_input" type="text" style="width:80px;"/>
+      <span class="ml10"><a href="javascript:updateSeccode('d_seccode_input');">换一换</a></span> <span id="check_seccode_tips" class="ml11"></span> </div>
+      <style type="text/css">.u-verify img{ margin:5px 0 15px 60px; vertical-align:middle;}</style>
+    <div id="sec_wp" class="u-verify"></div>
+    <div class="m-btn">
+      <button type="button" class="u-btn" onclick="seccodeLogin();">登 录</button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		seccode({"id":"d_seccode_input","wp":"sec_wp"});
+		$("#d_seccode_input").blur(function(){
+			checkSeccode($("#d_seccode_input").val());
+		});
+		$("#d_seccode_input").focus();
+	});
+	
+	function seccodeLogin()
+	{
+		var success = function () {
+			$('#seccode_input').val($("#d_seccode_input").val());
+			guestLoginSubmit();
+		};
+		checkSeccode($("#d_seccode_input").val(), {"success":success});
+	}
+</script>

@@ -1,0 +1,1093 @@
+{template "topic_header"}
+<script type="text/javascript" src="static/js/validate.js"></script>
+<script type="text/javascript" src="static/js/cp.js"></script>
+<div class="setframe">
+{template 'setting/setting_main_left.inc'}
+<div class="setframeWrap">
+<div class="set_warp" style="_width:750px;">
+  <!--{if 'vest' == $act}-->
+  <h3>马甲帐号</h3>
+    <div class="c_m">
+      <div class="c_m_t">马甲帐号可以让您非常方便的在几个帐号中快速切换，<br>
+	   添加马甲帐号后，您可以在顶部导航条中：我的昵称下进行切换。<br><br>
+	  添加马甲帐号：</div>
+      <div class="c_m_d">
+          <form action="index.php?mod=settings&code=setvest" method="post" name="FORM">
+            <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+              <tr>
+                <td width="100px"><span>帐号昵称：</span></td>
+                <td><input type="text" name="username"></td>
+              </tr>
+              <tr>
+                <td><span>帐号密码：</span></td>
+                <td><input type="password" name="password"></td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="submit" name="SUBMIT" value="提 交" class="u-btn"></td>
+              </tr>
+            </table>
+          </form>
+        </div>
+        
+      <div class="c_m_t">已有马甲帐号：</div>
+      <div class="c_m_d">
+        <ul class="vest">
+          <!--{loop $vest $k $v}-->
+          <li class="vestli">
+            <div id="user_{$v['uid']}_user"></div>
+            <a href="index.php?mod=$v['username']"><img onerror="javascript:faceError(this);" width="50px" height="50px;" src="$v['face']" onmouseout="clear_user_choose()" onmouseover="get_user_choose($v['uid'],'_user',$v['uid'])"></a>
+            <p><a href="index.php?mod=$v['username']">$v['nickname']</a></p>
+            <!--{if $v['uid'] == $v['useruid']}-->
+            <p><b style="color:#f00;">马甲添加人</b></p>
+            <!--{elseif $v['useruid'] == MEMBER_ID}-->
+            <p><a href="index.php?mod=settings&code=vestcancel&uid={$v['uid']}">[解除马甲]</a></p>
+            <!--{/if}-->
+          </li>
+          <!--{/loop}-->
+        </ul>
+      </div>
+    </div>
+  <!--{elseif 'sendmail' == $act}-->
+  <h3>邮件提醒</h3>
+    <!--{if $member['email_checked'] == 0}-->
+	<div class="c_m">
+        <div class="c_m_t">要进行邮件提醒设置，您首先需要激活您的邮箱</div>
+        <div class="c_m_d">
+          <p>填写您常用的邮箱，系统会给您的邮箱发送一封含有激活链接的邮件，点击激活链接即可；</p>
+          <p>
+            <!--{if $member['email']}-->
+            <a href="index.php?mod=settings&code=email_check">点此发送验证邮件到 {$member['email']}</a>
+            <br>
+            <!--{/if}-->
+			<!--{if !$this->Config['ldap_enable']}-->
+            <a onclick="getElementById('check_email').style.display=(getElementById('check_email').style.display=='none')?'':'none'" href="javascript:void(0);">点此修改邮箱地址</a>
+			<!--{/if}-->
+          </p>
+		  <div id="check_email" style="display:none;">
+			<form action="index.php?mod=settings&code=editEmail" method="POST">
+			<table width="300" border="0" align="center" cellpadding="0" cellspacing="0">
+			  <tr>
+				<td height="30" align="left"><b>填写新的邮箱，重新发送验证。</b></td>
+			  </tr>
+			  <tr>
+				<td height="30" align="left"><input type="text" name="email" id="email" value="" /></td>
+			  </tr>
+			  <tr>
+				<td height="30" align="left"><input type="submit" name="Submit" value="修改并发送" onclick="this.disable ='true';"/></td>
+			  </tr>
+			  </table>
+			</form>
+		  </div>
+        </div>
+      </div>     
+    <!--{else}-->
+	 <div class="c_m">
+        <div class="c_m_d">系统会在您超过{$this->Config['sendmailday']}天没有登录站点时，自动给您发送提醒邮件；<br>
+		另外，当您收到如下信息时，可选择让系统给您发邮件提醒。</div>
+        <div class="c_m_tips"></div>
+        <div>
+          <form action="index.php?mod=settings&code=setSendEmail" method="post">
+            <div class="c_m_f">
+
+            <table cellspacing="1" cellpadding="4" width="100%" align="center" class="tableborder">
+              <tr>
+                <td width="100px">邮件提醒类别：</td>
+                <td>
+                  <label class="label"><input type="checkbox" name="sendmail[notice_pm]" value="1" {eval if($member['notice_pm']) echo 'checked'}>新私信</label>
+                  <label class="label"><input type="checkbox" name="sendmail[notice_reply]" value="1" {eval if($member['notice_reply']) echo 'checked'}>新评论</label>
+                  <label class="label"><input type="checkbox" name="sendmail[notice_at]" value="1" {eval if ($member['notice_at']) echo 'checked'}>@提到我</label>
+                  <label class="label"><input type="checkbox" name="sendmail[notice_fans]" value="1" {eval if ($member['notice_fans']) echo 'checked'}>新粉丝</label>
+                  <label class="label"><input type="checkbox" name="sendmail[notice_event]" value="1" {eval if ($member['notice_event']) echo 'checked'}>活动参与</label>
+				  <label class="label"><input type="checkbox" name="sendmail[notice_email]" value="1" {eval if ($member['email_checked']==1) echo 'checked'}>系统邮件</label>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>邮件提醒频率：</td>
+                <td>
+                  <select name="sendmail[user_notice_time]">
+                    <option value="1" {$sendtime['1']}>实时发送</option>
+                    <option value="2" {$sendtime['2']}>每天一次</option>
+                    <option value="3" {$sendtime['3']}>每周一次</option>
+                    <option value="4" {$sendtime['4']}>每月一次</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input type="submit" value="提 交" class="u-btn"></td>
+              </tr>
+            </table>
+            </div>
+          </form>
+        </div>
+      </div> 
+    <!--{/if}-->
+  <!--{elseif 'secret'==$act}-->
+  <!--{if $this->Config['ldap_enable']}-->
+  <h3>修改密码</h3>网站启用AD域帐号登录，不支持用户对密码进行任何操作。
+  <!--{else}-->
+  <h3>修改密码<span>（<i class="W_spetxt">*</i> 为必填项）</span></h3>
+	<form method="POST" id="get_psd" action="index.php?mod=settings&code=do_modify_password" onSubmit="return Validator.Validate(this,3);">
+		<table width="100%" border="0">
+		  <tr>
+		<td width="110" align="right" valign="middle">当前登录密码：</td>
+		<td><input name="password_old" dataType="LimitB" min="3" msg="修改本页信息，必须输入当前登录密码" type="password"  class="p1"/>
+		<em class="q">（必填）</em></td>
+		  </tr>
+		  <tr>
+			<td align="right" valign="middle">设置新的密码：</td>
+			<td><input name="password_new1" require="false" dataType="LimitB" min="5" msg="新密码过短，请设置5位以上" type="password"  class="p1"/>
+			<em class="q">（如不修改请留空即可）</em></td>
+		  </tr>
+		  <tr>
+			<td align="right" valign="middle">确认新的密码：</td>
+			<td><input name="password_new2" dataType="Repeat" to="password_new1" msg="两次输入的密码不一致" type="password"  class="p1"/></td>
+		  </tr>
+
+		  <tr>
+			<td align="right" valign="middle">&nbsp;</td>
+			<td>
+			<!--{if $this->Config['seccode_password'] && $this->yxm_title}-->
+			<input type="hidden" name="add_YXM_input_result" id="add_YXM_input_result">
+			<input type="hidden" name="add_YXM_level" id="add_YXM_level">
+			<input type="hidden" name="add_YinXiangMa_challenge" id="add_YinXiangMa_challenge">
+			<input type="button" class="u-btn" value="保 存" onclick="YXM_submit(this,'get_psd','getpsd','{$this->yxm_title}');"/>
+			<!--{else}-->
+			<input type="submit" class="u-btn" value="保 存" />
+			<!--{/if}-->
+			<em class="q"> （修改上述信息需要重新登录）</em></td>
+		  </tr>
+		</table>
+	</form>
+	<div style="font-size:12px; color:#999;">
+		<BR />如忘记了登录密码，可通过如下方式找回：<BR/>
+		1、在登录界面，点<a href="index.php?mod=get_password" target="_blank">取回密码</a>链接，重设密码的邮件会发送到您的登录Email中；<BR />
+		2、请在<a href="index.php?mod=settings">个人资料</a>设置中，填写好真实姓名和证件号码信息，可据此凭证通过客服重设密码。
+	</div>
+	<!--{/if}-->
+
+ 	<!--{elseif 'email'==$act}-->
+ 	<form method="POST" action="index.php?mod=settings&code=modify_email" onSubmit="return Validator.Validate(this,3);">
+		<table width="100%" border="0">
+		  <tr>
+		<td width="110" align="right" valign="middle">当前登录密码：</td>
+		<td><input name="password_old" dataType="LimitB" min="3" msg="修改本页信息，必须输入当前登录密码" type="password"  class="p1"/>
+		（必填）</td>
+		  </tr>
+		  <tr>
+			<td align="right" valign="middle">登录提醒Email：</td>
+			<td><input name="email_new" dataType="Email" msg="请输入正确的Email 地址" type="text" value="{$member[email]}" class="p1" /></td>
+		  </tr>
+		  <tr>
+			<td align="right" valign="middle">&nbsp;</td>
+			<td><input type="submit" class="u-btn" value="保 存" /> （修改上述信息需要重新登录）</td>
+		  </tr>
+		</table>
+	</form>
+
+ <!--上传头像-->
+ <!--{elseif 'face'==$act}-->
+ <h3>修改我的头像</h3>
+ 	<script type="text/javascript">
+		function updateavatar() {
+			$.get('ajax.php?mod=user&code=update_avatar');
+
+			window.location.reload();
+		}
+	</script>
+	<div style=" margin:0">
+		<em class="s">用户头像会显示在<a href="index.php?mod={$member[username]}" target="_blank">个人{$this->Config[changeword][p_weibo]}</a>页面，以及你的{$this->Config[changeword][n_weibo]}中！</em>
+	</div>
+	<!--{if $uc_avatarflash}-->
+
+	<img src="{$member[face_original]}" onerror="javascript:faceError(this);"/>
+	<h2>设置我的新头像</h2>
+	<p>请选择一个新照片进行上传编辑。</p>
+	{$uc_avatarflash}
+
+	<!--{elseif $pwuc_avatarflash}-->
+
+	<img src="{$member[face_original]}" onerror="javascript:faceError(this);"/>
+	<h2>设置我的新头像</h2>
+	<p style="color:#f00;">因系统整合了phpwind，请单击下面的链接进行修改!</p>
+	<p style="margin-top:30px;"><a href="{$pwurl_setuserface}" target="_blank" style="font-size:16px;color:#fff;border:1px solid #e36703; padding:5px 10px;background:#eb8f00;margin-left:60px;text-decoration:none;font-weight:bold;">修改图象</a></p>
+
+
+	<!--{else}-->
+
+    <style type="text/css">
+        .jcrop-holder { text-align: left; margin:10px 0; }
+        .jcrop-vline, .jcrop-hline
+        {font-size: 0;position: absolute;background: white url('./static/image/jcrop.gif') top left repeat;}
+        .jcrop-vline { height: 100%; width: 1px !important; }
+        .jcrop-hline { width: 100%; height: 1px !important; }
+        .jcrop-handle {
+        	font-size: 1px;
+        	width: 7px !important;
+        	height: 7px !important;
+        	border: 1px #eee solid;
+        	background-color: #333;
+        	*width: 9px;
+        	*height: 9px;
+        }
+        .jcrop-tracker { width: 100%; height: 100%; }
+        .custom .jcrop-vline,
+        .custom .jcrop-hline{background: yellow;}
+        .custom .jcrop-handle{border-color: black;background-color: #C7BB00;-moz-border-radius: 3px;-webkit-border-radius: 3px;}
+        .Image {
+			 max-width:600px;height:auto;cursor:pointer;
+			 border-radius:4px;/*margin:15px 0;*/ display:block;
+			 zoom:expression( function(elm) {
+				 if (elm.width>540) {
+					 var oldVW = elm.width; elm.width=540;
+					 elm.height = elm.height*(540 /oldVW);
+				 }
+				 elm.style.zoom = '1';
+			 }(this));
+		 }
+    </style>
+    <script type="text/javascript" src="static/js/jquery.Jcrop.js"></script>
+    <script language="Javascript">
+    	function upload_face()
+    	{
+    		// Remember to invoke within jQuery(window).load(...)
+    		// If you don't, Jcrop may not initialize properly
+    		jQuery(document).ready(function(){
+
+    			jcrop_init();
+
+    		});    		
+    	}        
+        function jcrop_init()
+        {
+            jQuery('#cropbox').Jcrop({
+                    minSize: [ 40, 40 ],
+                    maxSize: [ 600, 600 ],
+                    aspectRatio: 1,
+    				setSelect: [ 0, 0, 200, 200 ],
+    				onChange: jcrop_showCoords,
+    				onSelect: jcrop_showCoords
+    			});
+        }        
+        // Our simple event handler, called from onChange and onSelect
+		// event handlers, as per the Jcrop invocation above
+		function jcrop_showCoords(c)
+		{
+			jQuery('#x').val(c.x);
+			jQuery('#y').val(c.y);
+			jQuery('#w').val(c.w);
+			jQuery('#h').val(c.h);
+		};
+        <!--{if $temp_face}-->
+            upload_face();
+        <!--{/if}-->
+        
+    </script>
+
+
+	<span style="font-size:12px; color:#333; display:block; margin:10px 0;">
+		选择头像图片 <em class="q">(支持jpg、png、gif格式的图片，大小<i style="color:#ff0000">2M</i>以内)</em>
+		
+	</span>
+
+	<div>
+	<div>
+		<iframe id="uploadface" name="uploadface" width="0" height="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+		<form method="post" action="ajax.php?mod=upload&code=face" enctype="multipart/form-data" name="face_form" target="uploadface" id="face_form">
+            <input type="hidden" id="temp_face" name="temp_face" value="{$temp_face}" />
+		    <input id="idFile" style="padding:0;" name="face" type="file" onchange="idFileChange();"/>
+		</form>
+		<script type="text/javascript">
+			function idFileChange() {
+				{if ($member[face_original] && !$this->Config['edit_face_enable'])}
+				show_message('本站不允许用户修改头像');
+				return false;
+				{/if}
+				
+				var idv = $('#idFile').val();
+				if('' == idv || false == /\.(gif|jpg|jpeg|png)$/i.test(idv)) {
+					show_message('请选择正确的图片类型');
+					return false;
+				} else {
+					document.getElementById('face_form').submit();
+					show_message('正在上传头像，请不要刷新页面');	
+				}						
+			}
+		</script>
+	</div><br />
+
+
+        <span id="jcrop_init_id" onclick="jcrop_init();"></span>
+		<div style="margin:15px 0;">用鼠标在头像上拖拉选择剪裁区域，最后点确认剪裁完成修改<br />
+		<img src="{$member[face_original]}" id="cropbox" onclick="upload_face();" border="0" alt="" class="Image" /></div>
+        
+		<form action="index.php?mod=settings&code=do_modify_face" method="post" id="crop_form">
+			<input type="hidden" id="x" name="x" />
+			<input type="hidden" id="y" name="y" />
+			<input type="hidden" id="w" name="w" />
+			<input type="hidden" id="h" name="h" />
+			<input name="img_path" value="{$temp_face}" type="hidden" id="img_path" />
+
+			<input type="submit" value="确认剪裁" id="crop_submit" class="u-btn" />
+			<input type="button" value="取消" class="u-btn u-btn-c4" onclick="updateavatar();" />
+		</form><br />
+		<em class="s">修改头像后如果没有立即生效，请按Ctrl+F5强制刷新即可</em>
+	</div>
+<!--{/if}-->
+
+
+<!--{elseif 'base'==$act}-->
+<h3>个人资料<span>( <i>*</i> 必须填写项 )</span></h3>
+<div class="Menulink">
+  <ul>
+      <!--{eval if($op == '') $class="selected"}-->
+      <a href="index.php?mod=settings&code=base" class="$class">我的资料</a>
+      <!--{loop $groupProfile $k $v}-->
+      <!--{eval $class=""; if($k==$op) $class="selected"}-->
+      <a href="index.php?mod=settings&code=base&op=$k" title="$v['title']" class="$class">{$v['title']}</a>
+      <!--{/loop}-->
+  </ul>
+</div>
+<!--{loop $groupProfile $k $v}-->
+  <!--{eval $style = ''; if($op != $k) $style='style="display:none"'}-->
+  <div {$style}>
+    <form method="POST" name="profile_base" action="index.php?mod=settings&code=do_modify_profile&op=$op">
+      <table width="100%" border="0">
+        <!--{loop $v['list'] $key $val}-->
+        <tr>
+          <td width="110" align="right" valign="middle">$val['title']：&nbsp;&nbsp;</td>
+          <td class="base_input">
+            <!--{if $val['formtype'] == 'text'}-->
+            <input type="text" name="{$key}" class="p1" value="$member[$key]">
+            <!--{elseif $val['formtype'] == 'select'}-->
+              <!--{if $val['choices']}-->
+	            <select name="{$key}" class="select">
+	              <!--{eval $choices = explode("\r\n",$val['choices']);}-->
+	              <!--{loop $choices $s_k $s_v}-->
+	              <!--{eval list($v1,$v2)=explode("|",$s_v);$v2 || $v2=$v1;$select='';if($v1 == $member[$key]) $select="selected"}-->
+	              <option value="{$v1}" $select>{$v2}</option>
+	              <!--{/loop}-->
+	            </select>
+              <!--{elseif ('birthcity' == $key)}-->
+				  <div style="float:left;">
+	                {$b_province_list}
+	              </div>
+	              <div style="float:left;">
+	                <select id="b_city" name="b_city" onchange="changeCity('b');">
+	                <option value="0">请选择</option>
+					</select>
+	              </div>
+	              <div style="float:left;">
+	                <select id="b_area" name="b_area" onchange="changeArea('b');" style="display: none">
+	                <option value="0">请选择</option>
+					</select>
+	              </div>
+	              <div style="float:left;">
+	                <select id="b_street" name="b_street" style="display: none">
+	                <option value="0">请选择</option>
+					</select>
+	              </div>
+	              <input type="hidden" id="b_hid_city" name="b_hid_city" value="$b_city">
+	              <input type="hidden" id="b_hid_area" name="b_hid_area" value="$b_area">
+	              <input type="hidden" id="b_hid_street" name="b_hid_street" value="$b_street">
+	              <!--{if $op == $k}-->
+	              <script type="text/javascript">
+	              $(document).ready(function(){changeProvince('b');})
+	              </script>
+	              <!--{/if}-->
+              <!--{/if}-->
+            <!--{elseif $val['formtype'] == 'textarea'}-->
+            <textarea name="{$key}">$member[$key]</textarea>
+            <!--{elseif $val['formtype'] == 'date'}-->
+              <script src="static/js/date/WdatePicker.js" type="text/javascript"></script>
+              <input class="p1" type="text" name="$key" value="{$member[$key]}" readonly onFocus="WdatePicker({startDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true})"/>
+            <!--{else}-->
+            <!--{/if}-->
+          </td>
+          <td align="right" style="float:left;" class="base_select">
+            <select name="privacy[$key]">
+              <option value="0" >公开</option>
+			  <option value="1" <!--{eval if($privacy[$key] == 1) echo "selected"}-->>好友可见</option>
+			  <option value="2" <!--{eval if($privacy[$key] == 2) echo "selected"}-->>保密</option>
+            </select>
+          </td>
+        </tr>
+        <!--{/loop}-->
+        <tr>
+          <td></td>
+          <td><input type="submit" value="提 交" class="u-btn" ></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+<!--{/loop}-->
+<!--{eval $style = ''; if($op != '') $style='style="display:none"'}-->
+<div $style>
+<script type="text/javascript"> 
+$(function(){ 
+    $("#nickname_input").focus(function(){$(".R_tt1").show();}).blur(function(){$(".R_tt1").hide();});
+});
+</script>
+
+	<form method="POST" name="profile_base" action="index.php?mod=settings&code=do_modify_profile" onSubmit="return Validator.Validate(this,3);">
+	<table width="100%" border="0">
+	<!--{if $this->Config[company_enable]}-->
+	  <tr>
+	    <td width="110" align="right" valign="middle">所属{$d_c_name}：</td>
+	    <td><input type="hidden" name="companyid" id="companyid" value="{$member[companyid]}">{$companyselect} <!--{if $member[companyid]}-->(若与您实际情况不符，请与地区内勤联系修改)<!--{/if}--></td>
+	  </tr>
+	  <!--{if $this->Config[department_enable]}-->
+	  <tr>
+	    <td width="110" align="right" valign="middle">所在{$d_d_name}：</td>
+	    <td><input type="hidden" name="departmentid" id="departmentid" value="{$member[departmentid]}"><div style="float:left" id="departmentselect">{$departmentselect}</div> <!--{if $member[departmentid]}-->(若与您实际情况不符，请与地区内勤联系修改)<!--{/if}--></td>
+	  </tr>
+	  <!--{/if}-->
+	  <tr>
+	    <td width="110" align="right" valign="middle">所属{$d_j_name}：</td>
+	    <td><input type="hidden" name="jobid" id="jobid" value="{$member[jobid]}">{$jobselect} <!--{if $member[jobid]}-->(若与您实际情况不符，请与地区内勤联系修改)<!--{/if}--></td>
+	  </tr>
+	  <!--{if $morcompanys}-->
+	  <tr><td width="110" align="right" valign="middle">其它任职：</td><td style="border:1px solid #edeaee;">
+	  <!--{loop $morcompanys $c_v}-->
+	  <li style="margin:5px 20px; border-bottom:1px dashed #edeaee">{$c_v[company]}&nbsp;&nbsp;{$c_v[department]}&nbsp;&nbsp;{$c_v[job]}</li>
+	  <!--{/loop}-->
+	  </td></tr>
+	  <!--{/if}-->
+	<!--{/if}-->
+	  <tr>
+	    <td width="110" align="right" valign="top">帐户/昵称：</td>
+	    <td>
+		<input name="nickname" id="nickname_input" type="text"  class="p1"  value="{$member_nickname}" readonly disabled />
+		<em class="q">（用于登录、显示、@通知和发送站内信，
+		<A HREF="index.php?mod=settings&code=base#modify_email_area">点此修改</A>）</em>
+		<!--{if $member[validate]}-->
+        <em class="s">提醒：申请<a href="index.php?mod=other&code=vip_intro" target="_blank">V认证</a>后，禁止再修改昵称</em>
+		<!--{/if}-->
+		</td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="middle">Email 邮箱：</td>
+	    <td><input name="email" type="text" value="{$member[email]}" class="p1"  readonly disabled />
+		<em class="q">（用于登录、<A HREF="index.php?mod=settings&code=sendmail">提醒</A>
+		<!--{if !$this->Config['ldap_enable']}-->
+		和<a href="index.php?mod=get_password" target="_blank">取回密码</A>，
+		<A HREF="index.php?mod=settings&code=base#modify_email_area">点此修改</A>
+		<!--{else}-->
+		[<font color="red">AD域帐号登录，禁止修改</font>]
+		<!--{/if}-->
+		）</em>
+		<!--{if $member[email2]}-->
+		<br><font color="red">新邮箱($member[email2])等待验证中...</font>
+		<br>系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。
+		<br>如果没有收到验证邮件，您可以更换一个邮箱，或者<a href="index.php?mod=settings&code=email_check">重新接收验证邮件</a>
+		<!--{/if}-->
+		</td>
+	  </tr>
+
+	  <tr>
+	    <td align="right" valign="middle"><span class="W_spetxt">*</span> 所在地区：</td>
+	    <td>
+			<div style="float:left;">
+                {$province_list}
+              </div>
+              <div style="float:left;">
+                <select id="city" name="city" onchange="changeCity();">
+                <option value="0">请选择</option>
+				</select>
+              </div>
+              <div style="float:left;">
+                <select id="area" name="area" onchange="changeArea();" style="display: none">
+                <option value="0">请选择</option>
+				</select>
+              </div>
+              <div style="float:left;">
+                <select id="street" name="street" style="display: none">
+                <option value="0">请选择</option>
+				</select>
+              </div>
+              <input type="hidden" id="hid_city" name="hid_city" value="$hid_city">
+              <input type="hidden" id="hid_area" name="hid_area" value="$hid_area">
+              <input type="hidden" id="hid_street" name="hid_street" value="$hid_street">
+              <div><em class="q">（设置后，其他人会通过<a href="index.php?mod=profile&code=search" target="_blank">找人</a>找到你）</em></div>
+	</td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="middle"><span class="W_spetxt">*</span> 用户性别：</td>
+	    <td>{$gender_radio}</td>
+	  </tr>
+	  <!--{if $member[invite_uid] || $this->Config[register_invite_input2]}-->
+	  <tr>
+	    <td align="right" valign="middle"> 我的推荐人：</td>
+	    <td>
+	    <!--{if $member[invite_uid]}-->
+	    	<!--{eval $_invite_member = jsg_member_info($member[invite_uid]);}-->	    	
+	    	<input type="text" name="invite_nickname" value="{$_invite_member[nickname]}" class="p1" readonly disabled />
+	    	（<a href="index.php?mod={$_invite_member[username]}" title="推荐人： {$_invite_member[nickname]}">点此访问 {$_invite_member[nickname]}的个人{$this->Config[changeword][p_weibo]}页面）{$_invite_member[nickname]}</a>
+	    <!--{elseif $this->Config[register_invite_input2]}-->
+	    	<input type="text" name="invite_nickname" value="" class="p1" />
+	    	<em class="q">（推荐我注册的用户、填写后不允许再修改）</em>
+	    <!--{else}-->
+	    	 - 
+	    	 <em class="q">（您没有推荐人）</em>
+	    <!--{/if}-->
+	    </td>
+	  </tr>
+	 <!--{/if}-->
+	  <tr>
+	    <td align="right" valign="top">自我介绍：</td>
+	    <td><textarea name="aboutme">{$member[aboutme]}</textarea><br /><em class="q">（会在你的<a href="index.php?mod={$member[username]}" target="_blank">个人{$this->Config[changeword][p_weibo]}</a>页面右侧看到）</em></td>
+	  </tr>
+	  <tr>
+	  <td colspan="2">
+
+	 <div class="tagg2">以下信息将作为通过客服取回帐号的依据
+	    <!--{if !$member[validate_true_name] || !$member[validate_card_type] || !$member[validate_card_id]}-->
+	    ，请认真填写
+	    <!--{/if}-->
+		</div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="middle">真实姓名：</td>
+	    <td>
+	    <!--{if $member[validate_user]}-->
+	    {$member[validate_user]}
+	    <!--{else}-->
+	    <input type="text" name="validate_true_name" value="{$memberfields[validate_true_name]}" class="p1" />
+	    <!--{/if}--><em class="q">（不会对外部公开，其他人看不到）</em>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="middle">证件类型：</td>
+	    <td>
+	    <!--{if $member[validate_card_type]}-->
+	    {$memberfields[validate_card_type]}
+	    <!--{else}-->
+	    {$validate_card_type_select}
+	    <!--{/if}-->
+	    </td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="middle">证件号码：</td>
+	    <td>
+	    <!--{if $member[validate_card_id]}-->
+	    <!--{eval $_v=substr_replace($memberfields[validate_card_id],'******',-6);}-->
+	    {$_v}
+	    <!--{else}-->
+	    <input type="text" name="validate_card_id" value="{$memberfields[validate_card_id]}" class="p1" /><em class="q">（保存后将只在此处显示部分号码）</em>
+	    <!--{/if}-->
+	    </td>
+	  </tr>
+	  <tr>
+	    <td align="right" valign="top">&nbsp;</td>
+	    <td><input type="submit" class="u-btn" value="保 存"/></td>
+	  </tr>
+	</table>
+</form>
+
+<a id="modify_email_area"></a>
+<br />
+<form method="POST" action="index.php?mod=settings&code=modify_email" onSubmit="return Validator.Validate(this,3);">
+	<table width="100%" border="0">
+       <tr>
+	   	  <td colspan="2">
+	   	   <div class="tagg2">修改以下信息，需要输入当前登录密码</div>
+	   	  </td>
+	   	</tr>
+		<tr>
+			<td width="110" align="right" valign="middle">当前登录密码：</td>
+			<td><input name="password_old" dataType="LimitB" min="3" msg="修改本页信息，必须输入当前登录密码" type="password" class="p1" style="float:left;" />
+		<em class="q">（必填）</em></td>
+	  </tr>	  
+	  <tr>
+	  	<td align="right" valign="top">个性{$this->Config[changeword][p_weibo]}地址：</td>
+	  	<td>
+	  	<!--{if !$member[username] || is_numeric($member[username])}-->
+	  		<input id="username_old" name="username_old" type="hidden" value="{$member[username]}" />
+	  		<input id="username_new" name="username_new" type="text" value="" class="p1" style="float:left;"/>
+	  		<em class="q">（只允许纯字母或与数字的组合，设置后不能修改；<a href="javascript:;" onclick="checkNewUsername();return false;">点此检测</a>是否可用）</em>
+	  	<!--{else}-->
+	  		<input name="username_new" type="text" value="{$member[username]}" class="p1" style="float:left;" readonly disabled />
+	  		<em class="q">（用于访问<a href="index.php?mod={$member[username]}">个人{$this->Config[changeword][p_weibo]}</a>页面）</em>
+	  	<!--{/if}-->
+	  	<!--{eval $u_site_url=$this->Config['site_url'].'/';
+	  	if($this->Config['rewrite_enable']&&'apache_path'==jconf::get('rewrite','mode'))$u_site_url .='/index.php/';
+	  	if(!$this->Config['rewrite_enable'])$u_site_url .='index.php?mod=';}-->
+	  	<div style=" float:left;margin:5px 0 0 0;width:550px; font-size:12px; font-family:"微软雅黑"">{$u_site_url}<span style="color:red;" id="username_new_span">{$member[username]}</span></div>
+	  	<script type="text/javascript">
+	  		function username_new_display() {
+	  			var v = $("#username_new").val();	  			
+	  			if(v) {
+	  				$("#username_new_span").html(v);
+	  			} else {
+	  				$("#username_new_span").html('{$member[username]}');
+	  			}
+	  		}
+	  		
+	  		$(document).ready(function() {
+	  			username_new_display();
+	  			
+	  			$("#username_new").bind("keyup", function() {
+	  				username_new_display();
+	  			});
+	  		});
+	  	</script>
+	  	</td>
+	  </tr>	  
+	  <tr>
+	  	<td align="right" valign="middle">帐户昵称：</td>
+	  	<td>
+	  	<!--{if (true===UCENTER && true!==UCENTER_MODIFY_NICKNAME) || true === PWUCENTER}-->
+	  		<input name="nickname_new" dataType="LimitB" min="1" msg="帐户/昵称不能为空" type="text" value="{$member[nickname]}" class="p1" style="float:left;" readonly disabled />
+	  		<em class="q">（由于系统整合了UC，帐户昵称不允许修改）</em>
+	  	<!--{else}-->
+	  		<input name="nickname_new" dataType="LimitB" min="1" msg="帐户/昵称不能为空" type="text" value="{$member[nickname]}" class="p1" style="float:left;" />
+	  		<em class="q">（用于登录、展示、@通知和发私信）</em>
+	  	<!--{/if}-->
+	  	</td>
+	  </tr>
+	  <tr>
+		<td align="right" valign="middle">帐号Email：</td>
+		<td>
+          <input name="email_new" dataType="Email" msg="请输入正确的Email 地址" type="text" value="{$member[email]}" class="p1" style="float:left;" {if $this->Config['ldap_enable']}readonly disabled {/if}/>
+          <!--{if $member['email_checked'] >0}-->（此邮箱已验证）<!--{/if}-->
+		  <!--{if $this->Config['ldap_enable']}-->[<font color="red">AD域帐号登录，禁止修改</font>]<!--{/if}-->
+        </td>
+	  </tr>
+	  <!--{if $member[email2]}-->
+	  <tr><td>&nbsp;</td>
+		 <td><font color="red">新邮箱($member[email2])等待验证中...</font>
+		<br>系统已经向该邮箱发送了一封验证激活邮件，请查收邮件，进行验证激活。
+		<br>如果没有收到验证邮件，您可以更换一个邮箱，或者<a href="index.php?mod=settings&code=email_check">重新接收验证邮件</a>
+		</td></tr>
+	<!--{/if}-->
+	  <tr>
+		<td align="right" valign="middle">&nbsp;</td> 
+		<td><input type="submit" class="u-btn" value="保 存" /></td>
+	  </tr>
+	</table>
+</form>
+</div>
+<script type="text/javascript" src="static/js/city.js"></script>
+<script type="text/javascript">
+
+function checkNewUsername()
+{
+	var username_old = $('#username_old').val();
+	var username_new = $('#username_new').val();
+	
+	if(username_new.length < 1)
+	{
+		alert('个性域名/'+__P_WEIBO__+'地址  不能为空');
+		return false;
+	}
+	
+	if(username_old != username_new)
+	{
+		var myAjax = $.post(
+			'ajax.php?mod=member',
+			{
+				'code' : 'check_username',
+				'check_value' : username_new
+			},
+			function (r) {
+				r = eval('('+r+')');
+				if(r.done)
+				{
+					show_message(r.msg,3);
+					$('#username_new').focus();
+				}else{
+					show_message(r.msg,3);
+					$('#username_new').val('');
+					$('#username_new').focus();
+				}
+				
+			}
+		);
+	}
+	
+	return false;
+}
+
+$(document).ready(function(){
+var selectOption={eval jfunc('area');echo area_config_to_json();};
+<!--{if $op == ''}-->
+changeProvince();
+<!--{/if}-->
+});
+
+var validateRegularList={
+	province:{dataType:"LimitB",min:'1',msg:"请选择省/直辖市"},
+	city:{dataType:"LimitB",min:'1',msg:"请选择城市/地区"},
+	email2:{require:"false",dataType:"Email",msg:"邮箱格式不正确"},
+	qq:{require:"false",dataType:"QQ",msg:"请填写正确的QQ号"},
+	msn:{require:"false",dataType:"Email",msg:"MSN格式不正确"},
+	aboutme:{require:"false",dataType:"LimitB",min:'3',max:'250',msg:"请将长度控制在3~250个字符之间"}
+}
+Validator.SetRegular("profile_base",validateRegularList);
+
+function changeProvince(b){
+	var bb = '';
+  if(b) {
+	  bb=b+'_';
+  }
+  var province = document.getElementById(bb+"province").value;
+  var hid_city = document.getElementById(bb+"hid_city").value;
+  var url = "ajax.php?mod=member&code=sel&province="+province + "&hid_city="+hid_city;
+
+  var myAjax=$.post(
+		  	url,
+		  	function(d){
+	  		    $('#' +bb+ "city").html(d);
+	  		    document.getElementById(bb+'area').length = 1;
+	  		    document.getElementById(bb+'street').length = 1;
+				changeCity(b);
+		  	}
+  );
+}
+
+function changeCity(b){
+	var bb = '';
+	  if(b) {
+		  bb=b+'_';
+	  }
+  var city = document.getElementById(bb+"city").value;
+  var hid_area = document.getElementById(bb+"hid_area").value;
+  var url = "ajax.php?mod=member&code=sel&city="+city+"&hid_area="+hid_area;
+  var myAjax=$.post(
+		  	url,
+		  	function(d){
+				if(d){
+					document.getElementById(bb+"area").style.display = "block";
+		  		    $('#' +bb+ "area").html(d);
+					changeArea(b);
+				}else{
+		  		    document.getElementById(bb+'area').length = 1;
+		  		    document.getElementById(bb+'street').length = 1;
+					document.getElementById(bb+"street").style.display = "none";
+					document.getElementById(bb+"area").style.display = "none";
+				}
+		  	}
+  );
+}
+function changeArea(b){
+	var bb = '';
+	  if(b) {
+		  bb=b+'_';
+	  }
+  var area = document.getElementById(bb+"area").value;
+  var hid_street = document.getElementById(bb+"hid_street").value;
+  var url = "ajax.php?mod=member&code=sel&area="+area+"&hid_street="+hid_street;
+  var myAjax=$.post(
+		  	url,
+		  	function(d){
+				if(d){
+					document.getElementById(bb+"street").style.display = "block";
+				    $('#' +bb+ "street").html(d);
+				}else{
+		  		    document.getElementById(bb+'street').length = 1;
+					document.getElementById(bb+"street").style.display = "none";
+				}
+		  	}
+  );
+}
+</script>
+
+<!--{elseif 'user_medal'==$act}-->
+    <!--{loop $medal_list $val}-->
+	<div style="width:120px; height:120px; float:left; margin-right:15px;">
+        <img src="{$val[medal_img]}" style="margin-right:5px; vertical-align:middle" />
+		<p>{$val[medal_name]}</p>
+		<p><input type="checkbox"  onchange="open_medal_index({$val[id]});return false;" {eval if($val[is_index] == "1") echo "checked=checkbox";}/>显示</p>
+	</div>
+    <!--{/loop}-->
+
+    
+	<!--{if $sina}-->
+    <div style="width:120px; height:120px; float:left; margin-right:15px;">
+    <img src="static/image/medal/M_sina.gif" />
+    <p>绑定新浪</p>
+	<p><input type="checkbox" checked="checked" disabled="disabled"/>显示</p>
+    </div>
+    <!--{/if}-->
+    
+    <!--{if $qqwb}-->
+    <div style="width:120px; height:120px; float:left; margin-right:15px;">
+    <img src="./static/image/medal/qqwb.png" />
+    <p>绑定腾讯</p>
+	<p><input type="checkbox" checked="checked" disabled="disabled"/>显示</p>
+    </div>
+    <!--{/if}-->
+	
+	 <!--{if $imjiqiren}-->
+    <div style="width:120px; height:120px; float:left; margin-right:15px;">
+    <img src="static/image/medal/M_qq.gif" />
+    <p>绑定QQ</p>
+	<p><input type="checkbox" checked="checked" disabled="disabled"/>显示</p>
+    </div>
+    <!--{/if}-->
+	
+    <!--{if $sms}-->
+    <div style="width:120px; height:120px; float:left; margin-right:15px;">
+    <img src="static/image/medal/Tel.gif" />
+	<p>绑定手机</p>
+	<p><input type="checkbox" checked="checked" disabled="disabled"/>显示</p>
+    </div>
+    <!--{/if}-->
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<td><a href="index.php?mod=other&code=medal" target="_blank">点击获得更多勋章</a></td>
+	  </tr>
+	</table>
+	
+	<!--{elseif 'exp'==$act}-->
+	<h3>{$this->Config[changeword][p_weibo]}等级<span></span></h3>
+    <div class="lelInfo">
+    <div class="currentLel">
+        <img src="{$member[face_original]}" alt="{$member[nickname]}" class="userPic" onerror="javascript:faceError(this);"/>
+        <div class="lelProcess">
+        	<div class="userName">
+			<b>{$member[nickname]}</b>  
+            
+			<span class="wb_l_level">
+			<a class="ico_level wbL{$member[level]}" title="点击查看等级" href="index.php?mod=settings&code=exp" target="_blank">{$member[level]}</a>
+			</span><br>
+			
+			<!--<em> LV {$member[level]} </em>-->
+			</div>
+            <div class="lelProcessBox">
+            	<p class="blueProcess" style="width:{$exp_width}%;"></p>
+            </div>
+            <div class="lelEx">
+            	<p>你当前的积分值是<span class="num">{$my_credits}</span>分，升级还需<span class="num">{$nex_exp_credit}</span>分。</p>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="lelIntro">
+    	<h2>{$this->Config[changeword][p_weibo]}等级与你一起并肩成长</h2>
+        <p class="tg">担心粉丝永远超不过名人？没关系，现在我们有{$this->Config[changeword][p_weibo]}等级。</p>
+        <p class="tg">{$this->Config[site_name]}积分等级隆重上线。它是对{$this->Config[changeword][p_weibo]}用户“活跃程度”和“受欢迎程度”的综合衡量。</p>
+        <p class="tg">只要持续经营自己的{$this->Config[changeword][p_weibo]}，努力贡献并分享优质内容，你将获得等级的加速提升，享受更多微时代的乐趣。</p>       
+        <h3>{$this->Config[changeword][p_weibo]}等级计算方法</h3>
+        <p class="fc6"><a style="float: right;" href="index.php?mod=settings&code=extcredits&op=rule">查看积分获取规则</a>您在{$this->Config[changeword][p_weibo]}的等级完全取决于积分的多少。有新鲜功能会让高等级用户优先体验。</p>
+        <table cellpadding="0" cellspacing="0" class="gTable">
+			<tr>
+			<!--{loop $exp_list $val}-->
+                <th>LV{$val[level]}</th>
+			<!--{/loop}-->
+			</tr>
+            <tr>
+			<!--{loop $exp_list $val}-->
+                <td>{$val[start_credits]}</td>
+			<!--{/loop}-->
+            </tr>
+        </table>
+    </div>
+</div>
+<!--等级说明结构结束-->
+
+
+<!--{elseif 'validate_extra' == $act}-->
+
+<form action="index.php?mod=settings&amp;code=do_validate_extra" method="post" enctype="multipart/form-data" name="formInfo" id="formInfo">
+<div style=" background:#f8f3d9; padding:0 10px; margin-bottom:30px;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="10%" height="30">开启专题</td>
+    <td width="90%" height="30">
+	  <input id="radio" value="1" checked="checked" type="radio" name="open_extra" />开启
+      <input id="radio" value="0" type="radio" name="open_extra" />关闭
+      <script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.open_extra, '{$member[open_extra]}');</script>
+    </td>
+  </tr>
+</table>	
+</div>
+<!--{if $meb_fields[remark]}-->
+	<h3>简介<span>（<i class="W_spetxt">*</i>会显示在个人{$this->Config[changeword][p_weibo]}首页右侧）</span></h3>
+	<table cellspacing="0" cellpadding="0">
+	  <tr>
+        <td>是否启用？</td>
+	    <td><input id="remark_enable" value="1" checked="checked" type="radio" name="data[validate_remark][enable]" />
+	        <label for="data[validate_remark][enable]_1">是</label>
+	        <input id="remark_enable" value="0" type="radio" name="data[validate_remark][enable]" />
+	        <label for="data[validate_remark][enable]_0">否</label>        
+			<script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.remark_enable, '{$data[validate_remark][enable]}');</script>
+			</td>
+	    </tr>
+      <tr>
+        <td>简介内容：</td>
+        <td><textarea rows="4" cols="52" name="data[validate_remark][content]">{$data[validate_remark][content]}</textarea></td>
+      </tr>
+	  </table>
+
+	<!--{/if}-->
+	
+	
+	<!--公告栏-->
+	<!--{if $meb_fields[cement]}-->
+	<h3>公告栏<span>（<i class="W_spetxt">*</i> 会显示在个人{$this->Config[changeword][p_weibo]}首页右侧）</span></h3>
+		<table cellspacing="0" cellpadding="0">
+	  <tr>
+        <td>是否启用？</td>
+	    <td><input id="cement_enable" value="1" checked="checked" type="radio" name="data[validate_cement][enable]" />
+	        <label for="data[validate_cement][enable]_1">是</label>
+            <input id="cement_enable" value="0" type="radio" name="data[validate_cement][enable]" />
+	      <label for="data[validate_cement][enable]_0">否</label>
+		  <script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.cement_enable, '{$data[validate_cement][enable]}');</script>
+
+        </td>
+	    </tr>
+      <tr>
+        <td>公告内容：</td>
+        <td><textarea rows="4" cols="52" name="data[validate_cement][content]">{$data[validate_cement][content]}</textarea></td>
+      </tr>
+	  </table>
+
+	<!--{/if}-->
+	
+	
+	<!--投票-->
+	<!--{if $meb_fields[vote]}-->
+    
+	<h3>投票<span>（<i class="W_spetxt">*</i> 会显示在个人{$this->Config[changeword][p_weibo]}首页右侧）</span></h3>
+		<table cellspacing="0" cellpadding="0">
+	  <tr>
+        <td>是否启用？</td>
+	    <td>
+		 <input id="vote_enable" value="1" checked="checked" type="radio" name="data[validate_vote][enable]" />
+	     <label for="data[validate_vote][enable]_1">是</label>
+         <input id="vote_enable" value="0" type="radio" name="data[validate_vote][enable]" />
+	     <label for="data[validate_vote][enable]_0">否</label>
+
+		 <script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.vote_enable, '{$data[validate_vote][enable]}');</script>
+        </td>
+	    </tr>
+	<!--{if $vote_list}-->
+      <tr>
+        <td>选择投票：</td>
+        <td>
+		<select name="data[validate_vote][content]" id="vote_content">
+		<!--{loop $vote_list $val}-->
+          <option value="{$val[vid]}">{$val[subject]}</option>
+		<!--{/loop}-->  
+        </select>
+		<script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.vote_content, '{$data[validate_vote][content]}');</script>
+		</td>
+      </tr>
+    <!--{else}-->  
+	    <tr>
+        <td>选择投票：</td>
+        <td>
+			您暂时没有发起任何投票
+		</td>
+      </tr>
+	<!--{/if}-->  
+	  </table>
+
+	<!--{/if}-->
+	
+	<!--视频-->
+	<!--{if $meb_fields[video]}-->
+    
+	<h3>视频<span>（<i class="W_spetxt">*</i> 会显示在个人{$this->Config[changeword][p_weibo]}首页右侧）</span></h3>
+	  
+	  <table>
+		 <tr>
+        <td>是否启用？</td>
+	    <td><input id="video_enable" value="1" checked="checked" type="radio" name="data[validate_video][enable]" />
+	        是
+            <input id="video_enable" value="0" type="radio" name="data[validate_video][enable]" />
+	      否
+		  <script language='JavaScript' type="text/javascript">autoSelected(document.formInfo.video_enable, '{$data[validate_video][enable]}');</script>
+        </td>
+	    </tr>
+		<tr>
+			<td>区块标题：</td>
+			<td><input type="text" name="data[validate_video][title]" value="{$data[validate_video][title]}" size="50" /></td>
+		</tr>
+		<tr valign="top">
+			<td>视频地址：</td>
+			<td>
+			<!--{loop $data[validate_video][list] $v}-->
+			<input type="text" name="data[validate_video][list][]" value="{$v}" size="50" /><br />
+			<!--{/loop}-->
+			<input type="text" name="data[validate_video][list][]" value="" size="50" /><br />
+			</td>
+		</tr>
+	</table>
+
+	<!--{/if}-->
+	
+	
+	
+	<!--友情链接-->
+	<!--{if $meb_fields[link]}-->
+	<h3>友情链接<span>（<i class="W_spetxt">*</i> 会显示在个人{$this->Config[changeword][p_weibo]}首页左侧）</span></h3>
+	<table cellspacing="0" cellpadding="0">
+	  <tr>
+        <td>是否启用？</td>
+	    <td><input id="data[validate_link][enable]_1" value="1" checked="checked" type="radio" name="data[validate_link][enable]" />
+	        是
+            <input id="data[validate_link][enable]_0" value="0" type="radio" name="data[validate_link][enable]" />
+	       否
+        </td>
+	    </tr>
+      <tr>
+        <td height="25">链接1：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][title_1]"  value="{$data[validate_link][link][title_1]}"/></td>
+      </tr>
+       <tr>
+        <td height="25">url：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][url_1]"  value="{$data[validate_link][link][url_1]}" style="width:320px;" /></td>
+      </tr>
+	   <tr>
+        <td height="25">链接2：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][title_2]" value="{$data[validate_link][link][title_2]}"/></td>
+      </tr>
+	   <tr>
+        <td height="25">url：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][url_2]"  value="{$data[validate_link][link][url_2]}" style="width:320px;" //></td>
+      </tr>
+	  <tr>
+        <td height="25">链接3：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][title_3]" value="{$data[validate_link][link][title_3]}"/></td>
+      </tr>
+	  <tr>
+        <td height="25">url：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][url_3]" value="{$data[validate_link][link][url_3]}"style="width:320px;" //></td>
+      </tr>
+	    <tr>
+        <td height="25">链接4：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][title_4]" value="{$data[validate_link][link][title_4]}"/></td>
+      </tr>
+	  <tr>
+        <td height="25">url：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][url_4]" value="{$data[validate_link][link][url_4]}"style="width:320px;" //></td>
+      </tr>
+	    <tr>
+        <td height="25">链接5：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][title_5]" value="{$data[validate_link][link][title_5]}"/></td>
+      </tr>
+	  <tr>
+        <td height="25">url：</td>
+        <td height="25"><input type="text" name="data[validate_link][link][url_5]" value="{$data[validate_link][link][url_5]}"style="width:320px;" //></td>
+      </tr>
+	  </table>
+
+	<!--{/if}-->
+	
+	<div style="margin:20px auto; text-align:center;">
+	  <input type="submit" name="Submit" value="提交" class="u-btn" />
+	  <input name="submit" type="hidden" id="submit" value="1" />
+	</div>
+</form>	
+	
+<!--{/if}-->
+</div>
+</div>
+</div>
+
+{template "topic_footer"}

@@ -1,0 +1,198 @@
+/*###########################
+   @Name:秋意 
+#############################*/
+/* CSS Document begin */
+
+body {
+	background-color: #edc38c;
+	background-image: url(images/themebg.jpg);
+	background-position: 0px 0px;
+	background-repeat: repeat;
+	background-attachment: fixed;
+}
+a:link {
+	color: #934e18;
+	text-decoration: none;
+}
+a:visited {
+	color: #934e18;
+	text-decoration: none;
+}
+a:hover {
+	color: #934e18;
+	text-decoration: none;
+}
+
+/*g-hd2*/
+
+.g-hd2 {
+	background-image: none;
+	border-bottom: 1px solid #333;
+	box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.15);
+	background: url(images/g-hd2-bg.png);
+}
+.m-hd2 ul.hleft li a.t_hdnav_cur {
+	background-color: #333;
+	background-image: -moz-linear-gradient(top, #333, #555);
+	background-image: -ms-linear-gradient(top, #333, #555);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#555));
+	background-image: -webkit-linear-gradient(top, #333, #555);
+	background-image: -o-linear-gradient(top, #333, #555);
+	background-image: linear-gradient(top, #333, #555);
+}
+/*g-content*/
+.g-content{ width:980px;}
+
+.g-content .g-doc {
+	background: #fafafa url(images/repeat_bg_y.png);
+
+	clear: both;
+	float:left;
+}
+.appframe {
+	background: #fff;
+}
+/*mainMenu*/
+.leftNav {
+	background: none;
+	border: none;
+}
+.leftNav ul.leftNav_main, .leftNav ul.leftNav_sub {
+	border: none;
+}
+.blackBox {
+	border-left: none;
+	border-color: #ccc;
+}
+.leftNav .leftNav_main > li a {
+	color: #333;
+}
+.leftNav .leftNav_main li #zk1 {
+	color: #934e18;
+}
+.leftNav .leftNav_main #zk1 i {
+	border-color: transparent transparent transparent #934e18;
+}
+.leftNav .leftNav_main li.m_selected, .leftNav .leftNav_main > li:hover {
+	border-color: #ddd;
+	width: 115px;
+}
+.side_nav_more_box {
+	margin-left: 115px;
+	border-color: #ddd;
+	box-shadow: 1px 1px 2px #999;
+}
+.leftNav_main h3 {
+	background: #f1ddb3;
+}
+/*main*/
+.regInvite{
+    margin:0 auto;
+}
+.main {
+	padding-left: 20px;
+}
+.mainMenu {
+	top: 70px;
+	background: #f1ddb3;
+}
+.mainWrap {
+	border: none;
+	padding-right: 19px;
+	background: #fff;
+}
+.listBox .topicNav {
+	background: #d87e04;
+}
+#page b {
+	background: #fa9915;
+}
+#page a {
+	background: #fff;
+}
+#page a:link, #page a:visited {
+	border-color: #fa9915;
+}
+#page a:hover{
+    background: #fa9915;
+}
+/*sidebar*/
+.column .cols {
+	background-color: none;
+	border: none;
+	padding: 0;
+}
+
+#fixed_status .col {
+	border: none;
+	padding: 0;
+}
+.rank {
+	border: none;
+	padding: 0;
+}
+.news_notice {
+    padding-left: 15px;
+}
+.news_notice p {
+    width: 135px;
+}
+
+.sideboxList li .box_r p{
+   width:130px;
+}
+.fBox_R p{
+   width:auto;
+}
+.vipBox p,.m_m2,ul.hot_reply_b li{
+   width:190px;
+}
+.right_tj_box span{
+   width:178px;
+}
+/*m-left*/
+.g-ft {
+	padding: 0;
+}
+.m-ft {
+	background: #fff;
+	padding: 20px 0;
+}
+.m-ft .foot-line {
+	width: 140px;
+	margin-left: 20px;
+}
+.m-box{
+	background: #fff;
+}
+#interestUid .followList{
+     width: 105%;
+}
+.leftNav .leftNav_main > li{
+    width:115px;
+}
+
+
+
+/*appframe*/
+.appframe {background: #fff;width: 810px;padding-right: 20px;}
+.appframeTitle{ background-color: #fff;}
+.channelnav{background:none;}
+.channelnav .navLeft{ width:810px;}
+.channelnav .navLeft span.mleft {margin: 0;}
+.p_tip{width: 580px;padding: 5px 0;}
+.topList li{width:234px;}
+.channelTop{padding-top:10px;}
+/*新广场*/
+.plaza_im dl{width:460px;}
+
+.searchTool{background: #fff;
+border: 1px solid #000;}
+
+#side_follow{background: #fafafa;}
+.item_list li{box-shadow: none;
+-moz-box-shadow:none;
+ -webkit-box-shadow:none; }
+
+ .contentWrap .topicNav {
+background: #666;}

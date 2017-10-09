@@ -1,0 +1,23 @@
+<!--{template "topic_header"}-->
+<div>
+  <div style="padding:2px;">
+    <span class="hb">手机客户端介绍:</span>
+  </div>
+  
+  <div>
+    <ul>
+	  <li>更好的访问体验；</li>
+	  <li>更快的访问速度；</li>
+	  <li>更节省手机流量；</li>
+	  <li>上传图片更快捷。</li>
+	</ul>
+	<ul>
+	  <!--{if ($is_android && $this->Config['android_download_url'])}-->
+	  <li><a href="$this->Config['android_download_url']">下载android客户端</a></li>
+	  <!--{elseif ($is_iphone && $this->Config['iphone_download_url'])}-->
+	  <li><a href="$this->Config['iphone_download_url']">下载iphone客户端</a></li>
+	  <!--{/if}-->
+	</ul>
+  </div>
+</div>
+<!--{template "topic_footer"}-->

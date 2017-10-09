@@ -1,0 +1,39 @@
+{template "topic_header"}
+{template "topic_left_nav.inc"}
+<link href="static/style/theme.css" rel="stylesheet" type="text/css" />
+
+<div class="appframe">  
+  <div class="appframeTitle">
+    <span class="mleft">发起投票</span>
+  </div>
+  
+  <div class="vote_head">
+    <ul>
+    <!--{if 'word' == $tab}-->
+      <li class="v_cur"><span class="v_normal"><a href="index.php?mod=vote&code=create&tab=word">发起文字投票</a></span></li>
+      <li><span class="v_pic"><a href="index.php?mod=vote&code=create&tab=pic">发起图片投票</a></span></li>
+      <!--{elseif 'pic' == $tab}-->
+      <li><span class="v_normal"><a href="index.php?mod=vote&code=create&tab=word">发起文字投票</a></span></li>
+      <li class="v_cur"><span class="v_pic"><a href="index.php?mod=vote&code=create&tab=pic">发起图片投票</a></span></li>
+      <!--{/if}-->
+    </ul>
+  </div>
+  
+  
+  <div class="themepwarp" style="overflow:hidden; padding-bottom:100px;">
+  {template 'vote/vote_publish'}
+  </div>
+
+</div>
+
+
+<!--返回对话框 Begin-->
+<div id="vote_publish_ret_wp" style="display:none;">
+	<div class="dialog_inner">
+		<div id="vote_publish_tips" class="vote_success s"></div>
+		{template 'topic_simple_publish'}
+	</div>
+</div>
+<!--返回对话框 End-->
+
+{template "topic_footer"}

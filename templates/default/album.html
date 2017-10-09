@@ -1,0 +1,80 @@
+{template "topic_header"}
+<link href="static/style/img.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.exp-wrap .exp-main{ width:920px;}
+.exp-wrap .g-content{ overflow:visible}
+.exp-wrap .g-hd2 .g-doc{ width:980px;}
+.g-ft, .m-ft{ width:980px;}
+</style>
+<div class="m_nav_home">
+  <div class="nav_home">
+    <h1 class="logo"><a href="index.php?mod=album">微博相册</a></h1>
+    <ul class="nav">
+      <a class="link" href="index.php?mod=plaza&code=new_pic"><span class="valign">图片墙</span></a> 
+      <!--{eval if($type) $uclass='title_bg'; else $pclass='title_bg';}--> 
+      <a class="link {$uclass}" href="index.php?mod=topic&code=photo&uid={$url_uid}">{$nickname}关注人的图片</a>
+    </ul>
+  </div>
+</div>
+<div class="m-box exp-main">
+  <p class="album-nav"> <a href="index.php?mod=album&code=list">全部相册</a><a class="curr" href="index.php?mod=album">我的相册</a> </p>
+  <script type="text/javascript" src="static/js/img.js"></script> 
+  <script type="text/javascript">
+	$(function(){
+		var id="viebigphoto";if($('#'+id).length==0){$(document.body).append("<div id='"+id+"' />");}
+		$("img").mouseover(function(e){
+			if(typeof($(this).attr("rel"))!='undefined' && $(this).attr("rel")!=''){
+				$('#'+id).css({position:"absolute",'z-index':99,left:e.pageX+20,top:e.pageY-150});
+				$('#'+id).html('<img src="'+$(this).attr("rel")+'" style="border:2px solid #28a0f4" onerror="javascript:faceError(this);">');
+			}
+		});
+		$("img").mousemove(function(e){$('#'+id).css({left:e.pageX+20,top:e.pageY-150});});
+		$("img").mouseout(function(){$('#'+id).html('');});
+		$(".usermod").click(function(){albumimagedone($(this).attr("currtype"),$(this).attr("currdo"),$(this).attr("currid"));});
+	});
+  </script>
+  <div class="u-tip">您在微博里发布的图片，默认都保存在“默认相册”里
+    <input type="button" value="上传图片" class="u-btn" style="margin-left:30px;" onclick="uploadphoto('photo','handkey',this);" data-id="{$albumid}">
+    <!--{if $type == 'album'}--> 
+    <span id="addalbumhtml" style="margin-left:30px;">
+    <input type="button" value="添加相册" class="u-btn" onclick="Createalbum(0);">
+    </span> 
+    <!--{/if}--> 
+  </div>
+  <h3 class="t-h3">{$navtitle}</h3>
+  <!--{if $albums}-->
+  <ul class="album" id="albumlists">
+    <script type="text/javascript" src="static/js/imgAuto.js"></script> 
+    <script type="text/javascript">
+		$(document).ready(function() {
+		$(".album li p").imgAuto()
+		});
+    </script> 
+    
+    <!--{loop $albums $val}-->
+    <li id="{$type}_{$val['id']}">
+      <p><a href="{$val['url']}"><img class="album_img" src="{$val['pic']}" onerror="javascript:faceError(this);" rel="{$val['rel']}"></a></p>
+      <div class="album_name"><a href="{$val['url']}" title="{$val['title']}" id="{$type}_{$val['id']}_name">{$val['albumname']}</a> </div>
+      <!--{if $val[id]>0}--> 
+      <!--{if $type == 'album'}-->
+      <div class="album_total">图片：{$val['picnum']}张 </div>
+      <div class="album_total">{$val['purview']}</div>
+      <!--{/if}-->
+      <div class="album_aut"> <a class="usermod" href="javascript:;" currid="{$val['id']}" currtype="{$type}" currdo="mod">编辑</a><a class="usermod" href="javascript:;" currid="{$val['id']}" currtype="{$type}" currdo="del">删除</a> </div>
+      <!--{/if}--> 
+    </li>
+    <!--{/loop}-->
+  </ul>
+  <!--{if $pagehtml[html]}-->
+  <p>
+  <div style="float:left;width:900px;padding-top: 5px;margin-top:-17px;border-top:1px dotted #ddd">
+    <li>{$pagehtml[html]}</li>
+  </div>
+  </p>
+  <!--{/if}--> 
+  <!--{else}-->
+  <div class="u-tip">没有找到相关相册或图片</div>
+  <!--{/if}--> 
+</div>
+
+{template "topic_footer"}

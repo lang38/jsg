@@ -1,0 +1,115 @@
+{template admin/header}
+
+<form action="admin.php?mod=setting&code=do_topic_publish" method="post">
+    <table width=100% cellspacing=1 cellpadding=3 class="tableborder">
+        <tr class="header">
+            <td colspan="2">发布框内的动态提示内容（鼠标未点击发布框前的提示）</td>
+        </tr>
+		<tr class="altbg1">
+            <td width="20%"><b>说明</b></td>
+            <td>如果有多个提示内容，则可在发布框中自动循环显示，10秒一次，鼠标点击发布框后提示内容消失。</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>提示内容：</b><br/>
+			<span class="smalltxt">一行一个。</span></td>
+            <td><textarea rows="6" name="config[in_publish_notice]" cols="100">{conf in_publish_notice}</textarea></td>
+        </tr>
+		 <tr class="header">
+            <td colspan="2">发布框内默认话题（鼠标点击发布框后显示的内容）</td>
+        </tr>
+        <tr class="altbg2">
+            <td width="20%"><b>默认话题：</b><br/>
+			<span class="smalltxt">如果设置此项，则在微博发布框中会显示这里设置的内容，比如“#意见反馈#”，主要用于引导用户发布相关的微博内容。</span></td>
+            <td><input type="text" name="config[today_topic]" style="width:400px" value="{conf today_topic}" /></td>
+        </tr>
+		 <tr class="header">
+            <td colspan="2">发布框上方的提示内容（鼠标未点击发布框前的提示）</td>
+        </tr>
+        <tr class="altbg1">
+            <td width="20%"><b>提示内容：</b><br/>
+			<span class="smalltxt">一行一个，支持HTML代码。</span></td>
+            <td><textarea rows="6" name="config[on_publish_notice]" cols="100">{conf on_publish_notice}</textarea></td>
+        </tr>
+		
+		<tr class="header">
+            <td colspan="2">发布框下的应用工具（选择“是”开启功能，选择“否”则关闭发布框下的按钮）</td>
+        </tr>
+		<tr class="altbg1">
+            <td width="20%"><b>是否开启匿名发微博？</b><br/>
+                <span class="smalltxt">开启后，发布框下有个匿名选项，可允许匿名发微博。</span></td>
+            <td>{$anonymous_enable}</td>
+        </tr>
+        <tr class="altbg1">
+            <td width="20%"><b>是否开启签到？</b><br/>
+                <span class="smalltxt">此设置同步开关签到。</span></td>
+            <td>{$sign_enable}</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启表情？</b><br/>
+			<span class="smalltxt">开启则可在发布框中添加表情。</span></td>
+            <td>{$face_enable}</td>
+        </tr>
+        <tr class="altbg1">
+            <td><b>是否开启图片？</b><br/>
+			<span class="smalltxt">开启则可从本地上传图片，但即使关闭，也可以在发布框黏贴图片url。</span></td>
+            <td>{$image_enable}</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启视频？</b><br/>
+			<span class="smalltxt">开启则显示视频按钮，但即使关闭也直接在发布框中黏贴视频url。</span></td>
+            <td>{$video_enable}</td>
+        </tr>
+        <tr class="altbg1">
+            <td><b>是否开启音乐？</b><br/>
+			<span class="smalltxt">开启则可通过音乐名称搜索添加在线音乐播放。</span></td>
+            <td>{$music_enable}</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启附件上传？</b><br/>
+			<span class="smalltxt">开启则可从本地上传附件。</span></td>
+            <td>{$attach_enable}</td>
+        </tr>
+        <tr class="altbg1">
+          <td><b>是否开启微群附件上传？</b><br/></td>
+            <td>{$qun_attach_enable}。</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启话题？</b><br/></td>
+            <td>{$tag_enable}。</td>
+        </tr>
+        <tr  class="altbg1">
+            <td><b>是否开启投票？</b><br/>
+                <span class="smalltxt">此设置同步开关投票。</span></td>
+            <td>{$vote_open}</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启活动？</b><br/>
+                <span class="smalltxt">此设置同步开关活动。</span></td>
+            <td>{$event_open}</td>
+        </tr>
+        <tr class="altbg1">
+            <td><b>是否开启微群？</b><br/><br/>
+                <span class="smalltxt">此设置同步开关微群。</span>
+            </td>
+            <td>{$qun_open}</td>
+        </tr>
+        <tr class="altbg2">
+            <td><b>是否开启文字格式？</b><br/>
+                <span class="smalltxt">此设置开启文字格式（包括：粗体、颜色、引用、代码、@朋友）。</span>
+            </td>
+            <td>{$word_type_enable}</td>
+        </tr>
+        <tr class="altbg2">
+			<td><b>是否在短微博中显示文字格式？</b><br/>
+                <span class="smalltxt">此设置开启文字格式（包括：粗体、颜色、引用、代码、@朋友）。</span>
+            </td>
+            <td >
+            {$clear_format_open}
+			</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" class="button" value="提交"></td>
+        </tr>
+    </table>
+</form>
